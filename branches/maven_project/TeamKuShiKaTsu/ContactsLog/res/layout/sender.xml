@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:gravity="center" android:background="#fff">
+	
+	<EditText android:layout_height="wrap_content" android:id="@+id/ed_name" android:hint="Your Name" android:layout_width="fill_parent"></EditText><TextView android:text="Phone No" android:id="@+id/txt_number"
+		android:layout_height="wrap_content" android:textSize="30sp" android:layout_width="wrap_content" android:textColor="#000"/>
+<Button android:layout_height="wrap_content" android:id="@+id/btn_send" android:text="Send" android:layout_width="fill_parent"></Button>
+
+</LinearLayout>
