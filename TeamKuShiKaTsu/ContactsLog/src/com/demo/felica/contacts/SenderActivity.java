@@ -38,7 +38,7 @@ public class SenderActivity extends Activity implements OnClickListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see android.view.View.OnClickListener#onClick(android.view.View)
 	 */
 	public void onClick(final View v) {
@@ -48,7 +48,7 @@ public class SenderActivity extends Activity implements OnClickListener {
 			realIntent.putExtra(Consts.EXTRA_NAME, mNameEdit.getEditableText()
 					.toString());
 			realIntent.putExtra(Consts.EXTRA_PHONE, mPhoneNumber);
-			final Intent felicaIntent = new Intent("jp.andeb.kushikatsu.FELICA_SEND");
+			final Intent felicaIntent = new Intent("jp.andeb.kushikatsu.FELICA_INTENT");
 			felicaIntent.addCategory(Intent.CATEGORY_DEFAULT);
 			felicaIntent.putExtra("EXTRA_INTENT", realIntent);
 			felicaIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
