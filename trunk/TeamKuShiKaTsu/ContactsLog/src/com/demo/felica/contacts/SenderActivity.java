@@ -70,22 +70,22 @@ public class SenderActivity extends Activity implements OnClickListener {
 		} else if (resultCode == RESULT_CANCELED) {
 			toast = Toast.makeText(this, "送信をキャンセルしました。",
 					Toast.LENGTH_SHORT);
-		} else if (resultCode == 5000) {
+		} else if (resultCode == 1) {
 			toast = Toast.makeText(this, "FeliCa Push 送信に失敗しました。",
 					Toast.LENGTH_SHORT);
-		} else if (resultCode == 5001) {
+		} else if (resultCode == 2) {
 			toast = Toast.makeText(this, "リクエストのパラメータが不正です。",
 					Toast.LENGTH_SHORT);
-		} else if (resultCode == 5002) {
+		} else if (resultCode == 3) {
 			toast = Toast.makeText(this, "FeliCa デバイスがみつかりません。",
 					Toast.LENGTH_SHORT);
-		} else if (resultCode == 5003) {
+		} else if (resultCode == 4) {
 			toast = Toast.makeText(this, "FeliCa デバイスは使用中です。",
 					Toast.LENGTH_SHORT);
-		} else if (resultCode == 5004) {
+		} else if (resultCode == 5) {
 			toast = Toast.makeText(this, "データが大きすぎます。",
 					Toast.LENGTH_SHORT);
-		} else if (resultCode == 5005) {
+		} else if (resultCode == 6) {
 			toast = Toast.makeText(this, "送信がタイムアウトしました。",
 					Toast.LENGTH_SHORT);
 		} else {

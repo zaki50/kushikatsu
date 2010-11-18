@@ -61,41 +61,36 @@ public class SendActivity extends Activity implements FelicaEventListener {
 
     private final static int RETRY_LIMIT = 100;
 
-    private static final int ORIGINAL_RESULT_BASE = 5000;
-    static {
-        assert ORIGINAL_RESULT_BASE < RESULT_FIRST_USER;
-    }
-
     /**
      * 予期しないエラーで送信が行えなかった
      * 場合({@code =}{@value #RESULT_UNEXPECTED_ERROR})。
      */
-    public static final int RESULT_UNEXPECTED_ERROR = ORIGINAL_RESULT_BASE;
+    public static final int RESULT_UNEXPECTED_ERROR = RESULT_FIRST_USER + 0;
     /**
      * Activity を起動した {@link Intent} に含まれる追加情報が不正なため送信が行えなかった
      * 場合({@code =}{@value #RESULT_INVALID_EXTRA})。
      */
-    public static final int RESULT_INVALID_EXTRA = ORIGINAL_RESULT_BASE + 1;
+    public static final int RESULT_INVALID_EXTRA = RESULT_FIRST_USER + 1;
     /**
      * FeliCa デバイスが搭載されていない端末の
      * 場合({@code =}{@value #RESULT_DEVICE_NOT_FOUND})。
      */
-    public static final int RESULT_DEVICE_NOT_FOUND = ORIGINAL_RESULT_BASE + 2;
+    public static final int RESULT_DEVICE_NOT_FOUND = RESULT_FIRST_USER + 2;
     /**
      * デバイスが他のアプリケーションによって占有されているため送信できなかった
      * 場合({@code =}{@value #RESULT_DEVICE_IN_USE})。
      */
-    public static final int RESULT_DEVICE_IN_USE = ORIGINAL_RESULT_BASE + 3;
+    public static final int RESULT_DEVICE_IN_USE = RESULT_FIRST_USER + 3;
     /**
      * パラメータとして渡された {@link Intent} や URL などの情報が、{@code FeliCa Push}
      * 送信機能で送ることのできる上限を越えている場合({@code =}{@value #RESULT_TOO_BIG})。
      */
-    public static final int RESULT_TOO_BIG = ORIGINAL_RESULT_BASE + 4;
+    public static final int RESULT_TOO_BIG = RESULT_FIRST_USER + 4;
     /**
      * 受信端末が見つからないため送信がタイムアウトした
      * 場合({@code =}{@value #RESULT_TIMEOUT})。
      */
-    public static final int RESULT_TIMEOUT = ORIGINAL_RESULT_BASE + 5;
+    public static final int RESULT_TIMEOUT = RESULT_FIRST_USER + 5;
 
     private Felica felica_ = null;
 
