@@ -21,8 +21,14 @@ import static com.felicanetworks.mfc.FelicaException.TYPE_ALREADY_ACTIVATED;
 import static com.felicanetworks.mfc.FelicaException.TYPE_CURRENTLY_ACTIVATING;
 import static com.felicanetworks.mfc.FelicaException.TYPE_REMOTE_ACCESS_FAILED;
 
+import com.felicanetworks.mfc.Felica;
 import com.felicanetworks.mfc.FelicaException;
 
+/**
+ * {@link Felica} クラスを扱う上でのユーティリティクラスです。
+ *
+ * @author zaki
+ */
 public final class FelicaUtil {
 
     /**
@@ -89,6 +95,14 @@ public final class FelicaUtil {
         return result;
     }
 
+    /**
+     * {@link FelicaException} の文字列表現を返します。
+     *
+     * @param e
+     * 変換対象。 {@code null} の場合は空文字列を返します。
+     * @return
+     * 例外の文字列表現。
+     */
     public static String toString(FelicaException e) {
         if (e == null) {
             return "";
