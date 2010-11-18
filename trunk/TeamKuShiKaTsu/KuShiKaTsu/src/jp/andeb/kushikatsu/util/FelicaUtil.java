@@ -16,12 +16,18 @@
 package jp.andeb.kushikatsu.util;
 
 import static com.felicanetworks.mfc.FelicaException.ID_ILLEGAL_STATE_ERROR;
+import static com.felicanetworks.mfc.FelicaException.ID_IO_ERROR;
 import static com.felicanetworks.mfc.FelicaException.ID_UNKNOWN_ERROR;
 import static com.felicanetworks.mfc.FelicaException.TYPE_ALREADY_ACTIVATED;
 import static com.felicanetworks.mfc.FelicaException.TYPE_CURRENTLY_ACTIVATING;
+import static com.felicanetworks.mfc.FelicaException.TYPE_CURRENTLY_ONLINE;
+import static com.felicanetworks.mfc.FelicaException.TYPE_INVALID_RESPONSE;
 import static com.felicanetworks.mfc.FelicaException.TYPE_NOT_ACTIVATED;
 import static com.felicanetworks.mfc.FelicaException.TYPE_NOT_CLOSED;
+import static com.felicanetworks.mfc.FelicaException.TYPE_NOT_OPENED;
+import static com.felicanetworks.mfc.FelicaException.TYPE_PUSH_FAILED;
 import static com.felicanetworks.mfc.FelicaException.TYPE_REMOTE_ACCESS_FAILED;
+import static com.felicanetworks.mfc.FelicaException.TYPE_TIMEOUT_OCCURRED;
 import android.util.Log;
 
 import com.felicanetworks.mfc.Felica;
@@ -120,6 +126,25 @@ public final class FelicaUtil {
     }
 
     /**
+     * 渡された {@link FelicaException} が、 {@code Felica} がオープンされていない
+     * ためにスローされたかどうかを返します。
+     *
+     * @param e
+     * チェック対象の例外。
+     * @return
+     * オープンされていないための失敗を意味している場合は {@code true}、そうでない場合は
+     * {@code false} を返します。
+     */
+    public static boolean isNotOpened(FelicaException e) {
+        if (e == null) {
+            return false;
+        }
+        final boolean result = e.getID() == ID_ILLEGAL_STATE_ERROR
+                && e.getType() == TYPE_NOT_OPENED;
+        return result;
+    }
+
+    /**
      * 渡された {@link FelicaException} が、 {@code Felica} がクローズされていない
      * ためにスローされたかどうかを返します。
      *
@@ -135,6 +160,82 @@ public final class FelicaUtil {
         }
         final boolean result = e.getID() == ID_ILLEGAL_STATE_ERROR
                 && e.getType() == TYPE_NOT_CLOSED;
+        return result;
+    }
+
+    /**
+     * 渡された {@link FelicaException} が、 {@link Felica} が既に通信中のためにスロー
+     * されたかどうかを返します。
+     *
+     * @param e
+     * チェック対象の例外。
+     * @return
+     * 既に通信中のための失敗を意味している場合は {@code true}、そうでない場合は
+     * {@code false} を返します。
+     */
+    public static boolean isCurrnetlyOnline(FelicaException e) {
+        if (e == null) {
+            return false;
+        }
+        final boolean result = e.getID() == ID_ILLEGAL_STATE_ERROR
+                && e.getType() == TYPE_CURRENTLY_ONLINE;
+        return result;
+    }
+
+    /**
+     * 渡された {@link FelicaException} が、 不正な{@code FeliCa} チップレスポンスを
+     * 返したためにスローされたかどうかを返します。
+     *
+     * @param e
+     * チェック対象の例外。
+     * @return
+     * 不正な {@code FeliCa} チップレスポンス意味している場合は {@code true}、そうでない場合は
+     * {@code false} を返します。
+     */
+    public static boolean isInvalidResponse(FelicaException e) {
+        if (e == null) {
+            return false;
+        }
+        final boolean result = e.getID() == ID_IO_ERROR
+                && e.getType() == TYPE_INVALID_RESPONSE;
+        return result;
+    }
+
+    /**
+     * 渡された {@link FelicaException} が、 送信タイムアウトのためにスローされたか
+     * どうかを返します。
+     *
+     * @param e
+     * チェック対象の例外。
+     * @return
+     * タイムアウトのための失敗を意味している場合は {@code true}、そうでない場合は
+     * {@code false} を返します。
+     */
+    public static boolean isTimeoutOccurred(FelicaException e) {
+        if (e == null) {
+            return false;
+        }
+        final boolean result = e.getID() == ID_IO_ERROR
+                && e.getType() == TYPE_TIMEOUT_OCCURRED;
+        return result;
+    }
+
+    /**
+     * 渡された {@link FelicaException} が、 Push 送信処理が失敗したためにスローされたか
+     * どうかを返します。
+     *
+     * @param e
+     * チェック対象の例外。
+     * @return
+     * Push 送信処理の失敗を意味している場合は {@code true}、そうでない場合は
+     * {@code false} を返します。
+     */
+    public static boolean isPushFailed(FelicaException e) {
+        if (e == null) {
+            return false;
+        }
+        final boolean result = e.getID() == ID_UNKNOWN_ERROR
+                && e.getType() == TYPE_PUSH_FAILED;
         return result;
     }
 
