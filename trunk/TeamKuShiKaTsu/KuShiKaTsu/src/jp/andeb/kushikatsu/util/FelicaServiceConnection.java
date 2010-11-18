@@ -108,14 +108,14 @@ public class FelicaServiceConnection implements ServiceConnection {
         return null;
     }
 
-    public void disconnect() throws Exception {
+    public void disconnect() {
         if (felica == null) {
             // FIXME context が null でない場合は接続途中なので対処する
             return;
         }
 
         if (context == null) {
-            throw new Exception("connect error:Context is not set.");
+            throw new RuntimeException("connect error:Context is not set.");
         }
 
         context.unbindService(this);

@@ -36,7 +36,7 @@ import com.felicanetworks.mfc.FelicaException;
 /**
  * {@link Felica} クラスを扱う上でのユーティリティクラスです。
  *
- * @author zaki
+ * @author YAMAZAKI Makoto <makoto1975@gmail.com>
  */
 public final class FelicaUtil {
 
