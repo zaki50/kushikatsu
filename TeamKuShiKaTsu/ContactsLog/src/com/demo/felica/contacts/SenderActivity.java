@@ -46,6 +46,7 @@ public class SenderActivity extends Activity implements OnClickListener {
 	public void onClick(final View v) {
 		if (v == mSendButton) {
 			Log.d(TAG, "CLICKED");
+			mSendButton.setEnabled(false);
 			final Intent realIntent = new Intent(Consts.RECEIVE_ACTION);
 			realIntent.putExtra(Consts.EXTRA_NAME, mNameEdit.getEditableText()
 					.toString());
@@ -93,5 +94,6 @@ public class SenderActivity extends Activity implements OnClickListener {
 					Toast.LENGTH_SHORT);
 		}
 		toast.show();
+		mSendButton.setEnabled(true);
 	}
 }
