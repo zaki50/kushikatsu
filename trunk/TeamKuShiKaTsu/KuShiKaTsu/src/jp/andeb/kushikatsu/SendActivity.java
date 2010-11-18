@@ -62,6 +62,9 @@ public class SendActivity extends Activity implements FelicaEventListener {
     private final static int RETRY_LIMIT = 100;
 
     private static final int ORIGINAL_RESULT_BASE = 5000;
+    static {
+        assert ORIGINAL_RESULT_BASE < RESULT_FIRST_USER;
+    }
 
     /**
      * 予期しないエラーで送信が行えなかった
@@ -119,7 +122,8 @@ public class SendActivity extends Activity implements FelicaEventListener {
      */
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-        Log.d(TAG, "enter onCreate()");
+        Log.d(TAG, "enter onCreate(): " + hashCode());
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.send);
@@ -130,8 +134,9 @@ public class SendActivity extends Activity implements FelicaEventListener {
      */
     @Override
     protected void onDestroy() {
-        Log.d(TAG, "enter onDestroy()");
+        Log.d(TAG, "enter onDestroy(): " + hashCode());
         super.onDestroy();
+        dismissProgress();
     }
 
     /**
@@ -139,6 +144,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
      */
     @Override
     protected void onStart() {
+        Log.d(TAG, "enter onStart(): " + hashCode());
         super.onStart();
 
         internalIntent_ = getInternalIntent();
@@ -157,7 +163,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
      */
     @Override
     protected void onResume() {
-        Log.d(TAG, "enter onStart()");
+        Log.d(TAG, "enter onResume(): " + hashCode());
         super.onResume();
 
         /*
@@ -206,7 +212,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
                 finish();
             }
         };
-        conn.setContext(getApplicationContext(), listener);
+        conn.setContext(this, listener);
 
         startProgress();
         setProgressMessage(R.string.progress_msg_prepare);
@@ -227,7 +233,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
      */
     @Override
     protected void onPause() {
-        Log.d(TAG, "enter onPause()");
+        Log.d(TAG, "enter onPause(): " + hashCode());
         super.onPause();
 
         FelicaServiceConnection.getInstance().disconnect();
@@ -255,7 +261,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
      * </p>
      */
     private void startProgress() {
-        Log.d(TAG, "start progress dialog");
+        Log.d(TAG, "start progress dialog called: " + hashCode());
         dismissProgress();
 
         final ProgressDialog progress = new ProgressDialog(this);
@@ -297,12 +303,13 @@ public class SendActivity extends Activity implements FelicaEventListener {
      * </p>
      */
     private void dismissProgress() {
-        Log.d(TAG, "dismiss progress dialog");
+        Log.d(TAG, "dismiss progress dialog called: " + hashCode());
         final ProgressDialog progress = progress_;
         if (progress == null) {
             return;
         }
         progress_ = null;
+        Log.d(TAG, "dismiss progress dialog");
         progress.dismiss();
     }
 
