@@ -28,7 +28,9 @@
     <activity android:name=".SendActivity" android:label="@string/sender_name"
       android:theme="@android:style/Theme.Translucent.NoTitleBar">
       <intent-filter>
-        <action android:name="jp.andeb.kushikatsu.FELICA_SEND" />
+        <action android:name="jp.andeb.kushikatsu.FELICA_INTENT" />
+        <action android:name="jp.andeb.kushikatsu.FELICA_BROWSER" />
+        <action android:name="jp.andeb.kushikatsu.FELICA_MAILER" />
         <category android:name="android.intent.category.DEFAULT" />
       </intent-filter>
     </activity>
