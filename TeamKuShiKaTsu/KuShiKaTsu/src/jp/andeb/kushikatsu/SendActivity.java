@@ -53,7 +53,18 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  * <p>
  * 送信に失敗した場合は、 {@link Activity} のリザルトとして呼び出し元に伝え、自身では
  * エラーメッセージを表示することはありません。呼び出し側で必要に応じてユーザへ伝えてください。
+ * このアクティビティは以下の result code を使用します。
  * </p>
+ * <ul>
+ *   <li>{@link Activity#RESULT_OK}({@code =-1})</li>
+ *   <li>{@link Activity#RESULT_CANCELED}({@code =0})</li>
+ *   <li>{@link #RESULT_UNEXPECTED_ERROR}({@code =}{@value #RESULT_UNEXPECTED_ERROR})</li>
+ *   <li>{@link #RESULT_INVALID_EXTRA}({@code =}{@value #RESULT_INVALID_EXTRA})</li>
+ *   <li>{@link #RESULT_DEVICE_NOT_FOUND}({@code =}{@value #RESULT_DEVICE_NOT_FOUND})</li>
+ *   <li>{@link #RESULT_DEVICE_IN_USE}({@code =}{@value #RESULT_DEVICE_IN_USE})</li>
+ *   <li>{@link #RESULT_TOO_BIG}({@code =}{@value #RESULT_TOO_BIG})</li>
+ *   <li>{@link #RESULT_TIMEOUT}({@code =}{@value #RESULT_TIMEOUT})</li>
+ * </ul>
  *
  * @author YAMAZAKI Makoto <makoto1975@gmail.com>
  */
@@ -64,7 +75,16 @@ public class SendActivity extends Activity implements FelicaEventListener {
 
     private static final String INTERNAL_INTENT = "EXTRA_INTENT";
 
+    /**
+     * Push 送信のリトライ回数の上限です。 {@link Intent} で指定されたパラメータに関わらず
+     * ここで指定される回数がリトライの上限です。
+     */
     private final static int RETRY_LIMIT = 100;
+
+    /*
+     * 独自定義の result code 群。ここに定義されているものに加え、標準の result code である
+     * RESULT_OK と RESULT_CANCELED も使用します。
+     */
 
     /**
      * 予期しないエラーで送信が行えなかった
