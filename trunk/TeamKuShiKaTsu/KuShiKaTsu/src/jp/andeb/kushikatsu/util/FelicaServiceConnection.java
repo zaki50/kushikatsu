@@ -25,13 +25,20 @@ import android.util.Log;
 
 import com.felicanetworks.mfc.Felica;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 /**
  * {@link Felica} との接続( ServiceConnection)を管理するクラス。
  *
  * <p>
  * シングルトンなので、 {@link #getInstance()} を使用してインスタンスを取得してください。
  * </p>
+ *
+ * @author YAMAZAKI Makoto <makoto1975@gmail.com>
  */
+@DefaultAnnotation(NonNull.class)
 public class FelicaServiceConnection implements ServiceConnection {
 
     private static final FelicaServiceConnection instance;
@@ -39,8 +46,11 @@ public class FelicaServiceConnection implements ServiceConnection {
         instance = new FelicaServiceConnection();
     }
 
+    @CheckForNull
     private Context context = null;
-    private Listener listener = null;
+
+    @CheckForNull
+    private Listener listener_ = null;
 
     public interface Listener {
 
@@ -56,7 +66,8 @@ public class FelicaServiceConnection implements ServiceConnection {
      * {@code null} でない場合は、FeliCa が有効化されていることを意味します。
      * </p>
      */
-    private Felica felica = null;
+    @CheckForNull
+    private Felica felica_ = null;
 
     private FelicaServiceConnection() {
         // nothing to do
@@ -75,7 +86,7 @@ public class FelicaServiceConnection implements ServiceConnection {
 
     public void setContext(Context context, Listener listener) {
         this.context = context;
-        this.listener = listener;
+        this.listener_ = listener;
     }
 
     /**
@@ -86,16 +97,17 @@ public class FelicaServiceConnection implements ServiceConnection {
      * その場合はリスナの {@link Listener#connected(Felica) #connected(Felica)}
      * の呼び出しも行われません。インスタンスが獲得されていない場合は {@code null} を返します。
      */
+    @CheckForNull
     public Felica connect() {
         if (context == null) {
             throw new RuntimeException("connect error:Context is not set.");
         }
 
-        if (felica != null) {
+        if (felica_ != null) {
             Log.i(SendActivity.class.getSimpleName(), "already connected");
             // 接続済み
             // FIXME 返り値として返すのではなく、未獲得とおなように callback 経由で返すことを検討する
-            return felica;
+            return felica_;
         }
 
         final Intent intent = new Intent();
@@ -109,7 +121,7 @@ public class FelicaServiceConnection implements ServiceConnection {
     }
 
     public void disconnect() {
-        if (felica == null) {
+        if (felica_ == null) {
             // FIXME context が null でない場合は接続途中なので対処する
             return;
         }
@@ -121,7 +133,7 @@ public class FelicaServiceConnection implements ServiceConnection {
         context.unbindService(this);
 
         // 接続状態を解除
-        felica = null;
+        felica_ = null;
     }
 
     @Override
@@ -129,21 +141,21 @@ public class FelicaServiceConnection implements ServiceConnection {
 
         // Felicaとの接続が確立されたので、Felicaインスタンスを取得する
         Felica felica = ((Felica.LocalBinder) service).getInstance();
-        if (listener != null) {
-            listener.connected(felica);
+        if (listener_ != null) {
+            listener_.connected(felica);
         }
-        this.felica = felica;
+        this.felica_ = felica;
     }
 
     @Override
     public void onServiceDisconnected(ComponentName name) {
 
         // Felicaの設定解除
-        if (listener != null) {
-            listener.disconnected();
+        if (listener_ != null) {
+            listener_.disconnected();
         }
-        felica = null;
-        listener = null;
+        felica_ = null;
+        listener_ = null;
     }
 
 }

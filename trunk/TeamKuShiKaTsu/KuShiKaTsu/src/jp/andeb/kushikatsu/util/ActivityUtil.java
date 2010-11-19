@@ -15,6 +15,8 @@
  */
 package jp.andeb.kushikatsu.util;
 
+import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import android.app.Activity;
 import android.content.res.Resources.NotFoundException;
 import android.view.Window;
@@ -23,6 +25,7 @@ import android.view.Window;
  * {@link Activity} を扱う際のユーティリティクラスです。
  *
  */
+@DefaultAnnotation(NonNull.class)
 public final class ActivityUtil {
 
     /**

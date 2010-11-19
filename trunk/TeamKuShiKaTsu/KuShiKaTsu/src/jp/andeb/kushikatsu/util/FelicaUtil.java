@@ -33,11 +33,16 @@ import android.util.Log;
 import com.felicanetworks.mfc.Felica;
 import com.felicanetworks.mfc.FelicaException;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 /**
  * {@link Felica} クラスを扱う上でのユーティリティクラスです。
  *
  * @author YAMAZAKI Makoto <makoto1975@gmail.com>
  */
+@DefaultAnnotation(NonNull.class)
 public final class FelicaUtil {
 
     /**
@@ -59,7 +64,7 @@ public final class FelicaUtil {
      * MFC プロセスとの通信失敗を意味している場合は {@code true}、そうでない場合は
      * {@code false} を返します。
      */
-    public static boolean isMissingMfc(FelicaException e) {
+    public static boolean isMissingMfc(@CheckForNull FelicaException e) {
         if (e == null) {
             return false;
         }
@@ -78,7 +83,7 @@ public final class FelicaUtil {
      * 未アクティベートによる失敗を意味している場合は {@code true}、そうでない場合は
      * {@code false} を返します。
      */
-    public static boolean isNotActivated(FelicaException e) {
+    public static boolean isNotActivated(@CheckForNull FelicaException e) {
         if (e == null) {
             return false;
         }
@@ -97,7 +102,7 @@ public final class FelicaUtil {
      * アクティベート済みによる失敗を意味している場合は {@code true}、そうでない場合は
      * {@code false} を返します。
      */
-    public static boolean isAlreadyActivated(FelicaException e) {
+    public static boolean isAlreadyActivated(@CheckForNull FelicaException e) {
         if (e == null) {
             return false;
         }
@@ -116,7 +121,7 @@ public final class FelicaUtil {
      * 現在アクティベート中のための失敗を意味している場合は {@code true}、そうでない場合は
      * {@code false} を返します。
      */
-    public static boolean isCurrentlyActivating(FelicaException e) {
+    public static boolean isCurrentlyActivating(@CheckForNull FelicaException e) {
         if (e == null) {
             return false;
         }
@@ -135,7 +140,7 @@ public final class FelicaUtil {
      * オープンされていないための失敗を意味している場合は {@code true}、そうでない場合は
      * {@code false} を返します。
      */
-    public static boolean isNotOpened(FelicaException e) {
+    public static boolean isNotOpened(@CheckForNull FelicaException e) {
         if (e == null) {
             return false;
         }
@@ -154,7 +159,7 @@ public final class FelicaUtil {
      * クローズされていないための失敗を意味している場合は {@code true}、そうでない場合は
      * {@code false} を返します。
      */
-    public static boolean isNotClosed(FelicaException e) {
+    public static boolean isNotClosed(@CheckForNull FelicaException e) {
         if (e == null) {
             return false;
         }
@@ -173,7 +178,7 @@ public final class FelicaUtil {
      * 既に通信中のための失敗を意味している場合は {@code true}、そうでない場合は
      * {@code false} を返します。
      */
-    public static boolean isCurrnetlyOnline(FelicaException e) {
+    public static boolean isCurrnetlyOnline(@CheckForNull FelicaException e) {
         if (e == null) {
             return false;
         }
@@ -192,7 +197,7 @@ public final class FelicaUtil {
      * 不正な {@code FeliCa} チップレスポンス意味している場合は {@code true}、そうでない場合は
      * {@code false} を返します。
      */
-    public static boolean isInvalidResponse(FelicaException e) {
+    public static boolean isInvalidResponse(@CheckForNull FelicaException e) {
         if (e == null) {
             return false;
         }
@@ -211,7 +216,7 @@ public final class FelicaUtil {
      * タイムアウトのための失敗を意味している場合は {@code true}、そうでない場合は
      * {@code false} を返します。
      */
-    public static boolean isTimeoutOccurred(FelicaException e) {
+    public static boolean isTimeoutOccurred(@CheckForNull FelicaException e) {
         if (e == null) {
             return false;
         }
@@ -230,7 +235,7 @@ public final class FelicaUtil {
      * Push 送信処理の失敗を意味している場合は {@code true}、そうでない場合は
      * {@code false} を返します。
      */
-    public static boolean isPushFailed(FelicaException e) {
+    public static boolean isPushFailed(@CheckForNull FelicaException e) {
         if (e == null) {
             return false;
         }
@@ -256,7 +261,7 @@ public final class FelicaUtil {
      * {@code null} の場合は このクラスのクラス名({@link Class#getSimpleName()} したもの)
      * を使用します。
      */
-    public static void closeQuietly(Felica felica, String tag) {
+    public static void closeQuietly(@CheckForNull Felica felica, String tag) {
         if (felica == null) {
             return;
         }
@@ -298,7 +303,7 @@ public final class FelicaUtil {
      * {@code null} の場合は このクラスのクラス名({@link Class#getSimpleName()} したもの)
      * を使用します。
      */
-    public static void inactivateQuietly(Felica felica, String tag) {
+    public static void inactivateQuietly(@CheckForNull Felica felica, String tag) {
         if (felica == null) {
             return;
         }
@@ -334,7 +339,7 @@ public final class FelicaUtil {
      * @return
      * 例外の文字列表現。
      */
-    public static String toString(FelicaException e) {
+    public static String toString(@CheckForNull FelicaException e) {
         if (e == null) {
             return "";
         }
