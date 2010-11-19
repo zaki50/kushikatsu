@@ -16,9 +16,12 @@
 package jp.andeb.kushikatsu;
 
 import static jp.andeb.kushikatsu.util.ActivityUtil.setupActivityView;
+import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import android.app.Activity;
 import android.os.Bundle;
 
+@DefaultAnnotation(NonNull.class)
 public class InfoActivity extends Activity {
     /** Called when the activity is first created. */
     @Override

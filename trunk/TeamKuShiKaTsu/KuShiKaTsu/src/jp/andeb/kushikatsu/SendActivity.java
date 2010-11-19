@@ -38,6 +38,10 @@ import com.felicanetworks.mfc.FelicaEventListener;
 import com.felicanetworks.mfc.FelicaException;
 import com.felicanetworks.mfc.PushIntentSegment;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 /**
  * 起動時の {@link Intent} に従い {@code FeliCa Push} 送信を行う {@link Activity} です。
  *
@@ -53,6 +57,7 @@ import com.felicanetworks.mfc.PushIntentSegment;
  *
  * @author YAMAZAKI Makoto <makoto1975@gmail.com>
  */
+@DefaultAnnotation(NonNull.class)
 public class SendActivity extends Activity implements FelicaEventListener {
 
     private static final String TAG = SendActivity.class.getSimpleName();
@@ -92,10 +97,13 @@ public class SendActivity extends Activity implements FelicaEventListener {
      */
     public static final int RESULT_TIMEOUT = RESULT_FIRST_USER + 5;
 
+    @CheckForNull
     private Felica felica_ = null;
 
+    @CheckForNull
     private ProgressDialog progress_ = null;
 
+    @CheckForNull
     private Intent internalIntent_ = null;
 
     /*
@@ -235,6 +243,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
         dismissProgress();
     }
 
+    @CheckForNull
     private Intent getInternalIntent() {
         final Intent initiator = getIntent();
         if (initiator == null) {
@@ -314,8 +323,15 @@ public class SendActivity extends Activity implements FelicaEventListener {
      */
     @Override
     public void finished() {
+        final Felica felica = felica_;
+        if (felica == null) {
+            Log.e(TAG, "unexpedted null of delica_");
+            setResultWithLog(RESULT_UNEXPECTED_ERROR);
+            finish();
+            return;
+        }
         try {
-            final int resultCode = push();
+            final int resultCode = push(felica);
             setResultWithLog(resultCode);
         } finally {
             closeQuietly(felica_, TAG);
@@ -347,11 +363,13 @@ public class SendActivity extends Activity implements FelicaEventListener {
     /**
      * 実際の送信処理を行います。
      *
+     * @param felica
+     * {@link Felica} インスタンス。 {@code null} 禁止。
      * @return
      * {@link Activity} としてのリザルトコード。呼び出し側で
      * {@link Activity#setResult(int) setResult()} してください。
      */
-    private int push() {
+    private int push(Felica felica) {
         Log.i(TAG, "FeliCa activated");
         final Intent internalIntent = internalIntent_;
         if (internalIntent == null) {
@@ -361,7 +379,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
 
         try {
             Log.d(TAG, "opening felica.");
-            felica_.open();
+            felica.open();
             Log.d(TAG, "felica opened.");
         } catch (FelicaException e) {
             Log.e(TAG, "通信失敗: " + FelicaUtil.toString(e), e);
@@ -381,7 +399,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
                         internalIntent_);
 
                 // Push送信
-                felica_.push(pushSegment);
+                felica.push(pushSegment);
                 Log.i(TAG, "FeliCa message has been sent successfully.");
 
                 if (0 < soundOnSent_) {
