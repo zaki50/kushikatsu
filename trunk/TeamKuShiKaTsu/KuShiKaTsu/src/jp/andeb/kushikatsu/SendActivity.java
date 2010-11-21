@@ -177,7 +177,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
         }
 
         // TODO 起動 Intent の extra から取得する
-        soundOnSent_ = R.raw.se9;
+		soundOnSent_ = R.raw.se1;
         timeoutOfSending_ = TimeUnit.SECONDS.toMillis(10L);
     }
 
@@ -311,7 +311,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
      * @throws MissingResourceException
      * 指定された識別子のリソースが存在しない場合。
      */
-    private void setProgressMessage(int resId) {
+    private void setProgressMessage(final int resId) {
         final ProgressDialog progress = progress_;
         if (progress == null) {
             return;
@@ -389,7 +389,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
      * {@link Activity} としてのリザルトコード。呼び出し側で
      * {@link Activity#setResult(int) setResult()} してください。
      */
-    private int push(Felica felica) {
+    private int push(final Felica felica) {
         Log.i(TAG, "FeliCa activated");
         final Intent internalIntent = internalIntent_;
         if (internalIntent == null) {
@@ -469,7 +469,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
         return RESULT_TIMEOUT;
     }
 
-    private void setResultWithLog(int resultCode) {
+    private void setResultWithLog(final int resultCode) {
         Log.d(TAG, "set result code: " + resultCode);
         setResult(resultCode);
     }
