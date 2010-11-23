@@ -37,6 +37,9 @@ import com.felicanetworks.mfc.Felica;
 import com.felicanetworks.mfc.FelicaEventListener;
 import com.felicanetworks.mfc.FelicaException;
 import com.felicanetworks.mfc.PushIntentSegment;
+import com.felicanetworks.mfc.PushSegment;
+import com.felicanetworks.mfc.PushStartBrowserSegment;
+import com.felicanetworks.mfc.PushStartMailerSegment;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
@@ -64,6 +67,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  *   <li>{@link #RESULT_DEVICE_IN_USE}({@code =}{@value #RESULT_DEVICE_IN_USE})</li>
  *   <li>{@link #RESULT_TOO_BIG}({@code =}{@value #RESULT_TOO_BIG})</li>
  *   <li>{@link #RESULT_TIMEOUT}({@code =}{@value #RESULT_TIMEOUT})</li>
+ *   <li>{@link #RESULT_NOT_INITIALIZED}({@code =}{@value #RESULT_NOT_INITIALIZED})</li>
  * </ul>
  *
  * @author YAMAZAKI Makoto <makoto1975@gmail.com>
@@ -73,7 +77,131 @@ public class SendActivity extends Activity implements FelicaEventListener {
 
     private static final String TAG = SendActivity.class.getSimpleName();
 
-    private static final String INTERNAL_INTENT = "EXTRA_INTENT";
+    /**
+     * Push するメッセージの種類を表す {@code enum} です。
+     */
+    @DefaultAnnotation(NonNull.class)
+    enum ActionType {
+        // インテント送信
+        FELICA_INTENT(new Extractor() {
+            private static final String INTENT = "EXTRA_INTENT";
+
+            @CheckForNull
+            public PushSegment extract(Intent initiatorIntent) {
+                final Parcelable internalIntent;
+                internalIntent = initiatorIntent.getParcelableExtra(INTENT);
+                if (!(internalIntent instanceof Intent)) {
+                    return null;
+                }
+                final PushIntentSegment segment;
+                segment = new PushIntentSegment((Intent) internalIntent);
+                return segment;
+            }
+        }), //
+        // ブラウザ起動
+        FELICA_BROWSER(new Extractor() {
+            private static final String URL = "EXTRA_URL";
+            private static final String BROWSER_PARAM = "EXTRA_BROWSER_PARAM";
+
+            public PushSegment extract(Intent initiatorIntent) {
+                final String url = initiatorIntent.getStringExtra(URL);
+                final String browserParam = initiatorIntent
+                        .getStringExtra(BROWSER_PARAM);
+                if (url == null || url.length() == 0) {
+                    return null;
+                }
+
+                final PushStartBrowserSegment segment;
+                segment = new PushStartBrowserSegment(url, browserParam);
+                return segment;
+            }
+        }), //
+        // メーラ起動
+        FELICA_MAILER(new Extractor() {
+            private static final String EMAIL = "EXTRA_EMAIL";
+            private static final String CC = "EXTRA_CC";
+            private static final String SUBJECT = "EXTRA_SUBJECT";
+            private static final String TEXT = "EXTRA_TEXT";
+            private static final String MAIL_PARAM = "EXTRA_MAIL_PARAM";
+
+            public PushSegment extract(Intent initiatorIntent) {
+                final String[] to = initiatorIntent.getStringArrayExtra(EMAIL);
+                final String[] cc = initiatorIntent.getStringArrayExtra(CC);
+                final String subject = initiatorIntent.getStringExtra(SUBJECT);
+                final String body = initiatorIntent.getStringExtra(TEXT);
+                final String param = initiatorIntent.getStringExtra(MAIL_PARAM);
+
+                final PushStartMailerSegment segment;
+                segment = new PushStartMailerSegment(to, cc, subject, body,
+                        param);
+                return segment;
+            }
+        }), // メーラ起動用
+        ;
+
+        private static interface Extractor {
+            @CheckForNull
+            public PushSegment extract(Intent initiatorIntent);
+        }
+
+        // ACTION 文字列
+        private final String action_;
+        private final Extractor segmentExtractor_;
+
+        private ActionType(Extractor segmentExtractor) {
+            action_ = SendActivity.class.getPackage() + "." + name();
+            segmentExtractor_ = segmentExtractor;
+        }
+
+        /**
+         * 対応する {@code ACTION} 文字列を返します。
+         * @return
+         * {@code ACTION} 文字列。
+         */
+        public String getActionString() {
+            return action_;
+        }
+
+        @CheckForNull
+        public PushSegment extractSegment(Intent initiatorIntent) {
+            if (initiatorIntent == null) {
+                throw new IllegalArgumentException(
+                        "'initiatorIntent' must not be null");
+            }
+            final PushSegment message = segmentExtractor_
+                    .extract(initiatorIntent);
+            return message;
+        }
+
+        /**
+         * 指定された {@code ACTION} 文字列に対応する {@link ActionType} を返します。
+         * @param actionString
+         * {@code ACTION} 文字列。 {@code null} 禁止。
+         * @return
+         * 指定された文字列に対応する {@link ActionType} オブジェクト。
+         * @throws IllegalArgumentException
+         * 対応する {@code ActionType} が存在しない場合。
+         */
+        public static ActionType of(String actionString) {
+            if (FELICA_INTENT.getActionString().equals(actionString)) {
+                return FELICA_INTENT;
+            }
+            if (FELICA_BROWSER.getActionString().equals(actionString)) {
+                return FELICA_BROWSER;
+            }
+            if (FELICA_MAILER.getActionString().equals(actionString)) {
+                return FELICA_MAILER;
+            }
+            throw new IllegalArgumentException("invalid action: "
+                    + actionString);
+        }
+    }
+
+    @DefaultAnnotation(NonNull.class)
+    private static final class CommonParam {
+        private static final String SEND_TIMEOUT = "SEND_TIMEOUT";
+        private static final String SOUND_ON_SENT = "SOUND_ON_SENT";
+    }
 
     /**
      * Push 送信のリトライ回数の上限です。 {@link Intent} で指定されたパラメータに関わらず
@@ -116,6 +244,11 @@ public class SendActivity extends Activity implements FelicaEventListener {
      * 場合({@code =}{@value #RESULT_TIMEOUT})。
      */
     public static final int RESULT_TIMEOUT = RESULT_FIRST_USER + 5;
+    /**
+     * 端末のおサイフケータイ初期化が行われていないため、FeliCa デバイスを使用できない
+     * 場合({@code =}{@value #RESULT_NOT_INITIALIZED})。
+     */
+    public static final int RESULT_NOT_INITIALIZED = RESULT_FIRST_USER + 6;
 
     @CheckForNull
     private Felica felica_ = null;
@@ -123,8 +256,9 @@ public class SendActivity extends Activity implements FelicaEventListener {
     @CheckForNull
     private ProgressDialog progress_ = null;
 
+    // Push データ
     @CheckForNull
-    private Intent internalIntent_ = null;
+    private PushSegment segment_ = null;
 
     /*
      * 共通パラメータ
@@ -170,14 +304,25 @@ public class SendActivity extends Activity implements FelicaEventListener {
         Log.d(TAG, "enter onStart(): " + hashCode());
         super.onStart();
 
-        internalIntent_ = getInternalIntent();
-        if (internalIntent_ == null) {
+        final Intent initiatorIntent = getIntent();
+        if (initiatorIntent == null) {
             setResultWithLog(RESULT_INVALID_EXTRA);
             finish();
+            return;
         }
 
+        final ActionType type = ActionType.of(initiatorIntent.getAction());
+        final PushSegment segment = type.extractSegment(initiatorIntent);
+
+        if (segment == null) {
+            setResultWithLog(RESULT_INVALID_EXTRA);
+            finish();
+            return;
+        }
+        segment_ = segment;
+
         // TODO 起動 Intent の extra から取得する
-		soundOnSent_ = R.raw.se1;
+        soundOnSent_ = R.raw.se1;
         timeoutOfSending_ = TimeUnit.SECONDS.toMillis(10L);
     }
 
@@ -261,20 +406,6 @@ public class SendActivity extends Activity implements FelicaEventListener {
 
         FelicaServiceConnection.getInstance().disconnect();
         dismissProgress();
-    }
-
-    @CheckForNull
-    private Intent getInternalIntent() {
-        final Intent initiator = getIntent();
-        if (initiator == null) {
-            return null;
-        }
-        final Parcelable internalIntent;
-        internalIntent = initiator.getParcelableExtra(INTERNAL_INTENT);
-        if (!(internalIntent instanceof Intent)) {
-            return null;
-        }
-        return (Intent) internalIntent;
     }
 
     /**
@@ -391,9 +522,9 @@ public class SendActivity extends Activity implements FelicaEventListener {
      */
     private int push(final Felica felica) {
         Log.i(TAG, "FeliCa activated");
-        final Intent internalIntent = internalIntent_;
-        if (internalIntent == null) {
-            Log.d(TAG, "unexpected null of internalIntent");
+        final PushSegment segment = segment_;
+        if (segment == null) {
+            Log.d(TAG, "unexpected null of push segment");
             return RESULT_UNEXPECTED_ERROR;
         }
 
@@ -414,12 +545,8 @@ public class SendActivity extends Activity implements FelicaEventListener {
         while (SystemClock.uptimeMillis() - startTime < timeoutOfSending_
                 && retryCount < RETRY_LIMIT) {
             try {
-                // Androidインテント実行パラメータの生成
-                final PushIntentSegment pushSegment = new PushIntentSegment(
-                        internalIntent_);
-
                 // Push送信
-                felica.push(pushSegment);
+                felica.push(segment);
                 Log.i(TAG, "FeliCa message has been sent successfully.");
 
                 if (0 < soundOnSent_) {
@@ -469,7 +596,12 @@ public class SendActivity extends Activity implements FelicaEventListener {
         return RESULT_TIMEOUT;
     }
 
-    private void setResultWithLog(final int resultCode) {
+    /**
+     * アクティビティのリザルトコードをセットし、セットした内容をログに出力します。
+     * @param resultCode
+     * リザルトコード。
+     */
+    private void setResultWithLog(int resultCode) {
         Log.d(TAG, "set result code: " + resultCode);
         setResult(resultCode);
     }
