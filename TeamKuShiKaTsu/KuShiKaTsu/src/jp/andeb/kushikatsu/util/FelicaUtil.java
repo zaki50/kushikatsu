@@ -15,8 +15,9 @@
  */
 package jp.andeb.kushikatsu.util;
 
-import static com.felicanetworks.mfc.FelicaException.ID_ILLEGAL_STATE_ERROR;
+import static com.felicanetworks.mfc.FelicaException.*;
 import static com.felicanetworks.mfc.FelicaException.ID_IO_ERROR;
+import static com.felicanetworks.mfc.FelicaException.ID_OPEN_ERROR;
 import static com.felicanetworks.mfc.FelicaException.ID_UNKNOWN_ERROR;
 import static com.felicanetworks.mfc.FelicaException.TYPE_ALREADY_ACTIVATED;
 import static com.felicanetworks.mfc.FelicaException.TYPE_CURRENTLY_ACTIVATING;
@@ -24,6 +25,7 @@ import static com.felicanetworks.mfc.FelicaException.TYPE_CURRENTLY_ONLINE;
 import static com.felicanetworks.mfc.FelicaException.TYPE_INVALID_RESPONSE;
 import static com.felicanetworks.mfc.FelicaException.TYPE_NOT_ACTIVATED;
 import static com.felicanetworks.mfc.FelicaException.TYPE_NOT_CLOSED;
+import static com.felicanetworks.mfc.FelicaException.TYPE_NOT_IC_CHIP_FORMATTING;
 import static com.felicanetworks.mfc.FelicaException.TYPE_NOT_OPENED;
 import static com.felicanetworks.mfc.FelicaException.TYPE_PUSH_FAILED;
 import static com.felicanetworks.mfc.FelicaException.TYPE_REMOTE_ACCESS_FAILED;
@@ -226,6 +228,25 @@ public final class FelicaUtil {
     }
 
     /**
+     * 渡された {@link FelicaException} が、オープン失敗のためにスローされたかどうかを
+     * 返します。
+     *
+     * @param e
+     * チェック対象の例外。
+     * @return
+     * おサイフケータイのオープン失敗を意味している場合は {@code true}、
+     * そうでない場合は{@code false} を返します。
+     */
+    public static boolean isOpenFailed(@CheckForNull FelicaException e) {
+        if (e == null) {
+            return false;
+        }
+        final boolean result = e.getID() == ID_UNKNOWN_ERROR
+                && e.getType() == TYPE_OPEN_FAILED;
+        return result;
+    }
+
+    /**
      * 渡された {@link FelicaException} が、 Push 送信処理が失敗したためにスローされたか
      * どうかを返します。
      *
@@ -241,6 +262,44 @@ public final class FelicaUtil {
         }
         final boolean result = e.getID() == ID_UNKNOWN_ERROR
                 && e.getType() == TYPE_PUSH_FAILED;
+        return result;
+    }
+
+    /**
+     * 渡された {@link FelicaException} が、おサイフケータイ初期化が行われていないために
+     * スローされたかどうかを返します。
+     *
+     * @param e
+     * チェック対象の例外。
+     * @return
+     * おサイフケータイ初期化がされていなための失敗を意味している場合は {@code true}、
+     * そうでない場合は{@code false} を返します。
+     */
+    public static boolean isNotIcChipFormatting(@CheckForNull FelicaException e) {
+        if (e == null) {
+            return false;
+        }
+        final boolean result = e.getID() == ID_OPEN_ERROR
+                && e.getType() == TYPE_NOT_IC_CHIP_FORMATTING;
+        return result;
+    }
+
+    /**
+     * 渡された {@link FelicaException} が、おサイフケータイロックのために
+     * スローされたかどうかを返します。
+     *
+     * @param e
+     * チェック対象の例外。
+     * @return
+     * おサイフケータイロックのための失敗を意味している場合は {@code true}、
+     * そうでない場合は{@code false} を返します。
+     */
+    public static boolean isNotAvailable(@CheckForNull FelicaException e) {
+        if (e == null) {
+            return false;
+        }
+        final boolean result = e.getID() == ID_OPEN_ERROR
+                && e.getType() == TYPE_FELICA_NOT_AVAILABLE;
         return result;
     }
 
