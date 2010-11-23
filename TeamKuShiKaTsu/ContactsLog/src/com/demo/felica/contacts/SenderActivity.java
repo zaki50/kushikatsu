@@ -89,6 +89,12 @@ public class SenderActivity extends Activity implements OnClickListener {
 		} else if (resultCode == 6) {
 			toast = Toast.makeText(this, "送信がタイムアウトしました。",
 					Toast.LENGTH_SHORT);
+		} else if (resultCode == 7) {
+			toast = Toast.makeText(this, "おサイフケータイの初期化が未実施です。",
+					Toast.LENGTH_SHORT);
+		} else if (resultCode == 8) {
+			toast = Toast.makeText(this, "おサイフケータイロック中です。",
+					Toast.LENGTH_SHORT);
 		} else {
 			toast = Toast.makeText(this, "不明なエラーです: " + resultCode,
 					Toast.LENGTH_SHORT);
