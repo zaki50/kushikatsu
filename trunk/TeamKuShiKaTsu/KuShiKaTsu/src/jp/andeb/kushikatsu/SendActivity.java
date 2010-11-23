@@ -68,6 +68,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  *   <li>{@link #RESULT_TOO_BIG}({@code =}{@value #RESULT_TOO_BIG})</li>
  *   <li>{@link #RESULT_TIMEOUT}({@code =}{@value #RESULT_TIMEOUT})</li>
  *   <li>{@link #RESULT_NOT_INITIALIZED}({@code =}{@value #RESULT_NOT_INITIALIZED})</li>
+ *   <li>{@link #RESULT_DEVICE_LOCKED}({@code =}{@value #RESULT_DEVICE_LOCKED})</li>
  * </ul>
  *
  * @author YAMAZAKI Makoto <makoto1975@gmail.com>
@@ -249,6 +250,11 @@ public class SendActivity extends Activity implements FelicaEventListener {
      * 場合({@code =}{@value #RESULT_NOT_INITIALIZED})。
      */
     public static final int RESULT_NOT_INITIALIZED = RESULT_FIRST_USER + 6;
+    /**
+     * 端末のおサイフケータイロックのため FeliCa デバイスを使用できない
+     * 場合({@code =}{@value #RESULT_DEVICE_LOCKED})。
+     */
+    public static final int RESULT_DEVICE_LOCKED = RESULT_FIRST_USER + 7;
 
     @CheckForNull
     private Felica felica_ = null;
@@ -534,9 +540,37 @@ public class SendActivity extends Activity implements FelicaEventListener {
             Log.d(TAG, "felica opened.");
         } catch (FelicaException e) {
             Log.e(TAG, "通信失敗: " + FelicaUtil.toString(e), e);
+            final String message;
+            final int resultCode;
+            if (FelicaUtil.isNotActivated(e)) {
+                message = "Felica not activated exception on open()";
+                resultCode = RESULT_UNEXPECTED_ERROR;
+            } else if(FelicaUtil.isInvalidResponse(e)) {
+                message = "Felica invalid response exception on open()";
+                resultCode = RESULT_UNEXPECTED_ERROR;
+            } else if(FelicaUtil.isTimeoutOccurred(e)) {
+                message = "Felica timeout exception on open()";
+                resultCode = RESULT_UNEXPECTED_ERROR;
+            } else if(FelicaUtil.isNotIcChipFormatting(e)) {
+                message = "Felica not initialized exception on open()";
+                resultCode = RESULT_NOT_INITIALIZED;
+            } else if(FelicaUtil.isNotAvailable(e)) {
+                message = "Felica not available exception on open()";
+                resultCode = RESULT_DEVICE_LOCKED;
+            } else if(FelicaUtil.isOpenFailed(e)) {
+                message = "Felica open failed exception on open()";
+                resultCode = RESULT_UNEXPECTED_ERROR;
+            } else if(FelicaUtil.isMissingMfc(e)) {
+                message = "Felica failed to connect MFC service on open()";
+                resultCode = RESULT_DEVICE_NOT_FOUND;
+            } else {
+                message = "unexpected " + FelicaUtil.toString(e)
+                + " on open()";
+                resultCode = RESULT_UNEXPECTED_ERROR;
+            }
 
-            // FIXME 正しいエラーコードを返す
-            return RESULT_UNEXPECTED_ERROR;
+            Log.e(TAG, message, e);
+            return resultCode;
         }
 
         Log.d(TAG, "sending FeliCa message");
@@ -585,7 +619,8 @@ public class SendActivity extends Activity implements FelicaEventListener {
                 } else if (FelicaUtil.isMissingMfc(e)) {
                     message = "Felica failed to connect MFC service on push()";
                 } else {
-                    message = "unexpected " + FelicaUtil.toString(e);
+                    message = "unexpected " + FelicaUtil.toString(e)
+                            + " on push()";
                 }
                 resultCode = RESULT_UNEXPECTED_ERROR;
 
