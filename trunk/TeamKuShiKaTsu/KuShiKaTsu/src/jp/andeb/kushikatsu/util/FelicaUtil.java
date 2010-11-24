@@ -17,21 +17,28 @@
  */
 package jp.andeb.kushikatsu.util;
 
-import static com.felicanetworks.mfc.FelicaException.*;
+import static com.felicanetworks.mfc.FelicaException.ID_ILLEGAL_STATE_ERROR;
 import static com.felicanetworks.mfc.FelicaException.ID_IO_ERROR;
 import static com.felicanetworks.mfc.FelicaException.ID_OPEN_ERROR;
 import static com.felicanetworks.mfc.FelicaException.ID_UNKNOWN_ERROR;
 import static com.felicanetworks.mfc.FelicaException.TYPE_ALREADY_ACTIVATED;
 import static com.felicanetworks.mfc.FelicaException.TYPE_CURRENTLY_ACTIVATING;
 import static com.felicanetworks.mfc.FelicaException.TYPE_CURRENTLY_ONLINE;
+import static com.felicanetworks.mfc.FelicaException.TYPE_FELICA_NOT_AVAILABLE;
 import static com.felicanetworks.mfc.FelicaException.TYPE_INVALID_RESPONSE;
 import static com.felicanetworks.mfc.FelicaException.TYPE_NOT_ACTIVATED;
 import static com.felicanetworks.mfc.FelicaException.TYPE_NOT_CLOSED;
 import static com.felicanetworks.mfc.FelicaException.TYPE_NOT_IC_CHIP_FORMATTING;
 import static com.felicanetworks.mfc.FelicaException.TYPE_NOT_OPENED;
+import static com.felicanetworks.mfc.FelicaException.TYPE_OPEN_FAILED;
 import static com.felicanetworks.mfc.FelicaException.TYPE_PUSH_FAILED;
 import static com.felicanetworks.mfc.FelicaException.TYPE_REMOTE_ACCESS_FAILED;
 import static com.felicanetworks.mfc.FelicaException.TYPE_TIMEOUT_OCCURRED;
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_DEVICE_IN_USE;
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_DEVICE_LOCKED;
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_DEVICE_NOT_FOUND;
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_NOT_INITIALIZED;
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_UNEXPECTED_ERROR;
 import android.util.Log;
 
 import com.felicanetworks.mfc.Felica;
@@ -48,6 +55,70 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  */
 @DefaultAnnotation(NonNull.class)
 public final class FelicaUtil {
+
+    public static int logAndGetResultCode(String tag, FelicaException e,
+            String methodName) {
+        int logLevel = Log.INFO;
+        final String message;
+        final int resultCode;
+
+        if (FelicaUtil.isMissingMfc(e)) {
+            // サービスとの接続に失敗。デバイスが存在しない場合など
+            message = "Felica failed to connect MFC service on " + methodName;
+            resultCode = RESULT_DEVICE_NOT_FOUND;
+        } else if (FelicaUtil.isAlreadyActivated(e)) {
+            message = "FeliCa device not found on " + methodName;
+            resultCode = RESULT_DEVICE_IN_USE;
+        } else if (FelicaUtil.isCurrentlyActivating(e)) {
+            message = "FeliCa device not found on " + methodName;
+            resultCode = RESULT_DEVICE_IN_USE;
+        } else if (FelicaUtil.isNotActivated(e)) {
+            message = "Felica not activated exception on " + methodName;
+            resultCode = RESULT_UNEXPECTED_ERROR;
+        } else if (FelicaUtil.isInvalidResponse(e)) {
+            message = "Felica invalid response exception on " + methodName;
+            resultCode = RESULT_UNEXPECTED_ERROR;
+        } else if (FelicaUtil.isTimeoutOccurred(e)) {
+            message = "Felica timeout exception on " + methodName;
+            resultCode = RESULT_UNEXPECTED_ERROR;
+        } else if (FelicaUtil.isNotIcChipFormatting(e)) {
+            message = "Felica not initialized exception on " + methodName;
+            resultCode = RESULT_NOT_INITIALIZED;
+        } else if (FelicaUtil.isNotAvailable(e)) {
+            message = "Felica not available exception on " + methodName;
+            resultCode = RESULT_DEVICE_LOCKED;
+        } else if (FelicaUtil.isOpenFailed(e)) {
+            message = "Felica open failed exception on " + methodName;
+            resultCode = RESULT_UNEXPECTED_ERROR;
+        } else if (FelicaUtil.isNotOpened(e)) {
+            message = "Felica not opened exception " + methodName;
+            resultCode = RESULT_UNEXPECTED_ERROR;
+        } else if (FelicaUtil.isCurrnetlyOnline(e)) {
+            message = "Felica currently online exception " + methodName;
+            resultCode = RESULT_UNEXPECTED_ERROR;
+        } else if (FelicaUtil.isPushFailed(e)) {
+            message = "Felica push failed exception " + methodName;
+            resultCode = RESULT_UNEXPECTED_ERROR;
+        } else {
+            message = "unexpected " + FelicaUtil.toString(e) + " on "
+                    + methodName;
+            resultCode = RESULT_UNEXPECTED_ERROR;
+
+            // 予期しない組み合わせなので、エラーとして出力する
+            logLevel = Log.ERROR;
+        }
+
+        // ログを出力
+        if (logLevel == Log.INFO) {
+            Log.i(tag, message, e);
+        } else if (logLevel == Log.ERROR) {
+            Log.e(tag, message, e);
+        } else {
+            assert false;
+            Log.e(tag, message, e);
+        }
+        return resultCode;
+    }
 
     /**
      * 渡された {@link FelicaException} が、 MFC プロセスとの通信に失敗したことを意味して
