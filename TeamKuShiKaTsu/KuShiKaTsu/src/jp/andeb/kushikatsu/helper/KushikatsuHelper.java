@@ -20,6 +20,13 @@ package jp.andeb.kushikatsu.helper;
 import static android.app.Activity.RESULT_FIRST_USER;
 import android.content.Intent;
 
+/**
+ * {@code KuShiKaTsu} を呼び出す際に有用な定数とメソッドを提供するクラスです。
+ *
+ * <p>
+ * このコードは、呼び出し側のアプリにコピペされることを想定しています。
+ * </p>
+ */
 public final class KushikatsuHelper {
 
     /*
