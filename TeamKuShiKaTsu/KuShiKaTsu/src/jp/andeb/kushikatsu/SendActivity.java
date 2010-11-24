@@ -79,6 +79,8 @@ public class SendActivity extends Activity implements FelicaEventListener {
     @DefaultAnnotation(NonNull.class)
     private static final class CommonParam {
         private static final String SEND_TIMEOUT = "SEND_TIMEOUT";
+        private static final int SEND_TIMEOUT_DEFAULT = 10; /* sec */
+
         private static final String SOUND_ON_SENT = "SOUND_ON_SENT";
     }
 
@@ -207,7 +209,14 @@ public class SendActivity extends Activity implements FelicaEventListener {
 
         // TODO 起動 Intent の extra から取得する
         soundOnSent_ = R.raw.se1;
-        timeoutOfSending_ = TimeUnit.SECONDS.toMillis(10L);
+
+        // 送信タイムアウトまでの時間を取得
+        int timeoutSec = initiatorIntent.getIntExtra(CommonParam.SEND_TIMEOUT,
+                CommonParam.SEND_TIMEOUT_DEFAULT);
+        if (timeoutSec < 0) {
+            timeoutSec = CommonParam.SEND_TIMEOUT_DEFAULT;
+        }
+        timeoutOfSending_ = TimeUnit.SECONDS.toMillis(timeoutOfSending_);
     }
 
     /**
