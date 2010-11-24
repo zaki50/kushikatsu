@@ -17,17 +17,31 @@
  */
 package jp.andeb.kushikatsu;
 
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_INVALID_EXTRA;
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_TIMEOUT;
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_TOO_BIG;
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_UNEXPECTED_ERROR;
 import static jp.andeb.kushikatsu.util.FelicaUtil.closeQuietly;
 import static jp.andeb.kushikatsu.util.FelicaUtil.inactivateQuietly;
+import static jp.andeb.kushikatsu.util.MediaPlayerUtil.RELEASE_PLAYER_LISTENER;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.concurrent.TimeUnit;
 
+import jp.andeb.kushikatsu.helper.KushikatsuHelper;
 import jp.andeb.kushikatsu.util.FelicaServiceConnection;
 import jp.andeb.kushikatsu.util.FelicaUtil;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Resources.NotFoundException;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -52,21 +66,21 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  * 行っているように見えます。
  * </p>
  * <p>
- * 送信に失敗した場合は、 {@link Activity} のリザルトとして呼び出し元に伝え、自身では
+ * 送信に成功/失敗は、 {@link Activity} のリザルトとして呼び出し元に伝え、自身では
  * エラーメッセージを表示することはありません。呼び出し側で必要に応じてユーザへ伝えてください。
  * このアクティビティは以下の result code を使用します。
  * </p>
  * <ul>
  *   <li>{@link Activity#RESULT_OK}({@code =-1})</li>
  *   <li>{@link Activity#RESULT_CANCELED}({@code =0})</li>
- *   <li>{@link #RESULT_UNEXPECTED_ERROR}({@code =}{@value #RESULT_UNEXPECTED_ERROR})</li>
- *   <li>{@link #RESULT_INVALID_EXTRA}({@code =}{@value #RESULT_INVALID_EXTRA})</li>
- *   <li>{@link #RESULT_DEVICE_NOT_FOUND}({@code =}{@value #RESULT_DEVICE_NOT_FOUND})</li>
- *   <li>{@link #RESULT_DEVICE_IN_USE}({@code =}{@value #RESULT_DEVICE_IN_USE})</li>
- *   <li>{@link #RESULT_TOO_BIG}({@code =}{@value #RESULT_TOO_BIG})</li>
- *   <li>{@link #RESULT_TIMEOUT}({@code =}{@value #RESULT_TIMEOUT})</li>
- *   <li>{@link #RESULT_NOT_INITIALIZED}({@code =}{@value #RESULT_NOT_INITIALIZED})</li>
- *   <li>{@link #RESULT_DEVICE_LOCKED}({@code =}{@value #RESULT_DEVICE_LOCKED})</li>
+ *   <li>{@link KushikatsuHelper#RESULT_UNEXPECTED_ERROR}({@code =}{@value jp.andeb.kushikatsu.helper.KushikatsuHelper#RESULT_UNEXPECTED_ERROR})</li>
+ *   <li>{@link KushikatsuHelper#RESULT_INVALID_EXTRA}({@code =}{@value jp.andeb.kushikatsu.helper.KushikatsuHelper#RESULT_INVALID_EXTRA})</li>
+ *   <li>{@link KushikatsuHelper#RESULT_DEVICE_NOT_FOUND}({@code =}{@value jp.andeb.kushikatsu.helper.KushikatsuHelper#RESULT_DEVICE_NOT_FOUND})</li>
+ *   <li>{@link KushikatsuHelper#RESULT_DEVICE_IN_USE}({@code =}{@value jp.andeb.kushikatsu.helper.KushikatsuHelper#RESULT_DEVICE_IN_USE})</li>
+ *   <li>{@link KushikatsuHelper#RESULT_TOO_BIG}({@code =}{@value jp.andeb.kushikatsu.helper.KushikatsuHelper#RESULT_TOO_BIG})</li>
+ *   <li>{@link KushikatsuHelper#RESULT_TIMEOUT}({@code =}{@value jp.andeb.kushikatsu.helper.KushikatsuHelper#RESULT_TIMEOUT})</li>
+ *   <li>{@link KushikatsuHelper#RESULT_NOT_INITIALIZED}({@code =}{@value jp.andeb.kushikatsu.helper.KushikatsuHelper#RESULT_NOT_INITIALIZED})</li>
+ *   <li>{@link KushikatsuHelper#RESULT_DEVICE_LOCKED}({@code =}{@value jp.andeb.kushikatsu.helper.KushikatsuHelper#RESULT_DEVICE_LOCKED})</li>
  * </ul>
  *
  * @author YAMAZAKI Makoto <makoto1975@gmail.com>
@@ -76,12 +90,55 @@ public class SendActivity extends Activity implements FelicaEventListener {
 
     private static final String TAG = SendActivity.class.getSimpleName();
 
+    /**
+     * 共通パラメータのための定数を集めたクラスです。
+     */
     @DefaultAnnotation(NonNull.class)
     private static final class CommonParam {
         private static final String SEND_TIMEOUT = "SEND_TIMEOUT";
         private static final int SEND_TIMEOUT_DEFAULT = 10; /* sec */
 
         private static final String SOUND_ON_SENT = "SOUND_ON_SENT";
+        private static final String SOUND_ON_SENT_DEFAULT = "se9";
+    }
+
+    /**
+     * サウンドリソースの名前と ID のマップ。
+     */
+    private static Map<String, Integer> SOUND_ID_MAP;
+    static {
+        final HashMap<String, Integer> map = new HashMap<String, Integer>();
+        for (Field field : R.raw.class.getFields()) {
+            if (field.getType() != Integer.TYPE) {
+                continue;
+            }
+            if (!Modifier.isStatic(field.getModifiers())) {
+                continue;
+            }
+            if (!Modifier.isFinal(field.getModifiers())) {
+                continue;
+            }
+            if (!field.getName().startsWith("se")) {
+                continue;
+            }
+            try {
+                final Integer resId = (Integer) field.get(null);
+                if (resId == null) {
+                    // ありえないが念のため
+                    continue;
+                }
+                map.put(field.getName(), resId);
+            } catch (IllegalArgumentException e) {
+                Log.e(TAG, "failed to get resource id", e);
+                continue;
+            } catch (IllegalAccessException e) {
+                Log.e(TAG, "failed to get resource id", e);
+                continue;
+            }
+        }
+        // 音を出さない場合のため
+        map.put("", Integer.valueOf(-1));
+        SOUND_ID_MAP = Collections.unmodifiableMap(map);
     }
 
     /**
@@ -89,52 +146,6 @@ public class SendActivity extends Activity implements FelicaEventListener {
      * ここで指定される回数がリトライの上限です。
      */
     private final static int RETRY_LIMIT = 100;
-
-    /*
-     * 独自定義の result code 群。ここに定義されているものに加え、標準の result code である
-     * RESULT_OK と RESULT_CANCELED も使用します。
-     */
-
-    /**
-     * 予期しないエラーで送信が行えなかった
-     * 場合({@code =}{@value #RESULT_UNEXPECTED_ERROR})。
-     */
-    public static final int RESULT_UNEXPECTED_ERROR = RESULT_FIRST_USER + 0;
-    /**
-     * Activity を起動した {@link Intent} に含まれる追加情報が不正なため送信が行えなかった
-     * 場合({@code =}{@value #RESULT_INVALID_EXTRA})。
-     */
-    public static final int RESULT_INVALID_EXTRA = RESULT_FIRST_USER + 1;
-    /**
-     * FeliCa デバイスが搭載されていない端末の
-     * 場合({@code =}{@value #RESULT_DEVICE_NOT_FOUND})。
-     */
-    public static final int RESULT_DEVICE_NOT_FOUND = RESULT_FIRST_USER + 2;
-    /**
-     * デバイスが他のアプリケーションによって占有されているため送信できなかった
-     * 場合({@code =}{@value #RESULT_DEVICE_IN_USE})。
-     */
-    public static final int RESULT_DEVICE_IN_USE = RESULT_FIRST_USER + 3;
-    /**
-     * パラメータとして渡された {@link Intent} や URL などの情報が、{@code FeliCa Push}
-     * 送信機能で送ることのできる上限を越えている場合({@code =}{@value #RESULT_TOO_BIG})。
-     */
-    public static final int RESULT_TOO_BIG = RESULT_FIRST_USER + 4;
-    /**
-     * 受信端末が見つからないため送信がタイムアウトした
-     * 場合({@code =}{@value #RESULT_TIMEOUT})。
-     */
-    public static final int RESULT_TIMEOUT = RESULT_FIRST_USER + 5;
-    /**
-     * 端末のおサイフケータイ初期化が行われていないため、FeliCa デバイスを使用できない
-     * 場合({@code =}{@value #RESULT_NOT_INITIALIZED})。
-     */
-    public static final int RESULT_NOT_INITIALIZED = RESULT_FIRST_USER + 6;
-    /**
-     * 端末のおサイフケータイロックのため FeliCa デバイスを使用できない
-     * 場合({@code =}{@value #RESULT_DEVICE_LOCKED})。
-     */
-    public static final int RESULT_DEVICE_LOCKED = RESULT_FIRST_USER + 7;
 
     @CheckForNull
     private Felica felica_ = null;
@@ -154,6 +165,12 @@ public class SendActivity extends Activity implements FelicaEventListener {
      * 送信成功時のサウンドリソースID。 {@code -1} は無音。
      */
     private int soundOnSent_;
+
+    /**
+     * 送信成功時のサウンド取得のための {@link Context}。
+     */
+    @CheckForNull
+    private Context contextOfSoundOnSent_;
 
     /**
      * タイムアウトまでの時間(ms)。
@@ -207,8 +224,31 @@ public class SendActivity extends Activity implements FelicaEventListener {
         }
         segment_ = segment;
 
-        // TODO 起動 Intent の extra から取得する
-        soundOnSent_ = R.raw.se1;
+        // 完了音を取得する
+        int soundResId = initiatorIntent.getIntExtra(CommonParam.SOUND_ON_SENT,
+                -1);
+        if (0 <= soundResId) {
+            // 呼び出し元のサウンドリソースを使用する場合
+            @CheckForNull
+            final Context callerContext = getCallerContext();
+            if (isValidAudioResource(callerContext, soundResId)) {
+                assert callerContext != null;
+                soundOnSent_ = soundResId;
+                contextOfSoundOnSent_ = callerContext;
+            } else {
+                soundOnSent_ = -1;
+                contextOfSoundOnSent_ = null;
+            }
+        } else {
+            // KuShiKaTsu のサウンドリソースを使用する場合
+            String soundName = initiatorIntent
+                    .getStringExtra(CommonParam.SOUND_ON_SENT);
+            if (soundName == null) {
+                soundName = CommonParam.SOUND_ON_SENT_DEFAULT;
+            }
+            soundOnSent_ = getSoundResId(soundName);
+            contextOfSoundOnSent_ = this;
+        }
 
         // 送信タイムアウトまでの時間を取得
         int timeoutSec = initiatorIntent.getIntExtra(CommonParam.SEND_TIMEOUT,
@@ -217,6 +257,44 @@ public class SendActivity extends Activity implements FelicaEventListener {
             timeoutSec = CommonParam.SEND_TIMEOUT_DEFAULT;
         }
         timeoutOfSending_ = TimeUnit.SECONDS.toMillis(timeoutOfSending_);
+    }
+
+    @CheckForNull
+    private Context getCallerContext() {
+        final String initiatorPackage = getCallingPackage();
+        try {
+            final Context callerContext = createPackageContext(
+                    initiatorPackage, Context.CONTEXT_RESTRICTED);
+            return callerContext;
+        } catch (NameNotFoundException e) {
+            Log.e(TAG, "failed to obtain context of caller. package name: "
+                    + initiatorPackage, e);
+            return null;
+        }
+    }
+
+    private boolean isValidAudioResource(@CheckForNull Context context,
+            int resId) {
+        if (context == null) {
+            return false;
+        }
+        try {
+            final String resTypeName = context.getResources()
+                    .getResourceTypeName(resId);
+            return "raw".equals(resTypeName);
+        } catch (NotFoundException e) {
+            return false;
+        }
+    }
+
+    private int getSoundResId(String soundName) {
+        final Integer soundResId = SOUND_ID_MAP.get(soundName);
+        if (soundResId == null) {
+            // 存在しない名前のリソース
+            Log.w(TAG, "sound resource not found for '" + soundName + "'.");
+            return -1;
+        }
+        return soundResId.intValue();
     }
 
     /**
@@ -249,20 +327,9 @@ public class SendActivity extends Activity implements FelicaEventListener {
                     setResultWithLog(RESULT_UNEXPECTED_ERROR);
                     finish();
                 } catch (FelicaException e) {
-                    if (FelicaUtil.isMissingMfc(e)) {
-                        // サービスとの接続に失敗。デバイスが存在しない場合など
-                        Log.i(TAG, "FeliCa device not found");
-                        setResultWithLog(RESULT_DEVICE_NOT_FOUND);
-                    } else if (FelicaUtil.isAlreadyActivated(e)) {
-                        Log.i(TAG, "FeliCa device not found");
-                        setResultWithLog(RESULT_DEVICE_IN_USE);
-                    } else if (FelicaUtil.isCurrentlyActivating(e)) {
-                        Log.i(TAG, "FeliCa device not found");
-                        setResultWithLog(RESULT_DEVICE_IN_USE);
-                    } else {
-                        Log.e(TAG, "unexpected " + FelicaUtil.toString(e), e);
-                        setResultWithLog(RESULT_UNEXPECTED_ERROR);
-                    }
+                    final int resultCode = FelicaUtil.logAndGetResultCode(TAG,
+                            e, "activateFelica()");
+                    setResultWithLog(resultCode);
                     finish();
                 }
             }
@@ -426,36 +493,8 @@ public class SendActivity extends Activity implements FelicaEventListener {
             felica.open();
             Log.d(TAG, "felica opened.");
         } catch (FelicaException e) {
-            Log.e(TAG, "通信失敗: " + FelicaUtil.toString(e), e);
-            final String message;
-            final int resultCode;
-            if (FelicaUtil.isNotActivated(e)) {
-                message = "Felica not activated exception on open()";
-                resultCode = RESULT_UNEXPECTED_ERROR;
-            } else if (FelicaUtil.isInvalidResponse(e)) {
-                message = "Felica invalid response exception on open()";
-                resultCode = RESULT_UNEXPECTED_ERROR;
-            } else if (FelicaUtil.isTimeoutOccurred(e)) {
-                message = "Felica timeout exception on open()";
-                resultCode = RESULT_UNEXPECTED_ERROR;
-            } else if (FelicaUtil.isNotIcChipFormatting(e)) {
-                message = "Felica not initialized exception on open()";
-                resultCode = RESULT_NOT_INITIALIZED;
-            } else if (FelicaUtil.isNotAvailable(e)) {
-                message = "Felica not available exception on open()";
-                resultCode = RESULT_DEVICE_LOCKED;
-            } else if (FelicaUtil.isOpenFailed(e)) {
-                message = "Felica open failed exception on open()";
-                resultCode = RESULT_UNEXPECTED_ERROR;
-            } else if (FelicaUtil.isMissingMfc(e)) {
-                message = "Felica failed to connect MFC service on open()";
-                resultCode = RESULT_DEVICE_NOT_FOUND;
-            } else {
-                message = "unexpected " + FelicaUtil.toString(e) + " on open()";
-                resultCode = RESULT_UNEXPECTED_ERROR;
-            }
-
-            Log.e(TAG, message, e);
+            final int resultCode = FelicaUtil.logAndGetResultCode(TAG, e,
+                    "open()");
             return resultCode;
         }
 
@@ -470,9 +509,11 @@ public class SendActivity extends Activity implements FelicaEventListener {
                 Log.i(TAG, "FeliCa message has been sent successfully.");
 
                 if (0 < soundOnSent_) {
-                    // FIXME release() とかちゃんと。
-                    final MediaPlayer mediaPlayer = MediaPlayer.create(this,
-                            soundOnSent_);
+                    assert contextOfSoundOnSent_ != null;
+                    final MediaPlayer mediaPlayer = MediaPlayer.create(
+                            contextOfSoundOnSent_, soundOnSent_);
+                    mediaPlayer
+                            .setOnCompletionListener(RELEASE_PLAYER_LISTENER);
                     mediaPlayer.start();
                 }
 
@@ -490,27 +531,8 @@ public class SendActivity extends Activity implements FelicaEventListener {
                     continue;
                 }
 
-                final String message;
-                final int resultCode;
-                if (FelicaUtil.isNotActivated(e)) {
-                    message = "Felica not activated exception on push()";
-                } else if (FelicaUtil.isNotOpened(e)) {
-                    message = "Felica not opened exception on push()";
-                } else if (FelicaUtil.isCurrnetlyOnline(e)) {
-                    message = "Felica currently online exception on push()";
-                } else if (FelicaUtil.isInvalidResponse(e)) {
-                    message = "Felica invalid response exception on push()";
-                } else if (FelicaUtil.isPushFailed(e)) {
-                    message = "Felica push failed exception on push()";
-                } else if (FelicaUtil.isMissingMfc(e)) {
-                    message = "Felica failed to connect MFC service on push()";
-                } else {
-                    message = "unexpected " + FelicaUtil.toString(e)
-                            + " on push()";
-                }
-                resultCode = RESULT_UNEXPECTED_ERROR;
-
-                Log.e(TAG, message, e);
+                final int resultCode = FelicaUtil.logAndGetResultCode(TAG, e,
+                        "push()");
                 return resultCode;
             }
         }
