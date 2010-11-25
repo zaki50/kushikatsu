@@ -17,6 +17,7 @@
  */
 package jp.andeb.kushikatsu;
 
+import static jp.andeb.kushikatsu.util.MediaPlayerUtil.RELEASE_PLAYER_LISTENER;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -75,6 +76,8 @@ public class PrefActivity extends PreferenceActivity {
                         MediaPlayer mediaPlayer = MediaPlayer.create(
                                 PrefActivity.this, id);
                         mediaPlayer.start();
+                        mediaPlayer
+                                .setOnCompletionListener(RELEASE_PLAYER_LISTENER);
                         mediaPlayer = null;
                         return true;
                     }
