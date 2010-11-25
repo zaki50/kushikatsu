@@ -8,13 +8,18 @@
 
 		<CheckBoxPreference android:summaryOn="on"
 			android:summaryOff="off" android:key="same_ringer_mode" android:title="Same ringer volume"
-			android:enabled="true" android:defaultValue="true" android:dependency="sound_mode" />
+				android:enabled="true" android:defaultValue="true" android:dependency="sound_mode" />
+	
+		<ListPreference android:key="sound_pattern" android:title="サウンドの選択"
+			 android:dialogTitle="サウンドの選択"
+			android:entries="@array/sound_pattern_entries" android:entryValues="@array/sound_pattern_entryvalues" />
 		
 		<CheckBoxPreference android:summaryOn="on"
 			android:summaryOff="off" android:key="vibration_mode" android:title="Vibration"
 			android:enabled="true" android:defaultValue="true" />
 			
-	</PreferenceCategory>
+
+</PreferenceCategory>
 
 	<PreferenceCategory android:title="About">
 		<PreferenceScreen android:title="Help">
