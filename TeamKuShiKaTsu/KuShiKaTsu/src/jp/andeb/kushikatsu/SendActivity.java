@@ -101,7 +101,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
         private static final int SEND_TIMEOUT_DEFAULT = 10; /* sec */
 
         private static final String SOUND_ON_SENT = "SOUND_ON_SENT";
-		// private static final String SOUND_ON_SENT_DEFAULT = "se9";
+        private static final String SOUND_ON_SENT_DEFAULT = "se1";
     }
 
     /**
@@ -179,10 +179,10 @@ public class SendActivity extends Activity implements FelicaEventListener {
      */
     private long timeoutOfSending_;
 
-	/**
-	 * 共通設定アクセス。
-	 */
-	private SharedPreferences sPreferences;
+    /**
+     * 共通設定アクセス。
+     */
+    private SharedPreferences sPreferences;
 
     /**
      * {@link Activity} が初期化される際の処理を実装するメソッドです。
@@ -190,13 +190,10 @@ public class SendActivity extends Activity implements FelicaEventListener {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         Log.d(TAG, "enter onCreate(): " + hashCode());
-
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.send);
-
-		sPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
+        sPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     /**
@@ -262,7 +259,9 @@ public class SendActivity extends Activity implements FelicaEventListener {
             String soundName = initiatorIntent
                     .getStringExtra(CommonParam.SOUND_ON_SENT);
             if (soundName == null) {
-				soundName = sPreferences.getString(PrefActivity.KEY_SOUND_PATTERN, "se1");
+                soundName = sPreferences.getString(
+                        PrefActivity.KEY_SOUND_PATTERN,
+                        CommonParam.SOUND_ON_SENT_DEFAULT);
             }
             soundOnSent_ = getSoundResId(soundName);
             contextOfSoundOnSent_ = this;
