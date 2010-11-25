@@ -100,7 +100,7 @@ enum ActionType {
     private final Extractor segmentExtractor_;
 
     private ActionType(Extractor segmentExtractor) {
-        action_ = SendActivity.class.getPackage() + "." + name();
+        action_ = SendActivity.class.getPackage().getName() + "." + name();
         segmentExtractor_ = segmentExtractor;
     }
 
