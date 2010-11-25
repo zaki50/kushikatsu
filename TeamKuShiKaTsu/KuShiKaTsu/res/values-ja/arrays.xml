@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sound_pattern_entries">
+        <item>サウンド１</item>
+        <item>サウンド２</item>
+        <item>サウンド３</item>
+    </string-array>
+    <string-array name="sound_pattern_entryvalues">
+        <item>se1</item>
+        <item>se2</item>
+        <item>se3</item>
+    </string-array>
+</resources>
