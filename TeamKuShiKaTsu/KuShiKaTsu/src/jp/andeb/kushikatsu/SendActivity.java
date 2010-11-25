@@ -360,7 +360,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
         conn.setContext(this, listener);
 
         startProgress();
-        setProgressMessage(R.string.progress_msg_prepare);
+        setProgressMessage(R.string.progress_msg_preparing);
         felica_ = conn.connect();
         if (felica_ != null) {
             final Felica felica = felica_;

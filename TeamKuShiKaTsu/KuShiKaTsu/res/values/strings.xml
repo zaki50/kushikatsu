@@ -4,7 +4,8 @@
   <string name="app_name">KuShiKaTsu</string>
   <string name="sender_name">KuShiKaTsu Sender</string>
   <string name="progress_title">FeliCa Push</string>
-  <string name="progress_msg_prepare">preparing FeliCa device.</string>
+
+  <string name="progress_msg_preparing">preparing FeliCa device.</string>
 
   <string name="site_url">http://sites.google.com/site/94katsu/</string>
 
