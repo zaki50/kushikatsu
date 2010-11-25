@@ -40,11 +40,13 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources.NotFoundException;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.felicanetworks.mfc.AppInfo;
@@ -99,7 +101,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
         private static final int SEND_TIMEOUT_DEFAULT = 10; /* sec */
 
         private static final String SOUND_ON_SENT = "SOUND_ON_SENT";
-        private static final String SOUND_ON_SENT_DEFAULT = "se9";
+		// private static final String SOUND_ON_SENT_DEFAULT = "se9";
     }
 
     /**
@@ -177,6 +179,11 @@ public class SendActivity extends Activity implements FelicaEventListener {
      */
     private long timeoutOfSending_;
 
+	/**
+	 * 共通設定アクセス。
+	 */
+	private SharedPreferences sPreferences;
+
     /**
      * {@link Activity} が初期化される際の処理を実装するメソッドです。
      */
@@ -187,6 +194,9 @@ public class SendActivity extends Activity implements FelicaEventListener {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.send);
+
+		sPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
     }
 
     /**
@@ -252,7 +262,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
             String soundName = initiatorIntent
                     .getStringExtra(CommonParam.SOUND_ON_SENT);
             if (soundName == null) {
-                soundName = CommonParam.SOUND_ON_SENT_DEFAULT;
+				soundName = sPreferences.getString(PrefActivity.KEY_SOUND_PATTERN, "se1");
             }
             soundOnSent_ = getSoundResId(soundName);
             contextOfSoundOnSent_ = this;
@@ -281,8 +291,8 @@ public class SendActivity extends Activity implements FelicaEventListener {
         }
     }
 
-    private boolean isValidAudioResource(@CheckForNull Context context,
-            int resId) {
+    private boolean isValidAudioResource(@CheckForNull final Context context,
+            final int resId) {
         if (context == null) {
             return false;
         }
@@ -295,7 +305,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
         }
     }
 
-    private int getSoundResId(String soundName) {
+    private int getSoundResId(final String soundName) {
         final Integer soundResId = SOUND_ID_MAP.get(soundName);
         if (soundResId == null) {
             // 存在しない名前のリソース
@@ -552,7 +562,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
      * @param resultCode
      * リザルトコード。
      */
-    private void setResultWithLog(int resultCode) {
+    private void setResultWithLog(final int resultCode) {
         Log.d(TAG, "set result code: " + resultCode);
         setResult(resultCode);
     }
