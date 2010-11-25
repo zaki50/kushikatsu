@@ -13,50 +13,49 @@ import android.preference.Preference.OnPreferenceChangeListener;
 
 public class PrefActivity extends PreferenceActivity {
 
-	/** サウンドモード */
-	public static final String KEY_SOUND_MODE = "sound_mode";
-	/** 着信音のボリュームを使用 */
-	public static final String KEY_SAME_RINGER_MODE = "same_ringer_mode";
-	/** 振動モード */
-	public static final String KEY_VIBRATION_MODE = "vibration_mode";
-	/** バージョン番号 */
-	public static final String KEY_VERSION_NUMBER = "version_number";
-	/** サウンドパターン */
-	public static final String KEY_SOUND_PATTERN = "sound_pattern";
+    /** サウンドモード */
+    public static final String KEY_SOUND_MODE = "sound_mode";
+    /** 着信音のボリュームを使用 */
+    public static final String KEY_SAME_RINGER_MODE = "same_ringer_mode";
+    /** 振動モード */
+    public static final String KEY_VIBRATION_MODE = "vibration_mode";
+    /** バージョン番号 */
+    public static final String KEY_VERSION_NUMBER = "version_number";
+    /** サウンドパターン */
+    public static final String KEY_SOUND_PATTERN = "sound_pattern";
 
-	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.pref);
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        addPreferencesFromResource(R.xml.pref);
 
-		// バージョン情報設定
-		String versionName = "";
-		PackageManager pm = getPackageManager();
-		try {
-			PackageInfo info = null;
-			info = pm.getPackageInfo(this.getPackageName(), 0);
-			versionName = info.versionName;
-		} catch (NameNotFoundException e) {
-		}
-		
-		PreferenceScreen screenPref = (PreferenceScreen) findPreference(KEY_VERSION_NUMBER);
-		screenPref.setSummary(versionName);
-		
-		// サウンドパターンのリスナー登録
-		ListPreference soundPatternList = (ListPreference) findPreference(KEY_SOUND_PATTERN);
-		soundPatternList.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+        // バージョン情報設定
+        String versionName = "";
+        PackageManager pm = getPackageManager();
+        try {
+            PackageInfo info = null;
+            info = pm.getPackageInfo(this.getPackageName(), 0);
+            versionName = info.versionName;
+        } catch (NameNotFoundException e) {
+        }
 
-			@Override
-			public boolean onPreferenceChange(final Preference preference, final Object newValue) {
-				CharSequence cs = (CharSequence) newValue;
-				int id = getResources().getIdentifier(cs.toString(), "raw", getPackageName());
+        PreferenceScreen screenPref = (PreferenceScreen) findPreference(KEY_VERSION_NUMBER);
+        screenPref.setSummary(versionName);
 
-				MediaPlayer mediaPlayer = MediaPlayer.create(PrefActivity.this, id);
-				mediaPlayer.start();
-				mediaPlayer = null;
-				return true;
-			}
-		});
-	}
+        // サウンドパターンのリスナー登録
+        ListPreference soundPatternList = (ListPreference) findPreference(KEY_SOUND_PATTERN);
+        soundPatternList.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 
+            @Override
+            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
+                CharSequence cs = (CharSequence) newValue;
+                int id = getResources().getIdentifier(cs.toString(), "raw", getPackageName());
+
+                MediaPlayer mediaPlayer = MediaPlayer.create(PrefActivity.this, id);
+                mediaPlayer.start();
+                mediaPlayer = null;
+                return true;
+            }
+        });
+    }
 }
