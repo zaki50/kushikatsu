@@ -28,6 +28,7 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
+import android.view.Window;
 
 public class PrefActivity extends PreferenceActivity {
 
@@ -44,8 +45,13 @@ public class PrefActivity extends PreferenceActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_LEFT_ICON);
         super.onCreate(savedInstanceState);
+        setFeatureDrawableResource(Window.FEATURE_LEFT_ICON,
+                R.drawable.icon);
+
         addPreferencesFromResource(R.xml.pref);
+
 
         // バージョン情報設定
         String versionName = "";
