@@ -129,9 +129,9 @@ enum ActionType {
      * {@code ACTION} 文字列。 {@code null} 禁止。
      * @return
      * 指定された文字列に対応する {@link ActionType} オブジェクト。
-     * @throws IllegalArgumentException
-     * 対応する {@code ActionType} が存在しない場合。
+     * 対応する {@code ActionType} が存在しない場合は {@code null}。
      */
+    @CheckForNull
     public static ActionType of(String actionString) {
         if (FELICA_INTENT.getActionString().equals(actionString)) {
             return FELICA_INTENT;
@@ -142,6 +142,6 @@ enum ActionType {
         if (FELICA_MAILER.getActionString().equals(actionString)) {
             return FELICA_MAILER;
         }
-        throw new IllegalArgumentException("invalid action: " + actionString);
+        return null;
     }
 }

@@ -209,15 +209,23 @@ public class SendActivity extends Activity implements FelicaEventListener {
 
         final Intent initiatorIntent = getIntent();
         if (initiatorIntent == null) {
+            Log.e(TAG, "initiator intent is null.");
             setResultWithLog(RESULT_INVALID_EXTRA);
             finish();
             return;
         }
 
-        final ActionType type = ActionType.of(initiatorIntent.getAction());
+        final String action = initiatorIntent.getAction();
+        final ActionType type = ActionType.of(action);
+        if (type == null) {
+            Log.e(TAG, "unsupported initiator action: " + action);
+            setResultWithLog(RESULT_INVALID_EXTRA);
+            finish();
+            return;
+        }
         final PushSegment segment = type.extractSegment(initiatorIntent);
-
         if (segment == null) {
+            Log.e(TAG, "failed to create PushSegment.");
             setResultWithLog(RESULT_INVALID_EXTRA);
             finish();
             return;
