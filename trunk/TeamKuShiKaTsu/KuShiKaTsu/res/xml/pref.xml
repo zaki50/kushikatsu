@@ -1,35 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
   xmlns:android="http://schemas.android.com/apk/res/android">
-	<PreferenceCategory android:title="Sound">
-		<CheckBoxPreference android:summaryOn="on"
-			android:summaryOff="off" android:key="sound_mode" android:title="Sound"
-			android:enabled="true" android:defaultValue="true" />
 
-		<CheckBoxPreference android:summaryOn="on"
-			android:summaryOff="off" android:key="same_ringer_mode" android:title="Same ringer volume"
-				android:enabled="true" android:defaultValue="true" android:dependency="sound_mode" />
-	
-		<ListPreference android:key="sound_pattern" android:title="サウンドの選択"
-			 android:dialogTitle="サウンドの選択"
-			android:entries="@array/sound_pattern_entries" android:entryValues="@array/sound_pattern_entryvalues" />
-		
-		<CheckBoxPreference android:summaryOn="on"
-			android:summaryOff="off" android:key="vibration_mode" android:title="Vibration"
-			android:enabled="true" android:defaultValue="true" />
-			
+  <PreferenceCategory android:title="@string/pref_category_sound">
+    <CheckBoxPreference
+      android:title="@string/pref_title_sound"
+      android:summaryOn="@string/on"
+      android:summaryOff="@string/off"
+      android:enabled="true"
+      android:key="sound_mode"
+      android:defaultValue="true" />
+    <CheckBoxPreference
+      android:title="@string/pref_title_follow_ringer_volume"
+      android:summaryOn="@string/on"
+      android:summaryOff="@string/off"
+      android:enabled="true"
+      android:key="same_ringer_mode"
+      android:defaultValue="true"
+      android:dependency="sound_mode" />
+    <ListPreference
+      android:title="@string/pref_title_select_sound"
+      android:key="sound_pattern"
+      android:dialogTitle="@string/pref_title_select_sound"
+      android:entries="@array/sound_pattern_entries"
+      android:entryValues="@array/sound_pattern_entryvalues" />
+    <CheckBoxPreference
+      android:title="@string/pref_title_vibration"
+      android:summaryOn="@string/on"
+      android:summaryOff="@string/off"
+      android:enabled="true"
+      android:key="vibration_mode"
+      android:defaultValue="true" />
+  </PreferenceCategory>
 
-</PreferenceCategory>
-
-	<PreferenceCategory android:title="About">
-		<PreferenceScreen android:title="Help">
-			<intent android:action="android.intent.action.VIEW"
-				android:data="@string/site_url" />
-		</PreferenceScreen>
-
-		<PreferenceScreen android:key="version_number"
-			android:title="@string/version">
-		</PreferenceScreen>
-	</PreferenceCategory>
+  <PreferenceCategory
+    android:title="@string/pref_category_about">
+    <PreferenceScreen android:title="@string/pref_title_help">
+      <intent
+        android:action="android.intent.action.VIEW"
+        android:data="@string/site_url" />
+    </PreferenceScreen>
+    <PreferenceScreen
+      android:title="@string/pref_title_version"
+      android:key="version_number" >
+    </PreferenceScreen>
+  </PreferenceCategory>
 
 </PreferenceScreen>
