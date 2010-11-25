@@ -484,7 +484,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
     public void errorOccurred(final int id, final String msg,
             final AppInfo otherAppInfo) {
         Log.i(TAG, "failed to activate FeliCa");
-        // FIXME エラーコードを正しくセットする
+        // FIXME エラーコードを正しくセットする <- activate 失敗以外でも呼ばれそうなので要確認
         finish();
     }
 
