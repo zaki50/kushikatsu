@@ -73,17 +73,17 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  * <ul>
  *   <li>{@link Activity#RESULT_OK}({@code =-1})</li>
  *   <li>{@link Activity#RESULT_CANCELED}({@code =0})</li>
- *   <li>{@link KushikatsuHelper#RESULT_UNEXPECTED_ERROR}({@code =}{@value jp.andeb.kushikatsu.helper.KushikatsuHelper#RESULT_UNEXPECTED_ERROR})</li>
- *   <li>{@link KushikatsuHelper#RESULT_INVALID_EXTRA}({@code =}{@value jp.andeb.kushikatsu.helper.KushikatsuHelper#RESULT_INVALID_EXTRA})</li>
- *   <li>{@link KushikatsuHelper#RESULT_DEVICE_NOT_FOUND}({@code =}{@value jp.andeb.kushikatsu.helper.KushikatsuHelper#RESULT_DEVICE_NOT_FOUND})</li>
- *   <li>{@link KushikatsuHelper#RESULT_DEVICE_IN_USE}({@code =}{@value jp.andeb.kushikatsu.helper.KushikatsuHelper#RESULT_DEVICE_IN_USE})</li>
- *   <li>{@link KushikatsuHelper#RESULT_TOO_BIG}({@code =}{@value jp.andeb.kushikatsu.helper.KushikatsuHelper#RESULT_TOO_BIG})</li>
- *   <li>{@link KushikatsuHelper#RESULT_TIMEOUT}({@code =}{@value jp.andeb.kushikatsu.helper.KushikatsuHelper#RESULT_TIMEOUT})</li>
- *   <li>{@link KushikatsuHelper#RESULT_NOT_INITIALIZED}({@code =}{@value jp.andeb.kushikatsu.helper.KushikatsuHelper#RESULT_NOT_INITIALIZED})</li>
- *   <li>{@link KushikatsuHelper#RESULT_DEVICE_LOCKED}({@code =}{@value jp.andeb.kushikatsu.helper.KushikatsuHelper#RESULT_DEVICE_LOCKED})</li>
+ *   <li>{@link KushikatsuHelper#RESULT_UNEXPECTED_ERROR}</li>
+ *   <li>{@link KushikatsuHelper#RESULT_INVALID_EXTRA}</li>
+ *   <li>{@link KushikatsuHelper#RESULT_DEVICE_NOT_FOUND}</li>
+ *   <li>{@link KushikatsuHelper#RESULT_DEVICE_IN_USE}</li>
+ *   <li>{@link KushikatsuHelper#RESULT_TOO_BIG}</li>
+ *   <li>{@link KushikatsuHelper#RESULT_TIMEOUT}</li>
+ *   <li>{@link KushikatsuHelper#RESULT_NOT_INITIALIZED}</li>
+ *   <li>{@link KushikatsuHelper#RESULT_DEVICE_LOCKED}</li>
  * </ul>
  *
- * @author YAMAZAKI Makoto <makoto1975@gmail.com>
+ * @author YAMAZAKI Makoto &lt;<a href="mailto:makoto1975@gmail.com" >makoto1975@gmail.com</a>&gt;
  */
 @DefaultAnnotation(NonNull.class)
 public class SendActivity extends Activity implements FelicaEventListener {
