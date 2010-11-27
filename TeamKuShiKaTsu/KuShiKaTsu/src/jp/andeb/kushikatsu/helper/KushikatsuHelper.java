@@ -18,7 +18,15 @@
 package jp.andeb.kushikatsu.helper;
 
 import static android.app.Activity.RESULT_FIRST_USER;
+
+import java.util.List;
+
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 
 /**
  * {@code KuShiKaTsu} を呼び出す際に有用な定数とメソッドを提供するクラスです。
@@ -87,12 +95,53 @@ public final class KushikatsuHelper {
      * KuShiKaTsu がもサウンドの名前({@value #SOUND_3})の定数です。
      */
     public static final String SOUND_3 = "se3";
-    /**
-     * KuShiKaTsu がもサウンドの名前({@value #SOUND_4})の定数です。
-     */
-    public static final String SOUND_4 = "se4";
 
     private KushikatsuHelper() {
         throw new AssertionError("instatiation prohibited.");
     }
+    
+    /**
+     * KuShiKaTsuインストールチェック。
+     * 
+     * @param context
+     * @return インストール済み可否
+     */
+    public static boolean isKushikatsuInstalled(final Context context) {
+        PackageManager pm = context.getPackageManager();
+
+        List<ResolveInfo> resolveInfo = pm.queryIntentActivities(
+                new Intent("jp.andeb.kushikatsu.FELICA_INTENT"),
+                PackageManager.MATCH_DEFAULT_ONLY);
+
+        if (resolveInfo.size() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * KuShiKaTsuのマーケット画面を表示する。
+     * 
+     * @param context
+     */
+    public static void startKushikatsuInstall(final Context context) {
+        Uri uri = Uri.parse("market://details?id=jp.andeb.kushikatsu");
+        Intent i = new Intent(Intent.ACTION_VIEW, uri);
+        context.startActivity(i);
+    }
+
+    public static void startKushikatsuForResult(final Activity activity, final Intent intent, final int requestCode) {
+        Context context = activity.getBaseContext();
+
+        if (isKushikatsuInstalled(activity.getBaseContext())) {
+            // インストール済みの場合
+            activity.startActivityForResult(intent, requestCode);
+
+        }else{
+            // 未インストールの場合
+            startKushikatsuInstall(context);
+        }
+    }
+
 }
