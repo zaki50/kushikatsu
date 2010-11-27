@@ -46,6 +46,7 @@ import android.content.res.Resources.NotFoundException;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -525,13 +526,24 @@ public class SendActivity extends Activity implements FelicaEventListener {
                 felica.push(segment);
                 Log.i(TAG, "FeliCa message has been sent successfully.");
 
-                if (0 < soundOnSent_) {
-                    assert contextOfSoundOnSent_ != null;
-                    final MediaPlayer mediaPlayer = MediaPlayer.create(
-                            contextOfSoundOnSent_, soundOnSent_);
-                    mediaPlayer
-                            .setOnCompletionListener(RELEASE_PLAYER_LISTENER);
-                    mediaPlayer.start();
+                // sound
+                boolean soundMode = sPreferences.getBoolean(PrefActivity.KEY_SOUND_MODE, true);
+                if (soundMode) {
+                    if (0 < soundOnSent_) {
+                        assert contextOfSoundOnSent_ != null;
+                        final MediaPlayer mediaPlayer = MediaPlayer.create(contextOfSoundOnSent_, soundOnSent_);
+                        mediaPlayer.setOnCompletionListener(RELEASE_PLAYER_LISTENER);
+                        mediaPlayer.start();
+                    }
+                }
+                // 振動
+                boolean vibrateMode = sPreferences.getBoolean(PrefActivity.KEY_VIBRATION_MODE, true);
+                if (vibrateMode) {
+                    Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                    long[] pattern = {
+                            1000, 0, 1000, 0, 2000,
+                    };
+                    vibrator.vibrate(pattern, 0);
                 }
 
                 return RESULT_OK;
