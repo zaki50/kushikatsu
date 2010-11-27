@@ -10,6 +10,7 @@
       android:enabled="true"
       android:key="sound_mode"
       android:defaultValue="true" />
+      <!-- 
     <CheckBoxPreference
       android:title="@string/pref_title_follow_ringer_volume"
       android:summaryOn="@string/on"
@@ -17,7 +18,9 @@
       android:enabled="true"
       android:key="same_ringer_mode"
       android:defaultValue="true"
-      android:dependency="sound_mode" />
+      android:dependency="sound_mode"
+      />
+       -->
     <ListPreference
       android:title="@string/pref_title_select_sound"
       android:key="sound_pattern"
