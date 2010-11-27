@@ -19,8 +19,6 @@
   package="jp.andeb.kushikatsu" android:versionCode="1" android:versionName="1.0.0">
   <application android:icon="@drawable/icon" android:label="@string/app_name"
     android:debuggable="true">
-    <activity android:name=".InfoActivity" android:label="@string/app_name">
-    </activity>
 
     <activity android:name=".SendActivity" android:label="@string/sender_name"
       android:theme="@android:style/Theme.Translucent.NoTitleBar">
