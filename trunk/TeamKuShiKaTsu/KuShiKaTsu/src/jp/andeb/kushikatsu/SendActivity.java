@@ -34,17 +34,19 @@ import java.util.MissingResourceException;
 import java.util.concurrent.TimeUnit;
 
 import jp.andeb.kushikatsu.helper.KushikatsuHelper;
-import jp.andeb.kushikatsu.util.FelicaServiceConnection;
 import jp.andeb.kushikatsu.util.FelicaUtil;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources.NotFoundException;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -188,9 +190,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
     /**
      * 振動パターン設定
      */
-    private static final long[] pattern = {
-            0, 200
-    };
+    private static final long[] pattern = { 0, 200 };
 
     /**
      * {@link Activity} が初期化される際の処理を実装するメソッドです。
@@ -336,49 +336,34 @@ public class SendActivity extends Activity implements FelicaEventListener {
          */
         setResult(RESULT_UNEXPECTED_ERROR);
 
-        final FelicaServiceConnection conn;
-        conn = FelicaServiceConnection.getInstance();
-        final FelicaServiceConnection.Listener listener = new FelicaServiceConnection.Listener() {
-            @Override
-            public void connected(final Felica felica) {
-                SendActivity.this.felica_ = felica;
-                Log.i(TAG, "connected to FeliCa service");
-                try {
-                    Log.i(TAG, "activating FeliCa");
-                    felica.activateFelica(null, SendActivity.this);
-                } catch (IllegalArgumentException e) {
-                    Log.e(TAG, e.getClass().getSimpleName()
-                            + " thrown on activateFelica()", e);
-                    setResultWithLog(RESULT_UNEXPECTED_ERROR);
-                    finish();
-                } catch (FelicaException e) {
-                    final int resultCode = FelicaUtil.logAndGetResultCode(TAG,
-                            e, "activateFelica()");
-                    setResultWithLog(resultCode);
-                    finish();
-                }
-            }
-
-            @Override
-            public void disconnected() {
-                Log.i(TAG, "disconnected from Felica Service.");
-                finish();
-            }
-        };
-        conn.setContext(this, listener);
-
         startProgress();
         setProgressMessage(R.string.progress_msg_preparing);
-        felica_ = conn.connect();
-        if (felica_ != null) {
-            final Felica felica = felica_;
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    listener.connected(felica);
-                }
-            }).start();
+        final boolean connecting = connect();
+        if (!connecting) {
+            setResultWithLog(RESULT_UNEXPECTED_ERROR);
+            dismissProgress();
+            finish();
         }
+    }
+
+    /**
+     * サービスへのバインドを開始し、{@link Felica} インスタンス獲得処理を開始します。
+     *
+     * @return
+     * サービスのバインドを開始した場合は {@code true}、開始できなかった場合は {@code false}
+     * を返します。 {@code true} を返した場合は、 {@link #service_} の
+     * {@code onServiceConnected(ComponentName, IBinder)} が呼び出されます。
+     */
+    @CheckForNull
+    public boolean connect() {
+        if (felica_ != null) {
+            throw new IllegalStateException("already connected to FeliCa.");
+        }
+        final Intent intent = new Intent();
+        intent.setClass(this, Felica.class);
+        final boolean result = bindService(intent, service_,
+                Context.BIND_AUTO_CREATE);
+        return result;
     }
 
     /**
@@ -387,11 +372,61 @@ public class SendActivity extends Activity implements FelicaEventListener {
     @Override
     protected void onPause() {
         Log.d(TAG, "enter onPause(): " + hashCode());
-        super.onPause();
+        try {
+            super.onPause();
 
-        FelicaServiceConnection.getInstance().disconnect();
-        dismissProgress();
+            final Felica felica = felica_;
+            felica_ = null;
+            if (felica != null) {
+                unbindService(service_);
+            }
+        } finally {
+            dismissProgress();
+        }
     }
+
+    /**
+     * {@code Felica} サービスとの接続を管理するクラスです。
+     */
+    private final ServiceConnection service_ = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            final Felica felica = ((Felica.LocalBinder) service).getInstance();
+            felica_ = felica;
+            if (felica == null) {
+                // ありえないけど念のため
+                setResultWithLog(RESULT_UNEXPECTED_ERROR);
+                finish();
+                return;
+            }
+
+            Log.i(TAG, "connected to FeliCa service");
+            try {
+                Log.i(TAG, "activating FeliCa");
+                felica.activateFelica(null, SendActivity.this);
+            } catch (IllegalArgumentException e) {
+                Log.e(TAG, e.getClass().getSimpleName()
+                        + " thrown on activateFelica()", e);
+                setResultWithLog(RESULT_UNEXPECTED_ERROR);
+                finish();
+            } catch (FelicaException e) {
+                final int resultCode = FelicaUtil.logAndGetResultCode(TAG, e,
+                        "activateFelica()");
+                setResultWithLog(resultCode);
+                finish();
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            final Felica felica = felica_;
+            if (felica != null) {
+                setResultWithLog(RESULT_UNEXPECTED_ERROR);
+                finish();
+            }
+            felica_ = null;
+        }
+    };
 
     /**
      * プログレスダイアログを表示します。
@@ -530,21 +565,26 @@ public class SendActivity extends Activity implements FelicaEventListener {
                 && retryCount < RETRY_LIMIT) {
             try {
                 // Push送信
+                //setProgressMessage(R.string.progress_msg_sending);
                 felica.push(segment);
                 Log.i(TAG, "FeliCa message has been sent successfully.");
 
                 // sound
-                boolean soundMode = sPreferences.getBoolean(PrefActivity.KEY_SOUND_MODE, true);
+                boolean soundMode = sPreferences.getBoolean(
+                        PrefActivity.KEY_SOUND_MODE, true);
                 if (soundMode) {
                     if (0 < soundOnSent_) {
                         assert contextOfSoundOnSent_ != null;
-                        final MediaPlayer mediaPlayer = MediaPlayer.create(contextOfSoundOnSent_, soundOnSent_);
-                        mediaPlayer.setOnCompletionListener(RELEASE_PLAYER_LISTENER);
+                        final MediaPlayer mediaPlayer = MediaPlayer.create(
+                                contextOfSoundOnSent_, soundOnSent_);
+                        mediaPlayer
+                                .setOnCompletionListener(RELEASE_PLAYER_LISTENER);
                         mediaPlayer.start();
                     }
                 }
                 // 振動
-                boolean vibrateMode = sPreferences.getBoolean(PrefActivity.KEY_VIBRATION_MODE, true);
+                boolean vibrateMode = sPreferences.getBoolean(
+                        PrefActivity.KEY_VIBRATION_MODE, true);
                 if (vibrateMode) {
                     Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                     vibrator.vibrate(pattern, -1);
@@ -581,4 +621,5 @@ public class SendActivity extends Activity implements FelicaEventListener {
         Log.d(TAG, "set result code: " + resultCode);
         setResult(resultCode);
     }
+
 }
