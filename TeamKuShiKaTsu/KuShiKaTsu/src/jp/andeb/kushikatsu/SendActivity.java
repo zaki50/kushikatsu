@@ -46,6 +46,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources.NotFoundException;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.os.Vibrator;
@@ -337,7 +338,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
         setResult(RESULT_UNEXPECTED_ERROR);
 
         startProgress();
-        setProgressMessage(R.string.progress_msg_preparing);
+        setProgressMessage(getString(R.string.progress_msg_preparing));
         final boolean connecting = connect();
         if (!connecting) {
             setResultWithLog(RESULT_UNEXPECTED_ERROR);
@@ -450,6 +451,8 @@ public class SendActivity extends Activity implements FelicaEventListener {
         progress_ = progress;
     }
 
+    private final Handler progressMessageHandler_ = new Handler();
+
     /**
      * プログレスダイアログのメッセージをセットします。
      *
@@ -462,12 +465,17 @@ public class SendActivity extends Activity implements FelicaEventListener {
      * @throws MissingResourceException
      * 指定された識別子のリソースが存在しない場合。
      */
-    private void setProgressMessage(final int resId) {
+    private void setProgressMessage(final String message) {
         final ProgressDialog progress = progress_;
         if (progress == null) {
             return;
         }
-        progress.setMessage(getString(resId));
+        progressMessageHandler_.post(new Runnable() {
+            @Override
+            public void run() {
+                progress.setMessage(message);
+            }
+        });
     }
 
     /**
@@ -561,13 +569,22 @@ public class SendActivity extends Activity implements FelicaEventListener {
         Log.d(TAG, "sending FeliCa message");
         int retryCount = 0;
         final long startTime = SystemClock.uptimeMillis();
-        while (SystemClock.uptimeMillis() - startTime < timeoutOfSending_
+        long now;
+        while ((now = SystemClock.uptimeMillis()) - startTime < timeoutOfSending_
                 && retryCount < RETRY_LIMIT) {
             try {
+                // 送信中メッセージ
+                setProgressMessage(getString(
+                        R.string.progress_msg_sending_with_remaining_time,
+                        Long.valueOf(TimeUnit.MILLISECONDS
+                                .toSeconds(timeoutOfSending_
+                                        - (now - startTime)))));
                 // Push送信
-                //setProgressMessage(R.string.progress_msg_sending);
                 felica.push(segment);
                 Log.i(TAG, "FeliCa message has been sent successfully.");
+
+                // 送信完了メッセージ
+                setProgressMessage(getString(R.string.progress_msg_sent));
 
                 // sound
                 boolean soundMode = sPreferences.getBoolean(

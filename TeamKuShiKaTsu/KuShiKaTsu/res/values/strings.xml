@@ -6,6 +6,8 @@
   <string name="progress_title">FeliCa Push</string>
 
   <string name="progress_msg_preparing">preparing FeliCa device.</string>
+  <string name="progress_msg_sending_with_remaining_time">sending(remaining %1$d sec).</string>
+  <string name="progress_msg_sent">message has been sent.</string>
 
   <string name="site_url">http://sites.google.com/site/94katsu/</string>
 
