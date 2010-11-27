@@ -7,6 +7,8 @@
   <string name="progress_title">FeliCa Push</string>
   -->
   <string name="progress_msg_preparing">FeliCa デバイスを準備中</string>
+  <string name="progress_msg_sending_with_remaining_time">送信中(残り %1$d秒)</string>
+  <string name="progress_msg_sent">送信完了</string>
 
   <string name="site_url">http://sites.google.com/site/94katsu/</string>
 
