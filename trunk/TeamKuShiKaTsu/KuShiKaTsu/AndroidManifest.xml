@@ -40,7 +40,7 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-</application>
+  </application>
 
   <uses-permission android:name="com.felicanetworks.mfc.permission.MFC_ACCESS" />
   <uses-permission android:name="android.permission.VIBRATE"/>
