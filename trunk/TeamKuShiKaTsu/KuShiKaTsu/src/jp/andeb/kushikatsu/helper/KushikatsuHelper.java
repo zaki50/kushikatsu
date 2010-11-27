@@ -37,6 +37,45 @@ import android.net.Uri;
  */
 public final class KushikatsuHelper {
 
+    /**
+     * {@code KuShiKaTsu} のパッケージ名です。
+     */
+    public static final String PACKAGE_NAME = "jp.andeb.kushikatsu";
+
+    /*
+     * ACTION 文字列
+     */
+
+    /**
+     * {@link Intent} を Push 送信する際の {@code Intent} の {@code ACTION} 文字列です。
+     */
+    public static final String ACTION_INTENT = "jp.andeb.kushikatsu.FELICA_INTENT";
+    /**
+     * ブラウザ起動要求を Push 送信する際の {@code Intent} の {@code ACTION} 文字列です。
+     */
+    public static final String ACTION_BROWSER = "jp.andeb.kushikatsu.FELICA_BROWSER";
+    /**
+     * メーラ起動要求を Push 送信する際の {@code Intent} の {@code ACTION} 文字列です。
+     */
+    public static final String ACTION_MAILER = "jp.andeb.kushikatsu.FELICA_MAILER";
+
+    /*
+     * CATEGORY 文字列
+     */
+
+    /**
+     * {@link Intent} を Push 送信する際の {@code Intent} の {@code CATEGORY} 文字列です。
+     */
+    public static final String CATEGORY_INTENT = "android.intent.category.DEFAULT";
+    /**
+     * ブラウザ起動要求を Push 送信する際の {@code Intent} の {@code CATEGORY} 文字列です。
+     */
+    public static final String CATEGORY_BROWSER = "android.intent.category.DEFAULT";
+    /**
+     * メーラ起動要求を Push 送信する際の {@code Intent} の {@code CATEGORY} 文字列です。
+     */
+    public static final String CATEGORY_MAILER = "android.intent.category.DEFAULT";
+
     /*
      * 独自定義の result code 群。ここに定義されているものに加え、標準の result code である
      * RESULT_OK と RESULT_CANCELED も使用します。
@@ -99,49 +138,95 @@ public final class KushikatsuHelper {
     private KushikatsuHelper() {
         throw new AssertionError("instatiation prohibited.");
     }
-    
+
     /**
      * KuShiKaTsuインストールチェック。
-     * 
+     *
+     * <p>
+     * 正確には、 {@code ACTION} が {@value #ACTION_INTENT} である {@link Intent} に
+     * 応答できるアプリが存在するかどうかをチェックします。
+     * </p>
+     *
      * @param context
-     * @return インストール済み可否
+     * パッケージマネージャ取得用のコンテキスト。{@code null} 禁止。
+     * @return
+     * インストールされていれば {@code true}、インストールされていなければ {@code false} を
+     * 返します。
+     * @throws IllegalArgumentException
+     * {@code null} 禁止の引き数に {@code null} を渡した場合。
      */
     public static boolean isKushikatsuInstalled(final Context context) {
-        PackageManager pm = context.getPackageManager();
+        if (context == null) {
+            throw new IllegalArgumentException("'context' must not be null.");
+        }
+        final PackageManager pm = context.getPackageManager();
 
-        List<ResolveInfo> resolveInfo = pm.queryIntentActivities(
-                new Intent("jp.andeb.kushikatsu.FELICA_INTENT"),
+        final Intent intent = new Intent(ACTION_INTENT);
+        final List<ResolveInfo> resolveInfo = pm.queryIntentActivities(intent,
                 PackageManager.MATCH_DEFAULT_ONLY);
 
-        if (resolveInfo.size() > 0) {
-            return true;
-        }
-
-        return false;
+        final boolean result = (!resolveInfo.isEmpty());
+        return result;
     }
 
     /**
      * KuShiKaTsuのマーケット画面を表示する。
-     * 
+     *
      * @param context
+     * マーケット表示のためのアクティビティを起動するためのコンテキスト。{@code null} 禁止。
+     * @throws IllegalArgumentException
+     * {@code null} 禁止の引き数に {@code null} を渡した場合。
      */
     public static void startKushikatsuInstall(final Context context) {
-        Uri uri = Uri.parse("market://details?id=jp.andeb.kushikatsu");
-        Intent i = new Intent(Intent.ACTION_VIEW, uri);
+        if (context == null) {
+            throw new IllegalArgumentException("'context' must not be null.");
+        }
+        final Uri uri = Uri.parse("market://details?id=" + PACKAGE_NAME);
+        final Intent i = new Intent(Intent.ACTION_VIEW, uri);
         context.startActivity(i);
     }
 
-    public static void startKushikatsuForResult(final Activity activity, final Intent intent, final int requestCode) {
-        Context context = activity.getBaseContext();
-
-        if (isKushikatsuInstalled(activity.getBaseContext())) {
-            // インストール済みの場合
-            activity.startActivityForResult(intent, requestCode);
-
-        }else{
-            // 未インストールの場合
-            startKushikatsuInstall(context);
+    /**
+     * KuShiKaTsu がインストールされていれば指定された {@link Intent} でアクティビティを
+     * 開始します。インストールされていない場合はマーケットの KuShiKaTsu ページを表示するための
+     * アクティビティを開始します。
+     *
+     * <p>
+     * インストールされている場合は、{@link Activity#startActivityForResult(Intent, int)}
+     * でアクティビティを開始するので、 {@code activity} の {@code onActivityResult()} で
+     * リザルトコードを受け取ることができます。
+     * </p>
+     * <p>
+     * インストールされていない場合は、 {@link Activity#startActivity(Intent)} でインストール
+     * 用のアクティビティを開始します。
+     * </p>
+     *
+     * @param activity
+     * 起動元となるアクティビティ。KuShiKaTsu が起動された場合、このアクティビティが処理結果を
+     * 受け取ります。
+     * @param intent
+     * KuShiKaTsu を起動するための {@link Intent}。 {@code null} 禁止。
+     * @param requestCode
+     * KuShiKaTsu のアクティビティを起動する際のリクエストコード。
+     * @return
+     * KuShiKaTsu を起動したかどうか。起動した場合は {@code true}、インストール用の画面を
+     * 開くアクティビティを起動した場合は {@code false}。
+     * @throws IllegalArgumentException
+     * {@code null} 禁止の引き数に {@code null} を渡した場合。
+     */
+    public static boolean startKushikatsuForResult(final Activity activity,
+            final Intent intent, final int requestCode) {
+        if (activity == null) {
+            throw new IllegalArgumentException("'activity' must not be null.");
         }
+        if (!isKushikatsuInstalled(activity)) {
+            // 未インストールの場合
+            startKushikatsuInstall(activity);
+            return false;
+        }
+        // インストール済みの場合
+        activity.startActivityForResult(intent, requestCode);
+        return true;
     }
 
 }
