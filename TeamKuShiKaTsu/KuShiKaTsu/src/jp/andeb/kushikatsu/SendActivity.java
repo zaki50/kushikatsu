@@ -186,6 +186,13 @@ public class SendActivity extends Activity implements FelicaEventListener {
     private SharedPreferences sPreferences;
 
     /**
+     * 振動パターン設定
+     */
+    private static final long[] pattern = {
+            0, 200
+    };
+
+    /**
      * {@link Activity} が初期化される際の処理を実装するメソッドです。
      */
     @Override
@@ -540,10 +547,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
                 boolean vibrateMode = sPreferences.getBoolean(PrefActivity.KEY_VIBRATION_MODE, true);
                 if (vibrateMode) {
                     Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                    long[] pattern = {
-                            1000, 0, 1000, 0, 2000,
-                    };
-                    vibrator.vibrate(pattern, 0);
+                    vibrator.vibrate(pattern, -1);
                 }
 
                 return RESULT_OK;
