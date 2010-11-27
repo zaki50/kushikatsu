@@ -273,7 +273,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
         if (timeoutSec < 0) {
             timeoutSec = CommonParam.SEND_TIMEOUT_DEFAULT;
         }
-        timeoutOfSending_ = TimeUnit.SECONDS.toMillis(timeoutOfSending_);
+        timeoutOfSending_ = TimeUnit.SECONDS.toMillis(timeoutSec);
     }
 
     @CheckForNull
