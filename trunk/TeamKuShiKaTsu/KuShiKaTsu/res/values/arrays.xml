@@ -11,16 +11,16 @@
         <item>se3</item>
     </string-array>
     <string-array name="result_code_entries">
-        <item>OK(=-1)</item>
-        <item>CANCELED(=0)</item>
-        <item>UNEXPECTED_ERROR(=1)</item>
-        <item>INVALID_EXTRA(=2)</item>
-        <item>DEVICE_NOT_FOUND(=3)</item>
-        <item>DEVICE_IN_USE(=4)</item>
-        <item>TOO_BIG(=5)</item>
-        <item>TIMEOUT(=6)</item>
-        <item>NOT_INITIALIZED(=7)</item>
-        <item>DEVICE_LOCKED(=8)</item>
+        <item>OK(-1)</item>
+        <item>CANCELED(0)</item>
+        <item>UNEXPECTED_ERROR(1)</item>
+        <item>INVALID_EXTRA(2)</item>
+        <item>DEVICE_NOT_FOUND(3)</item>
+        <item>DEVICE_IN_USE(4)</item>
+        <item>TOO_BIG(5)</item>
+        <item>TIMEOUT(6)</item>
+        <item>NOT_INITIALIZED(7)</item>
+        <item>DEVICE_LOCKED(8)</item>
     </string-array>
     <string-array name="result_code_entryvalues">
         <item>-1</item>

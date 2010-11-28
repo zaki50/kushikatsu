@@ -11,15 +11,15 @@
         <item>se3</item>
     </string-array>
     <string-array name="result_code_entries">
-        <item>送信完了(=-1)</item>
-        <item>キャンセル(=0)</item>
-        <item>予期しないエラー(=1)</item>
-        <item>Extraが不正(=2)</item>
-        <item>FeliCaが存在しない(=3)</item>
-        <item>FeliCa使用中(=4)</item>
-        <item>データが大きすぎる(=5)</item>
-        <item>送信タイムアウト(=6)</item>
-        <item>おサイフケータイ未初期化(=7)</item>
-        <item>ICカードロック中(=8)</item>
+        <item>送信完了(-1)</item>
+        <item>キャンセル(0)</item>
+        <item>予期しないエラー(1)</item>
+        <item>Extraが不正(2)</item>
+        <item>FeliCaが存在しない(3)</item>
+        <item>FeliCa使用中(4)</item>
+        <item>データが大きすぎる(5)</item>
+        <item>送信タイムアウト(6)</item>
+        <item>おサイフケータイ未初期化(7)</item>
+        <item>ICカードロック中(8)</item>
     </string-array>
 </resources>

@@ -20,7 +20,7 @@
   <string name="pref_title_help">ヘルプ</string>
   <string name="pref_title_version">バージョン</string>
   <string name="pref_category_development">開発</string>
-  <string name="pref_title_mock_device">モックデバイスを使用する</string>
+  <string name="pref_title_mock_device">擬似デバイスを使用する</string>
   <string name="pref_title_select_result">リザルトコード選択</string>
   <string name="pref_title_select_result_code">リザルトコード</string>
 

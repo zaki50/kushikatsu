@@ -36,7 +36,7 @@
     <ListPreference
       android:title="@string/pref_title_select_result_code"
       android:key="mock_device_result_code"
-      android:dialogTitle="@string/pref_title_select_sound"
+      android:dialogTitle="@string/pref_title_select_result_code"
       android:entries="@array/result_code_entries"
       android:entryValues="@array/result_code_entryvalues"
       android:defaultValue="-1"
