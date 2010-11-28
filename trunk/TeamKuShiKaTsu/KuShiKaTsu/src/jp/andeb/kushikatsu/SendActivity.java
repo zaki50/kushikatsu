@@ -608,26 +608,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
                 // 送信完了メッセージ
                 setProgressMessage(getString(R.string.progress_msg_sent));
 
-                // sound
-                boolean soundMode = sPreferences.getBoolean(
-                        PrefActivity.KEY_SOUND_MODE, true);
-                if (soundMode) {
-                    if (0 < soundOnSent_) {
-                        assert contextOfSoundOnSent_ != null;
-                        final MediaPlayer mediaPlayer = MediaPlayer.create(
-                                contextOfSoundOnSent_, soundOnSent_);
-                        mediaPlayer
-                                .setOnCompletionListener(RELEASE_PLAYER_LISTENER);
-                        mediaPlayer.start();
-                    }
-                }
-                // 振動
-                boolean vibrateMode = sPreferences.getBoolean(
-                        PrefActivity.KEY_VIBRATION_MODE, true);
-                if (vibrateMode) {
-                    Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                    vibrator.vibrate(pattern, -1);
-                }
+                notifyBySoundAndVibrator();
 
                 return RESULT_OK;
             } catch (IllegalArgumentException e) {
@@ -649,6 +630,28 @@ public class SendActivity extends Activity implements FelicaEventListener {
             }
         }
         return RESULT_TIMEOUT;
+    }
+
+    private void notifyBySoundAndVibrator() {
+        // sound
+        boolean soundMode = sPreferences.getBoolean(
+                PrefActivity.KEY_SOUND_MODE, true);
+        if (soundMode) {
+            if (0 < soundOnSent_) {
+                assert contextOfSoundOnSent_ != null;
+                final MediaPlayer mediaPlayer = MediaPlayer.create(
+                        contextOfSoundOnSent_, soundOnSent_);
+                mediaPlayer.setOnCompletionListener(RELEASE_PLAYER_LISTENER);
+                mediaPlayer.start();
+            }
+        }
+        // 振動
+        boolean vibrateMode = sPreferences.getBoolean(
+                PrefActivity.KEY_VIBRATION_MODE, true);
+        if (vibrateMode) {
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(pattern, -1);
+        }
     }
 
     /**
@@ -675,6 +678,9 @@ public class SendActivity extends Activity implements FelicaEventListener {
             SystemClock.sleep(500L);
             if (mockResultCode != RESULT_TIMEOUT) {
                 SystemClock.sleep(1000L);
+                if (mockResultCode == RESULT_OK) {
+                    notifyBySoundAndVibrator();
+                }
                 return null;
             }
 
