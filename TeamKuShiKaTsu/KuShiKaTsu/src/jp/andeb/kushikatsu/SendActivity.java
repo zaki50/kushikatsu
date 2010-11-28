@@ -45,6 +45,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources.NotFoundException;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -339,6 +340,27 @@ public class SendActivity extends Activity implements FelicaEventListener {
 
         startProgress();
         setProgressMessage(getString(R.string.progress_msg_preparing));
+
+        // 擬似デバイスモードかどうか
+        final boolean mockEnabled = sPreferences.getBoolean(
+                PrefActivity.KEY_MOCK_DEVICE_ENABLED, false);
+        if (mockEnabled) {
+            Log.i(TAG, "mock device enabled.");
+
+            final String mockResultCodeStr;
+            mockResultCodeStr = sPreferences.getString(
+                    PrefActivity.KEY_MOCK_DEVICE_RESULT_CODE, "" + RESULT_OK);
+            int mockResultCode;
+            try {
+                mockResultCode = Integer.parseInt(mockResultCodeStr);
+            } catch (NumberFormatException e) {
+                mockResultCode = RESULT_UNEXPECTED_ERROR;
+            }
+            final MockDeviceAsyncTask task = new MockDeviceAsyncTask();
+            task.execute(Integer.valueOf(mockResultCode));
+            return;
+        }
+
         final boolean connecting = connect();
         if (!connecting) {
             setResultWithLog(RESULT_UNEXPECTED_ERROR);
@@ -637,6 +659,55 @@ public class SendActivity extends Activity implements FelicaEventListener {
     private void setResultWithLog(final int resultCode) {
         Log.d(TAG, "set result code: " + resultCode);
         setResult(resultCode);
+    }
+
+    private final class MockDeviceAsyncTask extends
+            AsyncTask<Integer, Void, Void> {
+
+        @Override
+        @CheckForNull
+        protected Void doInBackground(Integer... args) {
+            Log.d(TAG, "enter doInBackground(): " + hashCode());
+
+            final int mockResultCode = args[0].intValue();
+            setResultWithLog(mockResultCode);
+
+            SystemClock.sleep(500L);
+            if (mockResultCode != RESULT_TIMEOUT) {
+                SystemClock.sleep(1000L);
+                return null;
+            }
+
+            int retryCount = 0;
+            final long startTime = SystemClock.uptimeMillis();
+            long now;
+            while ((now = SystemClock.uptimeMillis()) - startTime < timeoutOfSending_
+                    && retryCount < RETRY_LIMIT) {
+                // 送信中メッセージ
+                setProgressMessage(getString(
+                        R.string.progress_msg_sending_with_remaining_time,
+                        Long.valueOf(TimeUnit.MILLISECONDS
+                                .toSeconds(timeoutOfSending_
+                                        - (now - startTime)))));
+                SystemClock.sleep(100L);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            dismissProgress();
+            finish();
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            dismissProgress();
+            finish();
+        }
+
     }
 
 }
