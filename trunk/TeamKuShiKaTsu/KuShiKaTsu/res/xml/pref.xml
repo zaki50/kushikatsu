@@ -10,17 +10,6 @@
       android:enabled="true"
       android:key="sound_mode"
       android:defaultValue="true" />
-      <!-- 
-    <CheckBoxPreference
-      android:title="@string/pref_title_follow_ringer_volume"
-      android:summaryOn="@string/on"
-      android:summaryOff="@string/off"
-      android:enabled="true"
-      android:key="same_ringer_mode"
-      android:defaultValue="true"
-      android:dependency="sound_mode"
-      />
-       -->
     <ListPreference
       android:title="@string/pref_title_select_sound"
       android:key="sound_pattern"
@@ -34,6 +23,24 @@
       android:enabled="true"
       android:key="vibration_mode"
       android:defaultValue="true" />
+  </PreferenceCategory>
+
+  <PreferenceCategory android:title="@string/pref_category_development">
+    <CheckBoxPreference
+      android:title="@string/pref_title_mock_device"
+      android:summaryOn="@string/on"
+      android:summaryOff="@string/off"
+      android:enabled="true"
+      android:key="mock_device_enabled"
+      android:defaultValue="false" />
+    <ListPreference
+      android:title="@string/pref_title_select_result_code"
+      android:key="mock_device_result_code"
+      android:dialogTitle="@string/pref_title_select_sound"
+      android:entries="@array/result_code_entries"
+      android:entryValues="@array/result_code_entryvalues"
+      android:defaultValue="-1"
+      android:dependency="mock_device_enabled" />
   </PreferenceCategory>
 
   <PreferenceCategory
