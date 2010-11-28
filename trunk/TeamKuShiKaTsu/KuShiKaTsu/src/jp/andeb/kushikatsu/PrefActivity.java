@@ -43,6 +43,11 @@ public class PrefActivity extends PreferenceActivity {
     /** サウンドパターン */
     public static final String KEY_SOUND_PATTERN = "sound_pattern";
 
+    /** 擬似デバイスモード */
+    public static final String KEY_MOCK_DEVICE_ENABLED = "mock_device_enabled";
+    /** 擬似デバイスリザルトコード */
+    public static final String KEY_MOCK_DEVICE_RESULT_CODE = "mock_device_result_code";
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_LEFT_ICON);
