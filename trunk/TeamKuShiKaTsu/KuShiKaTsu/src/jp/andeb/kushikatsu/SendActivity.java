@@ -664,6 +664,9 @@ public class SendActivity extends Activity implements FelicaEventListener {
         setResult(resultCode);
     }
 
+    /**
+     * 擬似デバイスとして動作するときのための処理を実装したクラスです。
+     */
     private final class MockDeviceAsyncTask extends
             AsyncTask<Integer, Void, Void> {
 
