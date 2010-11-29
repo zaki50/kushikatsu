@@ -157,7 +157,7 @@ public final class KushikatsuHelper {
          * </p>
          */
         public static final String EXTRA_MAIL_PARAM = "EXTRA_MAIL_PARAM";
-   }
+    }
 
     /*
      * 独自定義の result code 群。RESULT_OK と RESULT_CANCELED は android が規定
@@ -261,20 +261,12 @@ public final class KushikatsuHelper {
     }
 
     /**
-     * KuShiKaTsuのマーケット画面を表示する。
-     *
-     * @param context
-     * マーケット表示のためのアクティビティを起動するためのコンテキスト。{@code null} 禁止。
-     * @throws IllegalArgumentException
-     * {@code null} 禁止の引き数に {@code null} を渡した場合。
+     * KuShiKaTsuのマーケット画面を表示するための {@link Intent} を構築します。
      */
-    public static void startKushikatsuInstall(final Context context) {
-        if (context == null) {
-            throw new IllegalArgumentException("'context' must not be null.");
-        }
+    public static Intent buildIntentForKushikatsuInstall() {
         final Uri uri = Uri.parse("market://details?id=" + PACKAGE_NAME);
         final Intent i = new Intent(Intent.ACTION_VIEW, uri);
-        context.startActivity(i);
+        return i;
     }
 
     /**
@@ -312,7 +304,8 @@ public final class KushikatsuHelper {
         }
         if (!isKushikatsuInstalled(activity)) {
             // 未インストールの場合
-            startKushikatsuInstall(activity);
+            final Intent intentForInstall = buildIntentForKushikatsuInstall();
+            activity.startActivity(intentForInstall);
             return false;
         }
         // インストール済みの場合
