@@ -17,6 +17,17 @@
  */
 package jp.andeb.kushikatsu;
 
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.SendIntent.EXTRA_INTENT;
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.StartBrowser.EXTRA_BROWSER_PARAM;
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.StartBrowser.EXTRA_URL;
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.StartMailer.EXTRA_CC;
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.StartMailer.EXTRA_EMAIL;
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.StartMailer.EXTRA_MAIL_PARAM;
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.StartMailer.EXTRA_SUBJECT;
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.StartMailer.EXTRA_TEXT;
+import jp.andeb.kushikatsu.helper.KushikatsuHelper.SendIntent;
+import jp.andeb.kushikatsu.helper.KushikatsuHelper.StartBrowser;
+import jp.andeb.kushikatsu.helper.KushikatsuHelper.StartMailer;
 import android.content.Intent;
 import android.os.Parcelable;
 
@@ -36,12 +47,17 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 enum ActionType {
     // インテント送信
     FELICA_INTENT(new Extractor() {
-        private static final String INTENT = "EXTRA_INTENT";
 
+        @Override
+        public String getActionString() {
+            return SendIntent.ACTION;
+        }
+
+        @Override
         @CheckForNull
-        public PushSegment extract(Intent initiatorIntent) {
+        public PushSegment extract(Intent intent) {
             final Parcelable internalIntent;
-            internalIntent = initiatorIntent.getParcelableExtra(INTENT);
+            internalIntent = intent.getParcelableExtra(EXTRA_INTENT);
             if (!(internalIntent instanceof Intent)) {
                 return null;
             }
@@ -52,13 +68,16 @@ enum ActionType {
     }), //
     // ブラウザ起動
     FELICA_BROWSER(new Extractor() {
-        private static final String URL = "EXTRA_URL";
-        private static final String BROWSER_PARAM = "EXTRA_BROWSER_PARAM";
 
-        public PushSegment extract(Intent initiatorIntent) {
-            final String url = initiatorIntent.getStringExtra(URL);
-            final String browserParam = initiatorIntent
-                    .getStringExtra(BROWSER_PARAM);
+        @Override
+        public String getActionString() {
+            return StartBrowser.ACTION;
+        }
+
+        public PushSegment extract(Intent intent) {
+            final String url = intent.getStringExtra(EXTRA_URL);
+            final String browserParam = intent
+                    .getStringExtra(EXTRA_BROWSER_PARAM);
             if (url == null || url.length() == 0) {
                 return null;
             }
@@ -70,18 +89,18 @@ enum ActionType {
     }), //
     // メーラ起動
     FELICA_MAILER(new Extractor() {
-        private static final String EMAIL = "EXTRA_EMAIL";
-        private static final String CC = "EXTRA_CC";
-        private static final String SUBJECT = "EXTRA_SUBJECT";
-        private static final String TEXT = "EXTRA_TEXT";
-        private static final String MAIL_PARAM = "EXTRA_MAIL_PARAM";
 
-        public PushSegment extract(Intent initiatorIntent) {
-            final String[] to = initiatorIntent.getStringArrayExtra(EMAIL);
-            final String[] cc = initiatorIntent.getStringArrayExtra(CC);
-            final String subject = initiatorIntent.getStringExtra(SUBJECT);
-            final String body = initiatorIntent.getStringExtra(TEXT);
-            final String param = initiatorIntent.getStringExtra(MAIL_PARAM);
+        @Override
+        public String getActionString() {
+            return StartMailer.ACTION;
+        }
+
+        public PushSegment extract(Intent intent) {
+            final String[] to = intent.getStringArrayExtra(EXTRA_EMAIL);
+            final String[] cc = intent.getStringArrayExtra(EXTRA_CC);
+            final String subject = intent.getStringExtra(EXTRA_SUBJECT);
+            final String body = intent.getStringExtra(EXTRA_TEXT);
+            final String param = intent.getStringExtra(EXTRA_MAIL_PARAM);
 
             final PushStartMailerSegment segment;
             segment = new PushStartMailerSegment(to, cc, subject, body, param);
@@ -91,16 +110,15 @@ enum ActionType {
     ;
 
     private static interface Extractor {
+        public String getActionString();
+
         @CheckForNull
         public PushSegment extract(Intent initiatorIntent);
     }
 
-    // ACTION 文字列
-    private final String action_;
     private final Extractor segmentExtractor_;
 
     private ActionType(Extractor segmentExtractor) {
-        action_ = SendActivity.class.getPackage().getName() + "." + name();
         segmentExtractor_ = segmentExtractor;
     }
 
@@ -110,7 +128,7 @@ enum ActionType {
      * {@code ACTION} 文字列。
      */
     public String getActionString() {
-        return action_;
+        return segmentExtractor_.getActionString();
     }
 
     @CheckForNull
