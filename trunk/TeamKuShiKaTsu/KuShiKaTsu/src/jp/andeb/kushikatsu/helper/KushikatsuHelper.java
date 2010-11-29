@@ -270,6 +270,97 @@ public final class KushikatsuHelper {
     }
 
     /**
+     * 相手端末に {@link Intent} を送信するための {@link Intent} を構築します。
+     *
+     * @param remoteIntent
+     * 相手端末に送信される {@link Intent}。{@code null} 禁止。
+     * @return
+     * KuShiKaTsu を使用して相手端末に {@link Intent} を送信するための {@link Intent}。
+     * @throws IllegalArgumentException
+     * {@code null} 禁止の引き数に {@code null} が渡された場合。
+     */
+    public static Intent buildIntentForSendIntent(Intent remoteIntent) {
+        if (remoteIntent == null) {
+            throw new IllegalArgumentException(
+                    "'remoteIntent' must not be null.");
+        }
+        final Intent intent = new Intent(SendIntent.ACTION);
+        intent.addCategory(SendIntent.CATEGORY);
+        intent.putExtra(SendIntent.EXTRA_INTENT, remoteIntent);
+        return intent;
+    }
+
+    /**
+     * 相手端末にブラウザ起動要求を送信するための {@link Intent} を構築します。
+     *
+     * @param url
+     * 相手端末に伝える URL 文字列。{@code null} 禁止。
+     * @param browserParam
+     * 相手端末でブラウザを起動する際の起動パラメータ。指定できる値は相手の端末に依存します。
+     * 起動パラメータ不要な場合は {@code null} を指定してください。
+     * @return
+     * KuShiKaTsu を使用して相手端末にブラウザ起動要求を送信するための {@link Intent}。
+     * @throws IllegalArgumentException
+     * {@code null} 禁止の引き数に {@code null} が渡された場合。
+     */
+    public static Intent buildIntentForStartBrowser(String url,
+            String browserParam) {
+        if (url == null) {
+            throw new IllegalArgumentException("'url' must not be null.");
+        }
+        final Intent intent = new Intent(StartBrowser.ACTION);
+        intent.addCategory(StartBrowser.CATEGORY);
+        intent.putExtra(StartBrowser.EXTRA_URL, url);
+        if (browserParam != null) {
+            intent.putExtra(StartBrowser.EXTRA_BROWSER_PARAM, browserParam);
+        }
+        return intent;
+    }
+
+    /**
+     * 相手端末にメーラ起動要求を送信するための {@link Intent} を構築します。
+     *
+     * @param to
+     * 相手端末のメール編集画面に表示する宛先アドレスの配列。
+     * 宛先なしの場合は {@code null} を指定してください。
+     * @param cc
+     * 相手端末のメール編集画面に表示するCCアドレスの配列。
+     * CCなしの場合は {@code null} を指定してください。
+     * @param subject
+     * 相手端末のメール編集画面に表示するサブジェクト。
+     * サブジェクトなしの場合は {@code null} を指定してください。
+     * @param body
+     * 相手端末のメール編集画面に表示する本文。
+     * 本文なしの場合は {@code null} を指定してください。
+     * @param mailerParam
+     * 相手端末でメーラを起動する際の起動パラメータ。指定できる値は相手の端末に依存します。
+     * 起動パラメータ不要な場合は {@code null} を指定してください。
+     * @return
+     * KuShiKaTsu を使用して相手端末にメーラ起動要求を送信するための {@link Intent}。
+     */
+    public static Intent buildIntentForStartMailer(String[] to, String[] cc,
+            String subject, String body, String mailerParam) {
+        final Intent intent = new Intent(StartMailer.ACTION);
+        intent.addCategory(StartMailer.CATEGORY);
+        if (to != null) {
+            intent.putExtra(StartMailer.EXTRA_EMAIL, to);
+        }
+        if (cc != null) {
+            intent.putExtra(StartMailer.EXTRA_CC, cc);
+        }
+        if (subject != null) {
+            intent.putExtra(StartMailer.EXTRA_SUBJECT, subject);
+        }
+        if (body != null) {
+            intent.putExtra(StartMailer.EXTRA_TEXT, body);
+        }
+        if (mailerParam != null) {
+            intent.putExtra(StartMailer.EXTRA_MAIL_PARAM, mailerParam);
+        }
+        return intent;
+    }
+
+    /**
      * KuShiKaTsu がインストールされていれば指定された {@link Intent} でアクティビティを
      * 開始します。インストールされていない場合はマーケットの KuShiKaTsu ページを表示するための
      * アクティビティを開始します。
@@ -298,7 +389,7 @@ public final class KushikatsuHelper {
      * {@code null} 禁止の引き数に {@code null} を渡した場合。
      */
     public static boolean startKushikatsuForResult(final Activity activity,
-            final Intent intent, final int requestCode) {
+            final Intent intent, final int requestCode, int installRequestCode) {
         if (activity == null) {
             throw new IllegalArgumentException("'activity' must not be null.");
         }
