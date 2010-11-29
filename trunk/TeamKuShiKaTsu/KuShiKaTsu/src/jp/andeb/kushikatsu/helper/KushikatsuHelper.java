@@ -42,45 +42,136 @@ public final class KushikatsuHelper {
      */
     public static final String PACKAGE_NAME = "jp.andeb.kushikatsu";
 
+    /**
+     * {@link Intent} 送信に関する定数を集めたクラスです。
+     */
+    public static final class SendIntent {
+        /**
+         * {@link Intent} を Push 送信する際の {@code Intent} の {@code ACTION} 文字列です。
+         */
+        public static final String ACTION = PACKAGE_NAME + ".FELICA_INTENT";
+
+        /**
+         * {@link Intent} を Push 送信する際の {@code Intent} の {@code CATEGORY} 文字列です。
+         */
+        public static final String CATEGORY = Intent.CATEGORY_DEFAULT;
+
+        /**
+         * 相手側に転送したい {@link Intent} のキーです。
+         *
+         * <p>
+         * 必須パラメータです。
+         * </p>
+         */
+        public static final String EXTRA_INTENT = "EXTRA_INTENT";
+    }
+
+    /**
+     * ブラウザ起動に関する定数を集めたクラスです。
+     */
+    public static final class StartBrowser {
+        /**
+         * ブラウザ起動要求を Push 送信する際の {@code Intent} の {@code ACTION} 文字列です。
+         */
+        public static final String ACTION = PACKAGE_NAME + ".FELICA_BROWSER";
+
+        /**
+         * ブラウザ起動要求を Push 送信する際の {@code Intent} の {@code CATEGORY} 文字列です。
+         */
+        public static final String CATEGORY = Intent.CATEGORY_DEFAULT;
+
+        /**
+         * 相手側に転送したい URL({@link String}) のキーです。
+         *
+         * <p>
+         * 必須パラメータです。
+         * </p>
+         */
+        public static final String EXTRA_URL = "EXTRA_URL";
+
+        /**
+         * 相手側に転送したいブラウザ起動パラメータ({@link String})のキーです。
+         *
+         * <p>
+         * 任意パラメータです。
+         * </p>
+         */
+        public static final String EXTRA_BROWSER_PARAM = "EXTRA_BROWSER_PARAM";
+    }
+
+    /**
+     * メーラ起動に関する定数を集めたクラスです。
+     */
+    public static final class StartMailer {
+        /**
+         * メーラ起動要求を Push 送信する際の {@code Intent} の {@code ACTION} 文字列です。
+         */
+        public static final String ACTION = PACKAGE_NAME + ".FELICA_MAILER";
+
+        /**
+         * メーラ起動要求を Push 送信する際の {@code Intent} の {@code CATEGORY} 文字列です。
+         */
+        public static final String CATEGORY = Intent.CATEGORY_DEFAULT;
+
+        /**
+         * メール編集画面の To({@link String}{@code []}) のキーです。
+         *
+         * <p>
+         * 任意パラメータです。
+         * </p>
+         */
+        public static final String EXTRA_EMAIL = "EXTRA_EMAIL";
+
+        /**
+         * メール編集画面の Cc({@link String}{@code []}) のキーです。
+         *
+         * <p>
+         * 任意パラメータです。
+         * </p>
+         */
+        public static final String EXTRA_CC = "EXTRA_CC";
+
+        /**
+         * メール編集画面の Subject({@link String}) のキーです。
+         *
+         * <p>
+         * 任意パラメータです。
+         * </p>
+         */
+        public static final String EXTRA_SUBJECT = "EXTRA_SUBJECT";
+
+        /**
+         * メール編集画面の本文({@link String}) のキーです。
+         *
+         * <p>
+         * 任意パラメータです。
+         * </p>
+         */
+        public static final String EXTRA_TEXT = "EXTRA_TEXT";
+
+        /**
+         * メーラの起動パラメータ({@link String}) のキーです。
+         *
+         * <p>
+         * 任意パラメータです。
+         * </p>
+         */
+        public static final String EXTRA_MAIL_PARAM = "EXTRA_MAIL_PARAM";
+   }
+
     /*
-     * ACTION 文字列
+     * 独自定義の result code 群。RESULT_OK と RESULT_CANCELED は android が規定
+     * しているものです。
      */
 
     /**
-     * {@link Intent} を Push 送信する際の {@code Intent} の {@code ACTION} 文字列です。
+     * Push 送信が正常に完了した場合({@code =}{@value #RESULT_UNEXPECTED_ERROR})。
      */
-    public static final String ACTION_INTENT = "jp.andeb.kushikatsu.FELICA_INTENT";
+    public static final int RESULT_OK = Activity.RESULT_OK;
     /**
-     * ブラウザ起動要求を Push 送信する際の {@code Intent} の {@code ACTION} 文字列です。
+     * Push 送信がキャンセうされた場合({@code =}{@value #RESULT_UNEXPECTED_ERROR})。
      */
-    public static final String ACTION_BROWSER = "jp.andeb.kushikatsu.FELICA_BROWSER";
-    /**
-     * メーラ起動要求を Push 送信する際の {@code Intent} の {@code ACTION} 文字列です。
-     */
-    public static final String ACTION_MAILER = "jp.andeb.kushikatsu.FELICA_MAILER";
-
-    /*
-     * CATEGORY 文字列
-     */
-
-    /**
-     * {@link Intent} を Push 送信する際の {@code Intent} の {@code CATEGORY} 文字列です。
-     */
-    public static final String CATEGORY_INTENT = "android.intent.category.DEFAULT";
-    /**
-     * ブラウザ起動要求を Push 送信する際の {@code Intent} の {@code CATEGORY} 文字列です。
-     */
-    public static final String CATEGORY_BROWSER = "android.intent.category.DEFAULT";
-    /**
-     * メーラ起動要求を Push 送信する際の {@code Intent} の {@code CATEGORY} 文字列です。
-     */
-    public static final String CATEGORY_MAILER = "android.intent.category.DEFAULT";
-
-    /*
-     * 独自定義の result code 群。ここに定義されているものに加え、標準の result code である
-     * RESULT_OK と RESULT_CANCELED も使用します。
-     */
-
+    public static final int RESULT_CANCELED = Activity.RESULT_CANCELED;
     /**
      * 予期しないエラーで送信が行えなかった
      * 場合({@code =}{@value #RESULT_UNEXPECTED_ERROR})。
@@ -161,7 +252,7 @@ public final class KushikatsuHelper {
         }
         final PackageManager pm = context.getPackageManager();
 
-        final Intent intent = new Intent(ACTION_INTENT);
+        final Intent intent = new Intent(SendIntent.ACTION);
         final List<ResolveInfo> resolveInfo = pm.queryIntentActivities(intent,
                 PackageManager.MATCH_DEFAULT_ONLY);
 
