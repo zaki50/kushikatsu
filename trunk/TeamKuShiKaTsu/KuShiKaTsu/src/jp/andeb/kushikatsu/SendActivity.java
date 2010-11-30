@@ -30,7 +30,6 @@ import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.MissingResourceException;
 import java.util.concurrent.TimeUnit;
 
 import jp.andeb.kushikatsu.helper.KushikatsuHelper;
@@ -482,12 +481,10 @@ public class SendActivity extends Activity implements FelicaEventListener {
      * プログレスダイアログが表示されていない場合はなにもしません。
      * </p>
      *
-     * @param resId
-     * メッセージ用の string リソース識別子。
-     * @throws MissingResourceException
-     * 指定された識別子のリソースが存在しない場合。
+     * @param message
+     * メッセージ用の文字列。{@code null} を指定した場合はメッセージの変更を行いません。
      */
-    private void setProgressMessage(final String message) {
+    private void setProgressMessage(@CheckForNull final String message) {
         final ProgressDialog progress = progress_;
         if (progress == null) {
             return;
