@@ -17,7 +17,7 @@
   <string name="pref_title_sound">サウンド</string>
   <string name="pref_title_select_sound">サウンド選択</string>
   <string name="pref_title_vibration">バイブ</string>
-  <string name="pref_title_help">ヘルプ</string>
+  <string name="pref_title_devinfo">開発情報</string>
   <string name="pref_title_version">バージョン</string>
   <string name="pref_category_development">開発</string>
   <string name="pref_title_mock_device">擬似デバイスを使用する</string>
