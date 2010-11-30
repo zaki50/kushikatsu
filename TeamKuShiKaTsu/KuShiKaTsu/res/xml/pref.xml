@@ -45,7 +45,7 @@
 
   <PreferenceCategory
     android:title="@string/pref_category_about">
-    <PreferenceScreen android:title="@string/pref_title_help">
+    <PreferenceScreen android:title="@string/pref_title_devinfo">
       <intent
         android:action="android.intent.action.VIEW"
         android:data="@string/site_url" />
