@@ -234,8 +234,9 @@ public final class KushikatsuHelper {
      * KuShiKaTsuインストールチェック。
      *
      * <p>
-     * 正確には、 {@code ACTION} が {@value #ACTION_INTENT} である {@link Intent} に
-     * 応答できるアプリが存在するかどうかをチェックします。
+     * 正確には、 {@code ACTION} が
+     * {@value jp.andeb.kushikatsu.helper.KushikatsuHelper.SendIntent#ACTION}
+     * である{@link Intent} に応答できるアプリが存在するかどうかをチェックします。
      * </p>
      *
      * @param context
