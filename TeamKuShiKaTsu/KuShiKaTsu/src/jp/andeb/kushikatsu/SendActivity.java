@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import jp.andeb.kushikatsu.helper.KushikatsuHelper;
+import jp.andeb.kushikatsu.helper.KushikatsuHelper.CommonParam;
 import jp.andeb.kushikatsu.util.FelicaUtil;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -96,18 +97,8 @@ public class SendActivity extends Activity implements FelicaEventListener {
 
     private static final String TAG = SendActivity.class.getSimpleName();
 
-    /**
-     * 共通パラメータのための定数を集めたクラスです。
-     */
-    @DefaultAnnotation(NonNull.class)
-    private static final class CommonParam {
-        private static final String SEND_TIMEOUT = "SEND_TIMEOUT";
-        private static final int SEND_TIMEOUT_DEFAULT = 10; /* sec */
-
-        private static final String SOUND_ON_SENT = "SOUND_ON_SENT";
-        private static final String SOUND_ON_SENT_DEFAULT = "se1";
-    }
-
+    private static final int SEND_TIMEOUT_DEFAULT = 10; /* sec */
+    private static final String SOUND_ON_SENT_DEFAULT = "se1";
     /**
      * サウンドリソースの名前と ID のマップ。
      */
@@ -249,8 +240,8 @@ public class SendActivity extends Activity implements FelicaEventListener {
         segment_ = segment;
 
         // 完了音を取得する
-        int soundResId = initiatorIntent.getIntExtra(CommonParam.SOUND_ON_SENT,
-                -1);
+        int soundResId = initiatorIntent.getIntExtra(
+                CommonParam.EXTRA_SOUND_ON_SENT, -1);
         if (0 <= soundResId) {
             // 呼び出し元のサウンドリソースを使用する場合
             @CheckForNull
@@ -266,21 +257,20 @@ public class SendActivity extends Activity implements FelicaEventListener {
         } else {
             // KuShiKaTsu のサウンドリソースを使用する場合
             String soundName = initiatorIntent
-                    .getStringExtra(CommonParam.SOUND_ON_SENT);
+                    .getStringExtra(CommonParam.EXTRA_SOUND_ON_SENT);
             if (soundName == null) {
                 soundName = sPreferences.getString(
-                        PrefActivity.KEY_SOUND_PATTERN,
-                        CommonParam.SOUND_ON_SENT_DEFAULT);
+                        PrefActivity.KEY_SOUND_PATTERN, SOUND_ON_SENT_DEFAULT);
             }
             soundOnSent_ = getSoundResId(soundName);
             contextOfSoundOnSent_ = this;
         }
 
         // 送信タイムアウトまでの時間を取得
-        int timeoutSec = initiatorIntent.getIntExtra(CommonParam.SEND_TIMEOUT,
-                CommonParam.SEND_TIMEOUT_DEFAULT);
+        int timeoutSec = initiatorIntent.getIntExtra(
+                CommonParam.EXTRA_SEND_TIMEOUT, SEND_TIMEOUT_DEFAULT);
         if (timeoutSec < 0) {
-            timeoutSec = CommonParam.SEND_TIMEOUT_DEFAULT;
+            timeoutSec = SEND_TIMEOUT_DEFAULT;
         }
         timeoutOfSending_ = TimeUnit.SECONDS.toMillis(timeoutSec);
     }
