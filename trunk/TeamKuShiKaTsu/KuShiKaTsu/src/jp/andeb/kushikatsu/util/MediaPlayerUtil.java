@@ -30,7 +30,7 @@ public final class MediaPlayerUtil {
      * 再生完了時に、自動的に {@link MediaPlayer} を解放する {@link OnCompletionListener}
      * です。
      */
-    public static OnCompletionListener RELEASE_PLAYER_LISTENER;
+    public static final OnCompletionListener RELEASE_PLAYER_LISTENER;
     static {
         RELEASE_PLAYER_LISTENER = new OnCompletionListener() {
             @Override
