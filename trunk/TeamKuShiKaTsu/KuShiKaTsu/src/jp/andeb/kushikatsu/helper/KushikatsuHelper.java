@@ -159,6 +159,34 @@ public final class KushikatsuHelper {
         public static final String EXTRA_MAIL_PARAM = "EXTRA_MAIL_PARAM";
     }
 
+    /**
+     * 共通パラメータのための定数を集めたクラスです。
+     */
+    public static final class CommonParam {
+        /**
+         * 送信タイムアウトの秒数({@code int})に対するキーです。
+         */
+        public static final String EXTRA_SEND_TIMEOUT = "EXTRA_SEND_TIMEOUT";
+
+        /**
+         * 送信成功時に鳴らす音を以下のいずれかから指定します。
+         *
+         * <ul>
+         *   <li>空文字列({@code String}): 成功時は無音にします</li>
+         *   <li>KuShiKaTsu のサウンド名({@code String}): KuShiKaTsu が内部に持っている音を鳴らします</li>
+         *   <li>呼び出しアプリのサウンドリソースID({@code int}: 呼び出しアプリのサウンドリソースから音を鳴らします</li>
+         * </ul>
+         *
+         * <p>
+         * このパラメータ指定にかかわらず、ユーザが音を鳴らさない設定にしている場合は音は鳴りません。
+         * </p>
+         * <p>
+         * このパラメータの指定にかかわらず、バイブはユーザの設定に従います。
+         * </p>
+         */
+        public static final String EXTRA_SOUND_ON_SENT = "EXTRA_SOUND_ON_SENT";
+    }
+
     /*
      * 独自定義の result code 群。RESULT_OK と RESULT_CANCELED は android が規定
      * しているものです。
@@ -359,6 +387,77 @@ public final class KushikatsuHelper {
             intent.putExtra(StartMailer.EXTRA_MAIL_PARAM, mailerParam);
         }
         return intent;
+    }
+
+    /**
+     * KuShiKaTsu への送信要求インテントに、 Push 送信タイムアウトを指定します。
+     *
+     * @param intent
+     * 送信要求インテント。 {@link #buildIntentForSendIntent(Intent)}、
+     * {@link #buildIntentForStartBrowser(String, String)}、
+     * {@link #buildIntentForStartMailer(String[], String[], String, String, String)}
+     * で作成した {@link Intent} を渡してください。{@code null} 禁止。
+     * @param timeoutSec
+     * タイムアウトまでの時間を秒数で指定します。{@code 1} 以上の値を指定してください。
+     * @throws IllegalArgumentException
+     * 以下の場合にスローされます。
+     * <ul>
+     *   <li>{@code null} 禁止の引き数に {@code null} を渡した場合</li>
+     *   <li>正数のみの引き数に {@code 0} や負数を渡した場合</li>
+     * </ul>
+     */
+    public static void setSendTimeout(Intent intent, int timeoutSec) {
+        if (intent == null) {
+            throw new IllegalArgumentException("'intent' must not be null.");
+        }
+        if (timeoutSec <= 0) {
+            throw new IllegalArgumentException("'timeoutSec' must be positive.");
+        }
+        intent.putExtra(CommonParam.EXTRA_SEND_TIMEOUT, timeoutSec);
+    }
+
+    /**
+     * KuShiKaTsu への送信要求インテントに、 Push 送信成功時のサウンドを指定します。
+     *
+     * @param intent
+     * 送信要求インテント。 {@link #buildIntentForSendIntent(Intent)}、
+     * {@link #buildIntentForStartBrowser(String, String)}、
+     * {@link #buildIntentForStartMailer(String[], String[], String, String, String)}
+     * で作成した {@link Intent} を渡してください。{@code null} 禁止。
+     * @param soundName
+     * KuShiKaTsu が保持するサウンドの名前。 {@link #SOUND_1} または {@link #SOUND_2}
+     * または {@link #SOUND_3} を指定してください。{@code null} 禁止。
+     * @throws IllegalArgumentException
+     * {@code null} 禁止の引き数に {@code null} を渡した場合。
+     */
+    public static void setSoundOnSent(Intent intent, String soundName) {
+        if (intent == null) {
+            throw new IllegalArgumentException("'intent' must not be null.");
+        }
+        if (soundName == null) {
+            throw new IllegalArgumentException("'soundName' must not be null.");
+        }
+        intent.putExtra(CommonParam.EXTRA_SOUND_ON_SENT, soundName);
+    }
+
+    /**
+     * KuShiKaTsu への送信要求インテントに、 Push 送信成功時のサウンドを指定します。
+     *
+     * @param intent
+     * 送信要求インテント。 {@link #buildIntentForSendIntent(Intent)}、
+     * {@link #buildIntentForStartBrowser(String, String)}、
+     * {@link #buildIntentForStartMailer(String[], String[], String, String, String)}
+     * で作成した {@link Intent} を渡してください。{@code null} 禁止。
+     * @param soundResId
+     * 送信依頼側のアプリが持つサウンドリソースの識別子。
+     * @throws IllegalArgumentException
+     * {@code null} 禁止の引き数に {@code null} を渡した場合。
+     */
+    public static void setSoundOnSent(Intent intent, int soundResId) {
+        if (intent == null) {
+            throw new IllegalArgumentException("'intent' must not be null.");
+        }
+        intent.putExtra(CommonParam.EXTRA_SOUND_ON_SENT, soundResId);
     }
 
     /**
