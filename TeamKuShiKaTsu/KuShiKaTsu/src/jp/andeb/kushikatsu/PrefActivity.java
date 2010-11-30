@@ -18,6 +18,7 @@
 package jp.andeb.kushikatsu;
 
 import static jp.andeb.kushikatsu.util.MediaPlayerUtil.RELEASE_PLAYER_LISTENER;
+import android.app.Activity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -30,6 +31,9 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.view.Window;
 
+/**
+ * 設定画面のための {@link Activity} です。
+ */
 public class PrefActivity extends PreferenceActivity {
 
     /** サウンドモード */
