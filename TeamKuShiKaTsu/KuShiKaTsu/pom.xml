@@ -49,6 +49,19 @@
           <additionalJOption>-J-Dfile.encoding=UTF-8 -J-Xmx256m</additionalJOption>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>2.0.1</version>
+        <configuration>
+          <findbugsXmlOutput>true</findbugsXmlOutput>
+          <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
+          <xmlOutput>true</xmlOutput>
+          <effort>Max</effort>
+          <threshold>Normal</threshold>
+          <excludeFilterFile>${basedir}/findbugsExclude.xml</excludeFilterFile>
+        </configuration>
+      </plugin>
     </plugins>
   </reporting>
 
