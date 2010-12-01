@@ -97,8 +97,22 @@ public class SendActivity extends Activity implements FelicaEventListener {
 
     private static final String TAG = SendActivity.class.getSimpleName();
 
+    /**
+     * 送信リトライのタイムアウトまでの秒数のデフォルト値。
+     */
     private static final int SEND_TIMEOUT_DEFAULT = 10; /* sec */
+
+    /**
+     * 送信成功時のサウンドの名前のデフォルト値。
+     */
     private static final String SOUND_ON_SENT_DEFAULT = "se1";
+
+    /**
+     * Push 送信のリトライ回数の上限です。 {@link Intent} で指定されたパラメータに関わらず
+     * ここで指定される回数がリトライの上限です。
+     */
+    private final static int RETRY_LIMIT = 100;
+
     /**
      * サウンドリソースの名前と ID のマップ。
      */
@@ -137,12 +151,6 @@ public class SendActivity extends Activity implements FelicaEventListener {
         map.put("", Integer.valueOf(-1));
         SOUND_ID_MAP = Collections.unmodifiableMap(map);
     }
-
-    /**
-     * Push 送信のリトライ回数の上限です。 {@link Intent} で指定されたパラメータに関わらず
-     * ここで指定される回数がリトライの上限です。
-     */
-    private final static int RETRY_LIMIT = 100;
 
     @CheckForNull
     private Felica felica_ = null;
