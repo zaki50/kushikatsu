@@ -114,6 +114,11 @@ public class SendActivity extends Activity implements FelicaEventListener {
     private final static int RETRY_LIMIT = 100;
 
     /**
+     * 振動パターン設定
+     */
+    private static final long[] VIBRATOR_PATTERN = { 0L, 200L };
+
+    /**
      * サウンドリソースの名前と ID のマップ。
      */
     private static Map<String, Integer> SOUND_ID_MAP;
@@ -185,12 +190,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
     /**
      * 共通設定アクセス。
      */
-    private SharedPreferences sPreferences;
-
-    /**
-     * 振動パターン設定
-     */
-    private static final long[] pattern = { 0, 200 };
+    private SharedPreferences preferences_;
 
     /**
      * {@link Activity} が初期化される際の処理を実装するメソッドです。
@@ -201,17 +201,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.send);
-        sPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-    }
-
-    /**
-     * {@link Activity} が破棄される際の処理を実装するメソッドです。
-     */
-    @Override
-    protected void onDestroy() {
-        Log.d(TAG, "enter onDestroy(): " + hashCode());
-        super.onDestroy();
-        dismissProgress();
+        preferences_ = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     /**
@@ -267,7 +257,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
             String soundName = initiatorIntent
                     .getStringExtra(CommonParam.EXTRA_SOUND_ON_SENT);
             if (soundName == null) {
-                soundName = sPreferences.getString(
+                soundName = preferences_.getString(
                         PrefActivity.KEY_SOUND_PATTERN, SOUND_ON_SENT_DEFAULT);
             }
             soundOnSent_ = getSoundResId(soundName);
@@ -281,6 +271,80 @@ public class SendActivity extends Activity implements FelicaEventListener {
             timeoutSec = SEND_TIMEOUT_DEFAULT;
         }
         timeoutOfSending_ = TimeUnit.SECONDS.toMillis(timeoutSec);
+    }
+
+    /**
+     * {@link Activity} が表示された直後の処理を実装するメソッドです。
+     */
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "enter onResume(): " + hashCode());
+        super.onResume();
+
+        /*
+         * Set result to "unexpected error". This result code will be overwritten
+         * by actual result code in most cases.
+         */
+        setResult(RESULT_UNEXPECTED_ERROR);
+
+        startProgress();
+        setProgressMessage(getString(R.string.progress_msg_preparing));
+
+        // 擬似デバイスモードかどうか
+        final boolean mockEnabled = preferences_.getBoolean(
+                PrefActivity.KEY_MOCK_DEVICE_ENABLED, false);
+        if (mockEnabled) {
+            Log.i(TAG, "mock device enabled.");
+
+            final String mockResultCodeStr;
+            mockResultCodeStr = preferences_.getString(
+                    PrefActivity.KEY_MOCK_DEVICE_RESULT_CODE, "" + RESULT_OK);
+            int mockResultCode;
+            try {
+                mockResultCode = Integer.parseInt(mockResultCodeStr);
+            } catch (NumberFormatException e) {
+                mockResultCode = RESULT_UNEXPECTED_ERROR;
+            }
+            final MockDeviceAsyncTask task = new MockDeviceAsyncTask();
+            task.execute(Integer.valueOf(mockResultCode));
+            return;
+        }
+
+        final boolean connecting = connect();
+        if (!connecting) {
+            setResultWithLog(RESULT_UNEXPECTED_ERROR);
+            dismissProgress();
+            finish();
+        }
+    }
+
+    /**
+     * {@link Activity} がフロントではなくなる際の処理を実装するメソッドです。
+     */
+    @Override
+    protected void onPause() {
+        Log.d(TAG, "enter onPause(): " + hashCode());
+        try {
+            super.onPause();
+
+            final Felica felica = felica_;
+            felica_ = null;
+            if (felica != null) {
+                unbindService(service_);
+            }
+        } finally {
+            dismissProgress();
+        }
+    }
+
+    /**
+     * {@link Activity} が破棄される際の処理を実装するメソッドです。
+     */
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "enter onDestroy(): " + hashCode());
+        super.onDestroy();
+        dismissProgress();
     }
 
     @CheckForNull
@@ -322,51 +386,6 @@ public class SendActivity extends Activity implements FelicaEventListener {
     }
 
     /**
-     * {@link Activity} が表示された直後の処理を実装するメソッドです。
-     */
-    @Override
-    protected void onResume() {
-        Log.d(TAG, "enter onResume(): " + hashCode());
-        super.onResume();
-
-        /*
-         * Set result to "unexpected error". This result code will be overwritten
-         * by actual result code in most cases.
-         */
-        setResult(RESULT_UNEXPECTED_ERROR);
-
-        startProgress();
-        setProgressMessage(getString(R.string.progress_msg_preparing));
-
-        // 擬似デバイスモードかどうか
-        final boolean mockEnabled = sPreferences.getBoolean(
-                PrefActivity.KEY_MOCK_DEVICE_ENABLED, false);
-        if (mockEnabled) {
-            Log.i(TAG, "mock device enabled.");
-
-            final String mockResultCodeStr;
-            mockResultCodeStr = sPreferences.getString(
-                    PrefActivity.KEY_MOCK_DEVICE_RESULT_CODE, "" + RESULT_OK);
-            int mockResultCode;
-            try {
-                mockResultCode = Integer.parseInt(mockResultCodeStr);
-            } catch (NumberFormatException e) {
-                mockResultCode = RESULT_UNEXPECTED_ERROR;
-            }
-            final MockDeviceAsyncTask task = new MockDeviceAsyncTask();
-            task.execute(Integer.valueOf(mockResultCode));
-            return;
-        }
-
-        final boolean connecting = connect();
-        if (!connecting) {
-            setResultWithLog(RESULT_UNEXPECTED_ERROR);
-            dismissProgress();
-            finish();
-        }
-    }
-
-    /**
      * サービスへのバインドを開始し、{@link Felica} インスタンス獲得処理を開始します。
      *
      * @return
@@ -384,25 +403,6 @@ public class SendActivity extends Activity implements FelicaEventListener {
         final boolean result = bindService(intent, service_,
                 Context.BIND_AUTO_CREATE);
         return result;
-    }
-
-    /**
-     * {@link Activity} がフロントではなくなる際の処理を実装するメソッドです。
-     */
-    @Override
-    protected void onPause() {
-        Log.d(TAG, "enter onPause(): " + hashCode());
-        try {
-            super.onPause();
-
-            final Felica felica = felica_;
-            felica_ = null;
-            if (felica != null) {
-                unbindService(service_);
-            }
-        } finally {
-            dismissProgress();
-        }
     }
 
     /**
@@ -503,8 +503,10 @@ public class SendActivity extends Activity implements FelicaEventListener {
      * </p>
      */
     private void dismissProgress() {
-        Log.d(TAG, "dismiss progress dialog called: " + hashCode());
         final ProgressDialog progress = progress_;
+        Log.d(TAG, "dismiss progress dialog called"
+                + (progress == null ? "(progress_ == null)" : "") + ": "
+                + hashCode());
         if (progress == null) {
             return;
         }
@@ -629,7 +631,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
 
     private void notifyBySoundAndVibrator() {
         // sound
-        boolean soundMode = sPreferences.getBoolean(
+        boolean soundMode = preferences_.getBoolean(
                 PrefActivity.KEY_SOUND_MODE, true);
         if (soundMode) {
             if (0 < soundOnSent_) {
@@ -641,11 +643,11 @@ public class SendActivity extends Activity implements FelicaEventListener {
             }
         }
         // 振動
-        boolean vibrateMode = sPreferences.getBoolean(
+        boolean vibrateMode = preferences_.getBoolean(
                 PrefActivity.KEY_VIBRATION_MODE, true);
         if (vibrateMode) {
             Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-            vibrator.vibrate(pattern, -1);
+            vibrator.vibrate(VIBRATOR_PATTERN, -1);
         }
     }
 
