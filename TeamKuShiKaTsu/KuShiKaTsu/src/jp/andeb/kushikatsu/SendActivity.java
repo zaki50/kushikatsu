@@ -160,10 +160,17 @@ public class SendActivity extends Activity implements FelicaEventListener {
     @CheckForNull
     private Felica felica_ = null;
 
+    /**
+     * 送信中のプログレスダイアログ。表示中のみ インスタンスを保持し、表示されていない間は
+     * {@code null} です。
+     */
     @CheckForNull
     private ProgressDialog progress_ = null;
 
-    // Push データ
+    /**
+     * 現在処理対象としている {@link PushSegment}。送るメッセージの種類に対応した
+     * サブクラスのインスタンスを保持します。
+     */
     @CheckForNull
     private PushSegment segment_ = null;
 
