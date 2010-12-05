@@ -28,7 +28,6 @@ public class ReceiverActivity extends Activity implements LocationListener {
 
 		Log.d(TAG, "RECEIVE");
 
-		final Context context = getApplicationContext();
 		final Intent intent = getIntent();
 		final Bundle bundle = intent.getExtras();
 		final String name = bundle.getString(Consts.EXTRA_NAME);
