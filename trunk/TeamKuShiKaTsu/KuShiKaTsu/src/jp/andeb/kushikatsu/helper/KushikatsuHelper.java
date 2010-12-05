@@ -496,7 +496,8 @@ public final class KushikatsuHelper {
         if (!isKushikatsuInstalled(activity)) {
             // 未インストールの場合
             final Intent intentForInstall = buildIntentForKushikatsuInstall();
-            activity.startActivity(intentForInstall);
+            activity.startActivityForResult(intentForInstall,
+                    installRequestCode);
             return false;
         }
         // インストール済みの場合
