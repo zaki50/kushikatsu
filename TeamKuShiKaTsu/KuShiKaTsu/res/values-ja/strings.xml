@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <string name="app_name">串かつ</string>
+  <string name="sender_name">串かつ Sender</string>
   <!--
-  <string name="app_name">KuShiKaTsu</string>
-  <string name="sender_name">KuShiKaTsu Sender</string>
   <string name="progress_title">FeliCa Push</string>
   -->
   <string name="progress_msg_preparing">FeliCa デバイスを準備中</string>
