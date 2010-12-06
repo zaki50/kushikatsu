@@ -1,5 +1,6 @@
 package com.demo.felica.contacts;
 
+import jp.andeb.kushikatsu.helper.KushikatsuHelper;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +16,8 @@ import android.widget.Toast;
 public class SenderActivity extends Activity implements OnClickListener {
 
 	private static final String TAG = "FEL";
-	private static final int FELICA_ACTIVITY = 0;
+	private static final int FELICA_REQUEST = 0;
+	private static final int KUSHIKATSU_INSTALL_REQUEST = 1;
 	private String mPhoneNumber;
 	private EditText mNameEdit;
 	private Button mSendButton;
@@ -46,22 +48,31 @@ public class SenderActivity extends Activity implements OnClickListener {
 	public void onClick(final View v) {
 		if (v == mSendButton) {
 			Log.d(TAG, "CLICKED");
+			final Intent i;
+			i = KushikatsuHelper.buildIntentForSendIntent(buildRemoteIntent());
 			mSendButton.setEnabled(false);
-			final Intent realIntent = new Intent(Consts.RECEIVE_ACTION);
-			realIntent.putExtra(Consts.EXTRA_NAME, mNameEdit.getEditableText()
-					.toString());
-			realIntent.putExtra(Consts.EXTRA_PHONE, mPhoneNumber);
-			final Intent felicaIntent = new Intent("jp.andeb.kushikatsu.FELICA_INTENT");
-			felicaIntent.addCategory(Intent.CATEGORY_DEFAULT);
-			felicaIntent.putExtra("EXTRA_INTENT", realIntent);
-			startActivityForResult(felicaIntent, FELICA_ACTIVITY);
+			final boolean pushed = KushikatsuHelper.startKushikatsuForResult(
+					this, i, FELICA_REQUEST,
+					KUSHIKATSU_INSTALL_REQUEST);
+			if (!pushed) {
+				Log.i(TAG, "opening market page of KuShiKaTsu");
+			}
 		}
+	}
+
+	private Intent buildRemoteIntent() {
+		final Intent remoteIntent = new Intent(Consts.RECEIVE_ACTION);
+		remoteIntent.putExtra(Consts.EXTRA_NAME, mNameEdit.getEditableText()
+				.toString());
+		remoteIntent.putExtra(Consts.EXTRA_PHONE, mPhoneNumber);
+		return remoteIntent;
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode != FELICA_ACTIVITY) {
+		mSendButton.setEnabled(true);
+		if (requestCode != FELICA_REQUEST) {
 			return;
 		}
 		final Toast toast;
@@ -100,6 +111,5 @@ public class SenderActivity extends Activity implements OnClickListener {
 					Toast.LENGTH_SHORT);
 		}
 		toast.show();
-		mSendButton.setEnabled(true);
 	}
 }
