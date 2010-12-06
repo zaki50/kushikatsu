@@ -39,6 +39,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
@@ -173,6 +175,8 @@ public class SendActivity extends Activity implements FelicaEventListener {
      */
     @CheckForNull
     private PushSegment segment_ = null;
+
+    private volatile boolean canceled_ = false;
 
     /*
      * 共通パラメータ
@@ -337,6 +341,8 @@ public class SendActivity extends Activity implements FelicaEventListener {
             final Felica felica = felica_;
             felica_ = null;
             if (felica != null) {
+                closeQuietly(felica, TAG);
+                inactivateQuietly(felica, TAG);
                 unbindService(service_);
             }
         } finally {
@@ -430,6 +436,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
             Log.i(TAG, "connected to FeliCa service");
             try {
                 Log.i(TAG, "activating FeliCa");
+                canceled_ = false;
                 felica.activateFelica(null, SendActivity.this);
             } catch (IllegalArgumentException e) {
                 Log.e(TAG, e.getClass().getSimpleName()
@@ -468,8 +475,15 @@ public class SendActivity extends Activity implements FelicaEventListener {
 
         final ProgressDialog progress = new ProgressDialog(this);
         progress.setTitle(R.string.progress_title);
-        progress.setCancelable(false);
-        // MEMO cancelable に変更するなら cancel 時に Activity を終了させること
+        progress.setCancelable(true);
+        progress.setOnCancelListener(new OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                setResultWithLog(RESULT_CANCELED);
+                canceled_ = true;
+                finish();
+            }
+        });
 
         progress.show();
 
@@ -532,6 +546,11 @@ public class SendActivity extends Activity implements FelicaEventListener {
         if (felica == null) {
             Log.e(TAG, "unexpedted null of delica_");
             setResultWithLog(RESULT_UNEXPECTED_ERROR);
+            finish();
+            return;
+        }
+        if (canceled_) {
+            setResultWithLog(RESULT_CANCELED);
             finish();
             return;
         }
@@ -605,6 +624,10 @@ public class SendActivity extends Activity implements FelicaEventListener {
                         Long.valueOf(TimeUnit.MILLISECONDS
                                 .toSeconds(timeoutOfSending_
                                         - (now - startTime)))));
+                // キャンセル確認
+                if (canceled_) {
+                    return RESULT_CANCELED;
+                }
                 // Push送信
                 felica.push(segment);
                 Log.i(TAG, "FeliCa message has been sent successfully.");
