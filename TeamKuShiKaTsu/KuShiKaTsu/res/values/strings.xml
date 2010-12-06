@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="hello">Hello World, InfoActivity!</string>
   <string name="app_name">KuShiKaTsu</string>
   <string name="sender_name">KuShiKaTsu Sender</string>
   <string name="progress_title">FeliCa Push</string>
