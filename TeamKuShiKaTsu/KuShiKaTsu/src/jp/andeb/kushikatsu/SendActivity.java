@@ -19,7 +19,7 @@ package jp.andeb.kushikatsu;
 
 import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_INVALID_EXTRA;
 import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_TIMEOUT;
-import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_TOO_BIG;
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.*;
 import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_UNEXPECTED_ERROR;
 import static jp.andeb.kushikatsu.util.FelicaUtil.closeQuietly;
 import static jp.andeb.kushikatsu.util.FelicaUtil.inactivateQuietly;
@@ -579,8 +579,31 @@ public class SendActivity extends Activity implements FelicaEventListener {
     @Override
     public void errorOccurred(final int id, final String msg,
             final AppInfo otherAppInfo) {
-        Log.i(TAG, "failed to activate FeliCa");
-        // FIXME エラーコードを正しくセットする <- activate 失敗以外でも呼ばれそうなので要確認
+        Log.e(TAG, "failed to activate FeliCa. id = " + id);
+
+        switch (id) {
+        case FelicaEventListener.TYPE_USED_BY_OTHER_APP:
+            setResultWithLog(RESULT_DEVICE_IN_USE);
+            break;
+        case FelicaEventListener.TYPE_NOT_FOUND_ERROR:
+            setResultWithLog(RESULT_DEVICE_NOT_FOUND);
+            break;
+        case FelicaEventListener.TYPE_HTTP_ERROR:
+            setResultWithLog(RESULT_UNEXPECTED_ERROR);
+            break;
+        case FelicaEventListener.TYPE_MFC_VERSION_ERROR:
+            setResultWithLog(RESULT_UNEXPECTED_ERROR);
+            break;
+        case FelicaEventListener.TYPE_UTILITY_VERSION_ERROR:
+            setResultWithLog(RESULT_UNEXPECTED_ERROR);
+            break;
+        case FelicaEventListener.TYPE_UNKNOWN_ERROR:
+            setResultWithLog(RESULT_UNEXPECTED_ERROR);
+            break;
+        default:
+            setResultWithLog(RESULT_UNEXPECTED_ERROR);
+            break;
+        }
         finish();
     }
 
