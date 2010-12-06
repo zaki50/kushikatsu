@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android" android:background="#fff"><LinearLayout android:layout_height="wrap_content" android:id="@+id/bottoms" android:layout_width="fill_parent" android:orientation="horizontal" android:layout_alignParentBottom="true"><Button android:layout_height="wrap_content" android:id="@+id/btn_send" android:text="Send" android:layout_width="fill_parent"></Button>
+</LinearLayout>
+<ListView android:id="@+id/lst_histories" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_alignParentTop="true" android:layout_above="@+id/bottoms" android:cacheColorHint="#00000000" android:divider="#000" android:dividerHeight="1dp"></ListView>
+</RelativeLayout>

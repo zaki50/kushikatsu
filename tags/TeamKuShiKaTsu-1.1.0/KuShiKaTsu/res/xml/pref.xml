@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <PreferenceCategory android:title="@string/pref_category_sound">
+    <CheckBoxPreference
+      android:title="@string/pref_title_sound"
+      android:summaryOn="@string/on"
+      android:summaryOff="@string/off"
+      android:enabled="true"
+      android:key="sound_mode"
+      android:defaultValue="true" />
+    <ListPreference
+      android:title="@string/pref_title_select_sound"
+      android:key="sound_pattern"
+      android:dialogTitle="@string/pref_title_select_sound"
+      android:entries="@array/sound_pattern_entries"
+      android:entryValues="@array/sound_pattern_entryvalues" />
+    <CheckBoxPreference
+      android:title="@string/pref_title_vibration"
+      android:summaryOn="@string/on"
+      android:summaryOff="@string/off"
+      android:enabled="true"
+      android:key="vibration_mode"
+      android:defaultValue="true" />
+  </PreferenceCategory>
+
+  <PreferenceCategory android:title="@string/pref_category_development">
+    <CheckBoxPreference
+      android:title="@string/pref_title_mock_device"
+      android:summaryOn="@string/on"
+      android:summaryOff="@string/off"
+      android:enabled="true"
+      android:key="mock_device_enabled"
+      android:defaultValue="false" />
+    <ListPreference
+      android:title="@string/pref_title_select_result_code"
+      android:key="mock_device_result_code"
+      android:dialogTitle="@string/pref_title_select_result_code"
+      android:entries="@array/result_code_entries"
+      android:entryValues="@array/result_code_entryvalues"
+      android:defaultValue="-1"
+      android:dependency="mock_device_enabled" />
+  </PreferenceCategory>
+
+  <PreferenceCategory
+    android:title="@string/pref_category_about">
+    <PreferenceScreen android:title="@string/pref_title_devinfo">
+      <intent
+        android:action="android.intent.action.VIEW"
+        android:data="@string/site_url" />
+    </PreferenceScreen>
+    <PreferenceScreen
+      android:title="@string/pref_title_version"
+      android:key="version_number" >
+    </PreferenceScreen>
+  </PreferenceCategory>
+
+</PreferenceScreen>
