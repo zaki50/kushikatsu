@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="hello">Hello World, InfoActivity!</string>
+  <string name="app_name">KuShiKaTsu</string>
+  <string name="sender_name">KuShiKaTsu Sender</string>
+  <string name="progress_title">FeliCa Push</string>
+
+  <string name="progress_msg_preparing">preparing FeliCa device.</string>
+  <string name="progress_msg_sending_with_remaining_time">Touch!(remaining %1$d sec).</string>
+  <string name="progress_msg_sent">message has been sent.</string>
+
+  <string name="site_url">http://sites.google.com/site/94katsu/</string>
+
+  <string name="pref_category_sound">Sound</string>
+  <string name="pref_title_sound">Sound</string>
+  <string name="pref_title_select_sound">Select sound</string>
+  <string name="pref_title_vibration">Vibration</string>
+  <string name="pref_category_about">About</string>
+  <string name="pref_title_devinfo">DevInfo</string>
+  <string name="pref_title_version">Version</string>
+  <string name="pref_category_development">Development</string>
+  <string name="pref_title_mock_device">Use mock device</string>
+  <string name="pref_title_select_result">Select result code</string>
+  <string name="pref_title_select_result_code">Result code</string>
+
+  <string name="on">on</string>
+  <string name="off">off</string>
+  <!--
+  <string name=""></string>
+   -->
+</resources>
