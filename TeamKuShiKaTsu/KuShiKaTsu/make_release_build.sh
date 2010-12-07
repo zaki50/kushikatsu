@@ -42,14 +42,14 @@ fi
 mkdir -p "${dest}"
 echo "destinationdirectory created: ${dest}" >&2
 
-echo "invoking 'ant clean'. output is written in ant_clean.log" >&2
+echo "invoking 'ant clean'. output is written to ant_clean.log" >&2
 if ! ant clean > ant_clean.log; then
   echo "failed to clean project. exit." >&2
   cat ./ant_clean.log
   popd > /dev/null
   exit 1
 fi
-echo "invoking 'ant release'. output is written in ant_release.log" >&2
+echo "invoking 'ant release'. output is written to ant_release.log" >&2
 if ! ant release | tee ./ant_release.log | grep "Please enter"; then
   echo "failed to build release binary. exit." >&2
   cat ./ant_release.log
