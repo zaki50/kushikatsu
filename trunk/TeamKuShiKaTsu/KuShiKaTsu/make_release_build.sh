@@ -10,7 +10,7 @@
 # 場合は引き数に -f をつけてください。
 
 force=0
-if [ x"$1" = x-f ]; then
+if [ x"$1" = x"-f" ]; then
   force=1
 fi
 
@@ -72,8 +72,8 @@ if ! ant release | tee ./ant_release.log | grep "Please enter"; then
   exit 1
 fi
 
+# 署名失敗の場合はどうも ant 自体はエラー扱いになっていないので独自にチェック
 if [ ! -e bin/*-release.apk ]; then
-  # 署名失敗の場合はどうも ant 自体はエラー扱いになっていないので独自にチェック
   cat ./ant_release.log
   echo "" >&2
   echo "BUILD FAILED" >&2
