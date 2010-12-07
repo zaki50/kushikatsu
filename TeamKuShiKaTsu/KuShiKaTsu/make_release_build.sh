@@ -1,11 +1,20 @@
 #!/bin/sh
+# $Id$
 #set -x
+
+# このスクリプトは、ant でリリースビルドを作成し、
+# バージョン番号(android:versionNameから取得)の
+# ディレクトリに成果物をコピーします。
+# バージョン番号のディレクトリが既に存在する場合は
+# ビルドを中断しますが、既存の成果物を上書きしたい
+# 場合は引き数に -f をつけてください。
 
 force=0
 if [ x"$1" = x-f ]; then
   force=1
 fi
 
+# プロジェクトディレクトリをカレントディレクトにする
 projectdir=$(dirname $0)
 echo "changing directory to ${projectdir}" >&2
 pushd "${projectdir}" > /dev/null
@@ -42,6 +51,7 @@ fi
 mkdir -p "${dest}"
 echo "destinationdirectory created: ${dest}" >&2
 
+# ant clean の実行
 rm -f ./ant_clean.log ./ant_release.log
 echo "invoking 'ant clean'. output is written to ant_clean.log" >&2
 if ! ant clean > ant_clean.log; then
@@ -50,6 +60,8 @@ if ! ant clean > ant_clean.log; then
   popd > /dev/null
   exit 1
 fi
+
+# ant release の実行
 echo "invoking 'ant release'. output is written to ant_release.log" >&2
 if ! ant release | tee ./ant_release.log | grep "Please enter"; then
   cat ./ant_release.log
@@ -58,11 +70,13 @@ if ! ant release | tee ./ant_release.log | grep "Please enter"; then
   exit 1
 fi
 
+# 成果物コピー
 echo "copying artifacts to ${dest}" >&2
 cp -a bin/*-release.apk "${dest}/"
 cp -a bin/proguard "${dest}/"
 mv ant_release.log "${dest}/"
 rm -f ant_clean.log
 
+# おしまい
 popd > /dev/null
 exit 0
