@@ -42,6 +42,7 @@ fi
 mkdir -p "${dest}"
 echo "destinationdirectory created: ${dest}" >&2
 
+rm -f ./ant_clean.log ./ant_release.log
 echo "invoking 'ant clean'. output is written to ant_clean.log" >&2
 if ! ant clean > ant_clean.log; then
   cat ./ant_clean.log
@@ -60,6 +61,8 @@ fi
 echo "copying artifacts to ${dest}" >&2
 cp -a bin/*-release.apk "${dest}/"
 cp -a bin/proguard "${dest}/"
+mv ant_release.log "${dest}/"
+rm -f ant_clean.log
 
 popd > /dev/null
 exit 0
