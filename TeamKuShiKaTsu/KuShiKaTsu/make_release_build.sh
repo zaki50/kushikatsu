@@ -43,7 +43,7 @@ if [ -e "${dest}" ]; then
     rm -rf "${dest}/*"
   else
     echo "destination directory already exists. Is versionName correct?" >&2
-    echo "add -f to arguments if you intend to overwrite." >&2
+    echo "add -f to arguments if you intended to overwrite." >&2
     popd > /dev/null
     exit 1
   fi
