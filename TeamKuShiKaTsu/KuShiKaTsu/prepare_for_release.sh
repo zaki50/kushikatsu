@@ -10,3 +10,7 @@ sed -e 's/<classpathentry kind="lib" path="libs\/findbugs-[0-9.]*\.jar"\/>//' -e
 # ant が参照してしまわないように使ってないライブラリを削除
 rm -f libs/findbugs-*.jar
 rm -f libs/jsr305-*.jar
+
+# debuggable を false にする
+sed -e 's/android:debuggable="true"/android:debuggable="false"/' -i "" AndroidManifest.xml
+
