@@ -56,11 +56,9 @@ public class PrefActivity extends PreferenceActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_LEFT_ICON);
         super.onCreate(savedInstanceState);
-        setFeatureDrawableResource(Window.FEATURE_LEFT_ICON,
-                R.drawable.icon);
+        setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.icon);
 
         addPreferencesFromResource(R.xml.pref);
-
 
         // バージョン情報設定
         String versionName = "";
