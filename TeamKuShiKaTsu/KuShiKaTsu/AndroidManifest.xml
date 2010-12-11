@@ -43,7 +43,7 @@
   <uses-permission android:name="com.felicanetworks.mfc.permission.MFC_ACCESS" />
   <uses-permission android:name="android.permission.VIBRATE"/>
 
-  <uses-sdk android:minSdkVersion="7" />
+  <uses-sdk android:minSdkVersion="4" />
 
   <supports-screens
     android:largeScreens="true"
