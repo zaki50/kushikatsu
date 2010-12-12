@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">串かつ</string>
+  <string name="sender_name">串かつ Sender</string>
+  <!--
+  <string name="progress_title">FeliCa Push</string>
+  -->
+  <string name="progress_msg_preparing">FeliCa デバイスを準備中</string>
+  <string name="progress_msg_sending_with_remaining_time">タッチ！(残り %1$d秒)</string>
+  <string name="progress_msg_sent">送信完了</string>
+
+  <string name="site_url">http://sites.google.com/site/94katsu/</string>
+
+  <string name="pref_category_sound">サウンド</string>
+  <string name="pref_category_about">About</string>
+  <string name="pref_title_sound">サウンド</string>
+  <string name="pref_title_select_sound">サウンド選択</string>
+  <string name="pref_title_vibration">バイブ</string>
+  <string name="pref_title_devinfo">開発情報</string>
+  <string name="pref_title_version">バージョン</string>
+  <string name="pref_category_development">開発</string>
+  <string name="pref_title_mock_device">擬似デバイスを使用する</string>
+  <string name="pref_title_select_result">リザルトコード選択</string>
+  <string name="pref_title_select_result_code">リザルトコード</string>
+
+  <string name="on">on</string>
+  <string name="off">off</string>
+  <!--
+  <string name=""></string>
+   -->
+</resources>
