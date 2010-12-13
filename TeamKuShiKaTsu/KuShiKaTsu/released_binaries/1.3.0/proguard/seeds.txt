@@ -1,0 +1,155 @@
+jp.andeb.kushikatsu.ActionType: jp.andeb.kushikatsu.ActionType[] values()
+jp.andeb.kushikatsu.ActionType: jp.andeb.kushikatsu.ActionType valueOf(java.lang.String)
+jp.andeb.kushikatsu.SendActivity
+jp.andeb.kushikatsu.PrefActivity
+com.felicanetworks.mfc.Felica
+com.felicanetworks.mfc.FSC
+com.felicanetworks.mfc.FelicaResultInfoType
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoInt
+com.felicanetworks.mfc.FelicaResultInfoInt: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoByteArray
+com.felicanetworks.mfc.FelicaResultInfoByteArray: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoIntArray
+com.felicanetworks.mfc.FelicaResultInfoIntArray: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoDataArray
+com.felicanetworks.mfc.FelicaResultInfoDataArray: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoNodeInformation
+com.felicanetworks.mfc.FelicaResultInfoNodeInformation: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoBlockCountInformationArray
+com.felicanetworks.mfc.FelicaResultInfoBlockCountInformationArray: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoBoolean
+com.felicanetworks.mfc.FelicaResultInfoBoolean: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.Data
+com.felicanetworks.mfc.PurseCashBackData
+com.felicanetworks.mfc.PurseCashBackData: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.PINChangeData
+com.felicanetworks.mfc.PINChangeData: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.RandomData
+com.felicanetworks.mfc.RandomData: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.PurseData
+com.felicanetworks.mfc.PurseData: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.PurseDecrementData
+com.felicanetworks.mfc.PurseDecrementData: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.PINEnableData
+com.felicanetworks.mfc.PINEnableData: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.CyclicData
+com.felicanetworks.mfc.CyclicData: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.PINCheckData
+com.felicanetworks.mfc.PINCheckData: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.PushSegment
+com.felicanetworks.mfc.PushIntentSegment
+com.felicanetworks.mfc.PushIntentSegment: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.PushNotifyAppSegment
+com.felicanetworks.mfc.PushNotifyAppSegment: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.PushStartBrowserSegment
+com.felicanetworks.mfc.PushStartBrowserSegment: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.PushStartAppSegment
+com.felicanetworks.mfc.PushStartAppSegment: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.PushStartMailerSegment
+com.felicanetworks.mfc.PushStartMailerSegment: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.Device
+com.felicanetworks.mfc.Device: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.PrivacySettingData
+com.felicanetworks.mfc.PrivacySettingData: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoType
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoInt
+com.felicanetworks.mfc.FelicaResultInfoInt: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoByteArray
+com.felicanetworks.mfc.FelicaResultInfoByteArray: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoIntArray
+com.felicanetworks.mfc.FelicaResultInfoIntArray: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoDataArray
+com.felicanetworks.mfc.FelicaResultInfoDataArray: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoNodeInformation
+com.felicanetworks.mfc.FelicaResultInfoNodeInformation: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoBlockCountInformationArray
+com.felicanetworks.mfc.FelicaResultInfoBlockCountInformationArray: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoBoolean
+com.felicanetworks.mfc.FelicaResultInfoBoolean: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.BlockList
+com.felicanetworks.mfc.BlockList: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.PushSegmentParcelableWrapper
+com.felicanetworks.mfc.PushSegmentParcelableWrapper: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoInt
+com.felicanetworks.mfc.FelicaResultInfoInt: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.BlockData
+com.felicanetworks.mfc.BlockData: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.NodeInformation
+com.felicanetworks.mfc.NodeInformation: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoByteArray
+com.felicanetworks.mfc.FelicaResultInfoByteArray: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.DataList
+com.felicanetworks.mfc.DataList: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.Block
+com.felicanetworks.mfc.Block: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.AppInfo
+com.felicanetworks.mfc.AppInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.AreaInformation
+com.felicanetworks.mfc.AreaInformation: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoIntArray
+com.felicanetworks.mfc.FelicaResultInfoIntArray: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoDataArray
+com.felicanetworks.mfc.FelicaResultInfoDataArray: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.DeviceList
+com.felicanetworks.mfc.DeviceList: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoNodeInformation
+com.felicanetworks.mfc.FelicaResultInfoNodeInformation: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoBlockCountInformationArray
+com.felicanetworks.mfc.FelicaResultInfoBlockCountInformationArray: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.BlockDataList
+com.felicanetworks.mfc.BlockDataList: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.BlockCountInformation
+com.felicanetworks.mfc.BlockCountInformation: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfoBoolean
+com.felicanetworks.mfc.FelicaResultInfoBoolean: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.FelicaResultInfo: android.os.Parcelable$Creator CREATOR
+com.felicanetworks.mfc.ResultInfo: android.os.Parcelable$Creator CREATOR
