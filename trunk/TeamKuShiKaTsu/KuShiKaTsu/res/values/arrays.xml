@@ -34,4 +34,14 @@
         <item>7</item>
         <item>8</item>
     </string-array>
+    <string-array name="message_type_entries">
+        <item>Send Intent</item>
+        <item>Start Browser</item>
+        <item>Start Mailer</item>
+    </string-array>
+    <string-array name="message_type_entryvalues">
+        <item>intent</item>
+        <item>browser</item>
+        <item>mailer</item>
+    </string-array>
 </resources>

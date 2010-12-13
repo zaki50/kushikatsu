@@ -22,4 +22,9 @@
         <item>おサイフケータイ未初期化(7)</item>
         <item>ICカードロック中(8)</item>
     </string-array>
+    <string-array name="message_type_entries">
+        <item>インテント送信</item>
+        <item>ブラウザ起動</item>
+        <item>メーラ起動</item>
+    </string-array>
 </resources>

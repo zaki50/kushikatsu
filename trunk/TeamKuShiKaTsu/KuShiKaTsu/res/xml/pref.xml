@@ -43,6 +43,17 @@
       android:dependency="mock_device_enabled" />
   </PreferenceCategory>
 
+  <PreferenceCategory android:title="@string/pref_category_selftest">
+    <ListPreference
+      android:title="@string/pref_title_send_push_message"
+      android:key="selftest_message_type"
+      android:dialogTitle="@string/pref_title_send_push_message"
+      android:entries="@array/message_type_entries"
+      android:entryValues="@array/message_type_entryvalues"
+      android:defaultValue="intent"
+      android:persistent="false" />
+  </PreferenceCategory>
+
   <PreferenceCategory
     android:title="@string/pref_category_about">
     <PreferenceScreen android:title="@string/pref_title_devinfo">

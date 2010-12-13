@@ -18,12 +18,29 @@
   <string name="pref_title_mock_device">Use mock device</string>
   <string name="pref_title_select_result">Select result code</string>
   <string name="pref_title_select_result_code">Result code</string>
+  <string name="pref_category_selftest">Self test</string>
+  <string name="pref_title_send_push_message">Send message</string>
   <string name="pref_category_about">About</string>
   <string name="pref_title_devinfo">DevInfo</string>
   <string name="pref_title_version">Version</string>
 
+  <string name="failed_to_send">failed to send.</string>
+
   <string name="on">on</string>
   <string name="off">off</string>
+
+  <string name="send_result_ok">Succeeded.</string>
+  <string name="send_result_canceled">Canceled</string>
+  <string name="send_result_unexpected_error">Failed.</string>
+  <string name="send_result_invalid_extra">Invalid extra.</string>
+  <string name="send_result_device_not_found">Device not found.</string>
+  <string name="send_result_device_in_use">Device in use.</string>
+  <string name="send_result_too_big">Content too big.</string>
+  <string name="send_result_timeout">Timeout.</string>
+  <string name="send_result_not_initialized">Device not initialized.</string>
+  <string name="send_result_device_locked">Device locked.</string>
+  <string name="send_result_unknown_error"></string>
+
   <!--
   <string name=""></string>
    -->
