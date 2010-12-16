@@ -63,6 +63,9 @@ if ! ant clean > ant_clean.log; then
 fi
 
 # ant release の実行
+echo "updating build.xml" >&2
+rm -f build.xml
+android update project -p .
 echo "invoking 'ant release'. output is written to ant_release.log" >&2
 if ! ant release | tee ./ant_release.log | grep "Please enter"; then
   cat ./ant_release.log
