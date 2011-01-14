@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">串かつ</string>
-  <string name="sender_name">串かつ Sender</string>
+  <string name="sender_name">FeliCa Push 送信</string>
   <!--
   <string name="progress_title">FeliCa Push</string>
   -->

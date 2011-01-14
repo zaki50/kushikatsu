@@ -28,6 +28,11 @@
         <action android:name="jp.andeb.kushikatsu.FELICA_MAILER" />
         <category android:name="android.intent.category.DEFAULT" />
       </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.SEND" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <data android:mimeType="text/plain" />
+      </intent-filter>
     </activity>
     <service android:name="com.felicanetworks.mfc.Felica"
       android:exported="false" />
