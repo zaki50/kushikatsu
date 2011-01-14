@@ -75,6 +75,16 @@ enum ActionType {
         }
 
         public PushSegment extract(Intent intent) {
+            if (Intent.ACTION_SEND.equals(intent.getAction())) {
+                final CharSequence uri = intent.getCharSequenceExtra(Intent.EXTRA_TEXT);
+                if (uri == null) {
+                    return null;
+                }
+                final PushStartBrowserSegment segment;
+                segment = new PushStartBrowserSegment(uri.toString(), null);
+                return segment;
+            }
+            
             final String url = intent.getStringExtra(EXTRA_URL);
             final String browserParam = intent
                     .getStringExtra(EXTRA_BROWSER_PARAM);
@@ -151,6 +161,11 @@ enum ActionType {
      */
     @CheckForNull
     public static ActionType of(String actionString) {
+        if (Intent.ACTION_SEND.equals(actionString)) {
+            // SEND は相手端末ではブラウザを開くようにする
+            return FELICA_BROWSER;
+        }
+
         if (FELICA_INTENT.getActionString().equals(actionString)) {
             return FELICA_INTENT;
         }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">KuShiKaTsu</string>
-  <string name="sender_name">KuShiKaTsu Sender</string>
+  <string name="sender_name">FeliCa Push Sender</string>
   <string name="progress_title">FeliCa Push</string>
 
   <string name="progress_msg_preparing">preparing FeliCa device.</string>
