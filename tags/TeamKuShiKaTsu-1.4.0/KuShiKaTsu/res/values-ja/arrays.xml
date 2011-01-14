@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sound_pattern_entries">
+        <item>サウンド１</item>
+        <item>サウンド２</item>
+        <item>サウンド３</item>
+    </string-array>
+    <string-array name="sound_pattern_entryvalues">
+        <item>se1</item>
+        <item>se2</item>
+        <item>se3</item>
+    </string-array>
+    <string-array name="result_code_entries">
+        <item>送信完了(-1)</item>
+        <item>キャンセル(0)</item>
+        <item>予期しないエラー(1)</item>
+        <item>Extraが不正(2)</item>
+        <item>FeliCaが存在しない(3)</item>
+        <item>FeliCa使用中(4)</item>
+        <item>データが大きすぎる(5)</item>
+        <item>送信タイムアウト(6)</item>
+        <item>おサイフケータイ未初期化(7)</item>
+        <item>ICカードロック中(8)</item>
+    </string-array>
+    <string-array name="message_type_entries">
+        <item>インテント送信</item>
+        <item>ブラウザ起動</item>
+        <item>メーラ起動</item>
+    </string-array>
+</resources>
