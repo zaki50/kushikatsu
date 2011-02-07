@@ -17,12 +17,12 @@
  */
 package jp.andeb.kushikatsu;
 
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_DEVICE_IN_USE;
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_DEVICE_NOT_FOUND;
 import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_INVALID_EXTRA;
 import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_TIMEOUT;
-import static jp.andeb.kushikatsu.helper.KushikatsuHelper.*;
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_TOO_BIG;
 import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_UNEXPECTED_ERROR;
-import static jp.andeb.kushikatsu.util.FelicaUtil.closeQuietly;
-import static jp.andeb.kushikatsu.util.FelicaUtil.inactivateQuietly;
 import static jp.andeb.kushikatsu.util.MediaPlayerUtil.RELEASE_PLAYER_LISTENER;
 
 import java.lang.reflect.Field;
@@ -34,15 +34,15 @@ import java.util.concurrent.TimeUnit;
 
 import jp.andeb.kushikatsu.helper.KushikatsuHelper;
 import jp.andeb.kushikatsu.helper.KushikatsuHelper.CommonParam;
+import jp.andeb.kushikatsu.sender.FeliCaPushSender;
+import jp.andeb.kushikatsu.sender.PushSender;
 import jp.andeb.kushikatsu.util.FelicaUtil;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources.NotFoundException;
@@ -50,7 +50,6 @@ import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -160,7 +159,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
     }
 
     @CheckForNull
-    private Felica felica_ = null;
+    private PushSender sender_ = null;
 
     /**
      * 送信中のプログレスダイアログ。表示中のみ インスタンスを保持し、表示されていない間は
@@ -175,8 +174,6 @@ public class SendActivity extends Activity implements FelicaEventListener {
      */
     @CheckForNull
     private PushSegment segment_ = null;
-
-    private volatile boolean canceled_ = false;
 
     /*
      * 共通パラメータ
@@ -213,6 +210,8 @@ public class SendActivity extends Activity implements FelicaEventListener {
 
         setContentView(R.layout.send);
         preferences_ = PreferenceManager.getDefaultSharedPreferences(this);
+
+        sender_ = new FeliCaPushSender(this);
     }
 
     /**
@@ -321,7 +320,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
             return;
         }
 
-        final boolean connecting = connect();
+        final boolean connecting = sender_.connect();
         if (!connecting) {
             setResultWithLog(RESULT_UNEXPECTED_ERROR);
             dismissProgress();
@@ -338,13 +337,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
         try {
             super.onPause();
 
-            final Felica felica = felica_;
-            felica_ = null;
-            if (felica != null) {
-                closeQuietly(felica, TAG);
-                inactivateQuietly(felica, TAG);
-                unbindService(service_);
-            }
+            sender_.disconnect();
         } finally {
             dismissProgress();
         }
@@ -399,70 +392,6 @@ public class SendActivity extends Activity implements FelicaEventListener {
     }
 
     /**
-     * サービスへのバインドを開始し、{@link Felica} インスタンス獲得処理を開始します。
-     *
-     * @return
-     * サービスのバインドを開始した場合は {@code true}、開始できなかった場合は {@code false}
-     * を返します。 {@code true} を返した場合は、 {@link #service_} の
-     * {@code onServiceConnected(ComponentName, IBinder)} が呼び出されます。
-     */
-    @CheckForNull
-    public boolean connect() {
-        if (felica_ != null) {
-            throw new IllegalStateException("already connected to FeliCa.");
-        }
-        final Intent intent = new Intent();
-        intent.setClass(this, Felica.class);
-        final boolean result = bindService(intent, service_,
-                Context.BIND_AUTO_CREATE);
-        return result;
-    }
-
-    /**
-     * {@code Felica} サービスとの接続を管理するクラスです。
-     */
-    private final ServiceConnection service_ = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            final Felica felica = ((Felica.LocalBinder) service).getInstance();
-            felica_ = felica;
-            if (felica == null) {
-                // ありえないけど念のため
-                setResultWithLog(RESULT_UNEXPECTED_ERROR);
-                finish();
-                return;
-            }
-
-            Log.i(TAG, "connected to FeliCa service");
-            try {
-                Log.i(TAG, "activating FeliCa");
-                canceled_ = false;
-                felica.activateFelica(null, SendActivity.this);
-            } catch (IllegalArgumentException e) {
-                Log.e(TAG, e.getClass().getSimpleName()
-                        + " thrown on activateFelica()", e);
-                setResultWithLog(RESULT_UNEXPECTED_ERROR);
-                finish();
-            } catch (FelicaException e) {
-                final int resultCode = FelicaUtil.logAndGetResultCode(TAG, e,
-                        "activateFelica()");
-                setResultWithLog(resultCode);
-                finish();
-            }
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            final Felica felica = felica_;
-            if (felica != null) {
-                setResultWithLog(RESULT_UNEXPECTED_ERROR);
-                finish();
-            }
-            felica_ = null;
-        }
-    };
-
-    /**
      * プログレスダイアログを表示します。
      *
      * <p>
@@ -480,7 +409,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
             @Override
             public void onCancel(DialogInterface dialog) {
                 setResultWithLog(RESULT_CANCELED);
-                canceled_ = true;
+                sender_.cancel();
                 finish();
             }
         });
@@ -542,24 +471,16 @@ public class SendActivity extends Activity implements FelicaEventListener {
      */
     @Override
     public void finished() {
-        final Felica felica = felica_;
-        if (felica == null) {
-            Log.e(TAG, "unexpedted null of delica_");
-            setResultWithLog(RESULT_UNEXPECTED_ERROR);
-            finish();
-            return;
-        }
-        if (canceled_) {
+        if (sender_.isCanceled()) {
             setResultWithLog(RESULT_CANCELED);
             finish();
             return;
         }
         try {
-            final int resultCode = push(felica);
+            final int resultCode = push();
             setResultWithLog(resultCode);
         } finally {
-            closeQuietly(felica_, TAG);
-            inactivateQuietly(felica_, TAG);
+            sender_.disconnect();
             // 送信の成功/失敗にかかわらず Activity を終了する。
             finish();
         }
@@ -610,13 +531,11 @@ public class SendActivity extends Activity implements FelicaEventListener {
     /**
      * 実際の送信処理を行います。
      *
-     * @param felica
-     * {@link Felica} インスタンス。 {@code null} 禁止。
      * @return
      * {@link Activity} としてのリザルトコード。呼び出し側で
      * {@link Activity#setResult(int) setResult()} してください。
      */
-    private int push(final Felica felica) {
+    private int push() {
         Log.i(TAG, "FeliCa activated");
         final PushSegment segment = segment_;
         if (segment == null) {
@@ -626,7 +545,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
 
         try {
             Log.d(TAG, "opening felica.");
-            felica.open();
+            sender_.open();
             Log.d(TAG, "felica opened.");
         } catch (FelicaException e) {
             final int resultCode = FelicaUtil.logAndGetResultCode(TAG, e,
@@ -648,11 +567,11 @@ public class SendActivity extends Activity implements FelicaEventListener {
                                 .toSeconds(timeoutOfSending_
                                         - (now - startTime)))));
                 // キャンセル確認
-                if (canceled_) {
+                if (sender_.isCanceled()) {
                     return RESULT_CANCELED;
                 }
                 // Push送信
-                felica.push(segment);
+                sender_.push(segment);
                 Log.i(TAG, "FeliCa message has been sent successfully.");
 
                 // 送信完了メッセージ
@@ -709,7 +628,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
      * @param resultCode
      * リザルトコード。
      */
-    private void setResultWithLog(final int resultCode) {
+    public void setResultWithLog(final int resultCode) {
         Log.d(TAG, "set result code: " + resultCode);
         setResult(resultCode);
     }
