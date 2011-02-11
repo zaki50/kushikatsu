@@ -32,17 +32,53 @@ import com.felicanetworks.mfc.PushStartAppSegment;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
+/**
+ * アプリ起動や Intent を Push 送信するコマンドのためのクラスです。
+ */
 public final class PushStartAppCommand extends PushCommand {
 
+    /**
+     * 指定された情報に従ってアプリ起動用の {@link PushStartAppCommand} を構築します。
+     *
+     * @param idm
+     * 対象の IDm。{@code null} 禁止。
+     * @param segment
+     * 起動するアプリの情報を保持した {@link PushStartAppSegment} オブジェクト。{@code null} 禁止。
+     * @throws FeliCaException
+     * 指定された情報から {@link PushStartAppCommand} が構築できない場合。
+     */
     public PushStartAppCommand(IDm idm, PushStartAppSegment segment) throws FeliCaException {
         this(idm, segment.getAppURL(), segment.getAppIdentificationCode(), segment
                 .getAppStartupParam());
     }
 
+    /**
+     * 指定された情報に従って {@link Intent} 送信用の {@link PushStartAppCommand} を構築します。
+     *
+     * @param idm
+     * 対象の IDm。{@code null} 禁止。
+     * @param segment
+     * 起動する {@link Intent} 情報を保持した {@link PushStartAppSegment} オブジェクト。{@code null} 禁止。
+     * @throws FeliCaException
+     * 指定された情報から {@link PushStartAppCommand} が構築できない場合。
+     */
     public PushStartAppCommand(IDm idm, PushIntentSegment segment) throws FeliCaException {
         this(idm, null, "ANDR01", toAppParam(segment));
     }
 
+    /**
+     * 指定された情報に従ってアプリ起動用の {@link PushStartAppCommand} を構築します。
+     *
+     * @param idm
+     * 対象の IDm。{@code null} 禁止。
+     * @param url
+     * アプリの URL。 {@code null} は空文字として扱います。
+     * @param icc
+     * アプリの起動チェックコード。 {@code null} は空文字として扱います。
+     * @param appParam
+     * アプリの起動パラメータ配列。 {@code null} は空配列として扱います。
+     * @throws FeliCaException
+     */
     public PushStartAppCommand(IDm idm, @CheckForNull String url, @CheckForNull String icc,
             @CheckForNull String[] appParam) throws FeliCaException {
         super(idm, buildPushAppSegment(url, icc, appParam));
