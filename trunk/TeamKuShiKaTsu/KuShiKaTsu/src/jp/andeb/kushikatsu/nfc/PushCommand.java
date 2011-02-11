@@ -31,7 +31,11 @@ import android.content.Intent;
 
 import com.felicanetworks.mfc.PushIntentSegment;
 import com.felicanetworks.mfc.PushSegment;
+import com.felicanetworks.mfc.PushStartAppSegment;
 import com.felicanetworks.mfc.PushStartBrowserSegment;
+import com.felicanetworks.mfc.PushStartMailerSegment;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class PushCommand extends CommandPacket {
 
@@ -89,6 +93,12 @@ public class PushCommand extends CommandPacket {
         if (segment instanceof PushStartBrowserSegment) {
             return buildPushStartBrowserSegment((PushStartBrowserSegment) segment);
         }
+        if (segment instanceof PushStartMailerSegment) {
+            return buildPushStartMailerSegment((PushStartMailerSegment) segment);
+        }
+        if (segment instanceof PushStartAppSegment) {
+            return buildPushStartAppSegment((PushStartAppSegment) segment);
+        }
         throw new IllegalArgumentException("not supported " + segment);
     }
 
@@ -130,6 +140,120 @@ public class PushCommand extends CommandPacket {
         return new byte[][] { buffer.array() };
     }
 
+    private static final Charset MAIL_ADDRESS_CHARSET = Charset.forName("iso8859-1");
+    private static final Charset MAIL_SUBJECT_CHARSET = Charset.forName("Shift_JIS");
+    private static final Charset MAIL_BODY_CHARSET = MAIL_SUBJECT_CHARSET;
+    private static final Charset MAIL_STARTUP_PARAM_CHARSET = MAIL_SUBJECT_CHARSET;
+    private static final byte[] EMPTY_BYTES = new byte[0];
+
+    private static byte[][] buildPushStartMailerSegment(PushStartMailerSegment segment) {
+
+        final int type = segment.getType();
+        @CheckForNull
+        final String[] toAddresses = segment.getToAddress();
+        @CheckForNull
+        final String[] ccAddresses = segment.getCcAddress();
+        @CheckForNull
+        final String subject = segment.getSubject();
+        @CheckForNull
+        final String body = segment.getBody();
+        @CheckForNull
+        final String mailerStartupParam = segment.getMailerStartupParam();
+
+        final byte[] toAddrsBytes = getJoinedBytes(toAddresses, MAIL_ADDRESS_CHARSET, (byte) ',');
+        final byte[] ccAddrsBytes = getJoinedBytes(ccAddresses, MAIL_ADDRESS_CHARSET, (byte) ',');
+        final byte[] subjectBytes = (subject == null) ? EMPTY_BYTES : subject
+                .getBytes(MAIL_SUBJECT_CHARSET);
+        final byte[] bodyBytes = (body == null) ? EMPTY_BYTES : body.getBytes(MAIL_BODY_CHARSET);
+        final byte[] mailerStartupParamByte = (mailerStartupParam == null) ? EMPTY_BYTES
+                : mailerStartupParam.getBytes(MAIL_STARTUP_PARAM_CHARSET);
+
+        final int capacity = toAddrsBytes.length + ccAddrsBytes.length + subjectBytes.length
+                + bodyBytes.length + mailerStartupParamByte.length + 11; // type(1byte)
+                                                                         // +
+                                                                         // paramSize(2bytes)
+                                                                         // +
+                                                                         // toLength(2bytes)
+                                                                         // +
+                                                                         // ccLength(2bytes)
+                                                                         // +
+                                                                         // subjectLength(2bytes)
+                                                                         // +
+                                                                         // bodyLength(2bytes)
+        ByteBuffer buffer = ByteBuffer.allocate(capacity);
+
+        // 個別部ヘッダ
+
+        // 起動制御情報
+        buffer.put((byte) type);
+        // 個別部パラメータサイズ
+        int paramSize = capacity - 3/*type(1byte) + paramSize(2bytes)*/;
+        putAsLittleEndian(paramSize, buffer);
+
+        // 個別部パラメータ
+
+        // Toサイズ
+        putAsLittleEndian(toAddrsBytes.length, buffer);
+        // To
+        buffer.put(toAddrsBytes);
+        // Ccサイズ
+        putAsLittleEndian(ccAddrsBytes.length, buffer);
+        // Cc
+        buffer.put(ccAddrsBytes);
+        // Subject サイズ
+        putAsLittleEndian(subjectBytes.length, buffer);
+        // Subject
+        buffer.put(subjectBytes);
+        // Body サイズ
+        putAsLittleEndian(bodyBytes.length, buffer);
+        // Body
+        buffer.put(bodyBytes);
+        // メーラスタートアップパラメータ
+        buffer.put(mailerStartupParamByte);
+
+        return new byte[][] { buffer.array() };
+    }
+
+    // TODO いろいろテストすること
+    static byte[] getJoinedBytes(@CheckForNull String[] strs, Charset charset, byte separator) {
+        if (strs == null) {
+            return EMPTY_BYTES;
+        }
+
+        int totalStrByteLength = 0;
+        int nullCount = 0;
+        final byte[][] strBytes = new byte[strs.length][];
+        for (int i = 0; i < strs.length; i++) {
+            final String str = strs[i];
+            if (str == null) {
+                strBytes[i] = null;
+                nullCount++;
+                continue;
+            }
+            strBytes[i] = str.getBytes(charset);
+            totalStrByteLength += strBytes[i].length;
+        }
+        totalStrByteLength += Math.max(0, strs.length - nullCount - 1); // separator の分
+
+        final byte[] result = new byte[totalStrByteLength];
+        int nextHeadIndex = 0;
+        for (int i = 0; i < strBytes.length; i++) {
+            final byte[] bytes = strBytes[i];
+            if (bytes == null) {
+                continue;
+            }
+            final int length = strBytes[i].length;
+            System.arraycopy(strBytes[i], 0, result, nextHeadIndex, length);
+            nextHeadIndex += length;
+            if (nextHeadIndex != totalStrByteLength) {
+                // 最後の要素ではない場合
+                result[nextHeadIndex] = separator;
+                nextHeadIndex++;
+            }
+        }
+        return result;
+    }
+
     private static byte[][] buildPushIntentSegment(PushIntentSegment segment) {
         final Intent intent = segment.getIntentData();
         final String intentUrl = intent.toUri(Intent.URI_INTENT_SCHEME);
@@ -138,27 +262,32 @@ public class PushCommand extends CommandPacket {
     }
 
     private static byte[][] buildPushIntentSegment(String intentUrl) {
-        return buildPushIappliSegment("", "ANDR01", intentUrl);
+        return buildPushIappliSegment("", "ANDR01", new String[] {intentUrl});
     }
 
-    private static final Charset URL_CHARSET = Charset.forName("iso8859-1");
-    private static final Charset ICC_CHARSET = Charset.forName("iso8859-1");
-    private static final Charset PARAM_CHARSET = Charset.forName("Shift_JIS"); // TODO 日本語の extra でもこれでOKか確認する
+    private static final Charset APP_URL_CHARSET = Charset.forName("iso8859-1");
+    private static final Charset APP_ICC_CHARSET = Charset.forName("iso8859-1");
+    private static final Charset APP_PARAM_CHARSET = Charset.forName("Shift_JIS");
 
-    private static byte[][] buildPushIappliSegment(String url, String icc, String appParam) {
+    private static byte[][] buildPushStartAppSegment(PushStartAppSegment segment) {
+        final String url = segment.getAppURL();
+        final String icc = segment.getAppIdentificationCode();
+        final String[] appStarupParam = segment.getAppStartupParam();
+        return buildPushIappliSegment(url, icc, appStarupParam);
+    }
+
+    private static byte[][] buildPushIappliSegment(@CheckForNull String url,
+            @CheckForNull String icc, @CheckForNull String[] appParam) {
         if (url == null) {
             url = "";
         }
         if (icc == null) {
             icc = "";
         }
-        if (appParam == null) {
-            appParam = "";
-        }
 
-        byte[] urlBytes = url.getBytes(URL_CHARSET);
-        byte[] iccBytes = icc.getBytes(ICC_CHARSET);
-        byte[] appParamBytes = appParam.getBytes(PARAM_CHARSET);
+        byte[] urlBytes = url.getBytes(APP_URL_CHARSET);
+        byte[] iccBytes = icc.getBytes(APP_ICC_CHARSET);
+        byte[] appParamBytes = getJoinedBytes(appParam, APP_PARAM_CHARSET, (byte) ' ');
 
         int capacity = urlBytes.length + iccBytes.length + appParamBytes.length + 7;// type(1byte)
                                                                                     // +
