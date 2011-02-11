@@ -29,12 +29,37 @@ import com.felicanetworks.mfc.PushStartBrowserSegment;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
+/**
+ * ブラウザ起動を Push 送信するコマンドのためのクラスです。
+ */
 public final class PushStartBrowserCommand extends PushCommand {
 
+    /**
+     * 指定された情報に従ってブラウザ起動用の {@link PushStartBrowserCommand} を構築します。
+     *
+     * @param idm
+     * 対象の IDm。{@code null} 禁止。
+     * @param segment
+     * 起動するURL情報を保持した {@link PushStartBrowserCommand} オブジェクト。{@code null} 禁止。
+     * @throws FeliCaException
+     * 指定された情報から {@link PushStartBrowserCommand} が構築できない場合。
+     */
     public PushStartBrowserCommand(IDm idm, PushStartBrowserSegment segment) throws FeliCaException {
         this(idm, segment.getURL(), segment.getBrowserStartupParam());
     }
 
+    /**
+     * 指定された情報に従ってブラウザ起動用の {@link PushStartBrowserCommand} を構築します。
+     *
+     * @param idm
+     * 対象の IDm。{@code null} 禁止。
+     * @param url
+     * URL 文字列。 {@code null} は空文字として扱います。
+     * @param browserStartupParam
+     * ブラウザの起動パラメータ配列。 {@code null} は空配列として扱います。
+     * @throws FeliCaException
+     * 指定された情報から {@link PushStartMailerCommand} が構築できない場合。
+     */
     public PushStartBrowserCommand(IDm idm, @CheckForNull String url,
             @CheckForNull String browserStartupParam) throws FeliCaException {
         super(idm, buildPushStartBrowserSegment(url, browserStartupParam));

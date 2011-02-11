@@ -29,13 +29,44 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 import net.kazzz.felica.FeliCaException;
 import net.kazzz.felica.lib.FeliCaLib.IDm;
 
+/**
+ * メーラ起動を Push 送信するコマンドのためのクラスです。
+ */
 public final class PushStartMailerCommand extends PushCommand {
 
+    /**
+     * 指定された情報に従ってアプリ起動用の {@link PushStartMailerCommand} を構築します。
+     *
+     * @param idm
+     * 対象の IDm。{@code null} 禁止。
+     * @param segment
+     * 起動するメール情報を保持した {@link PushStartMailerCommand} オブジェクト。{@code null} 禁止。
+     * @throws FeliCaException
+     * 指定された情報から {@link PushStartMailerCommand} が構築できない場合。
+     */
     public PushStartMailerCommand(IDm idm, PushStartMailerSegment segment) throws FeliCaException {
         this(idm, segment.getToAddress(), segment.getCcAddress(), segment.getSubject(), segment
                 .getBody(), segment.getMailerStartupParam());
     }
 
+    /**
+     * 指定された情報に従ってアプリ起動用の {@link PushStartMailerCommand} を構築します。
+     *
+     * @param idm
+     * 対象の IDm。{@code null} 禁止。
+     * @param toAddresses
+     * To に使用するアドレスの配列。{@code null} 要素は無視します。{@code null} は空配列として扱います。
+     * @param ccAddresses
+     * Cc に使用するアドレスの配列。{@code null} 要素は無視します。{@code null} は空配列として扱います。
+     * @param subject
+     * Subjet 文字列。 {@code null} は空文字として扱います。
+     * @param body
+     * Body 文字列。 {@code null} は空文字として扱います。
+     * @param mailerStartupParam
+     * メーラの起動パラメータ配列。 {@code null} は空配列として扱います。
+     * @throws FeliCaException
+     * 指定された情報から {@link PushStartMailerCommand} が構築できない場合。
+     */
     public PushStartMailerCommand(IDm idm, @CheckForNull String[] toAddresses,
             @CheckForNull String[] ccAddresses, @CheckForNull String subject,
             @CheckForNull String body, @CheckForNull String mailerStartupParam)

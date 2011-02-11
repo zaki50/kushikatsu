@@ -28,7 +28,7 @@ import net.kazzz.felica.FeliCaException;
 import net.kazzz.felica.lib.FeliCaLib.IDm;
 
 /**
- * バイブレータ振動を Push 送信するための Push コマンドのためのクラスです。
+ * バイブレータ振動を Push 送信するコマンドのためのクラスです。
  */
 public final class PushVibrationCommand extends PushCommand {
 

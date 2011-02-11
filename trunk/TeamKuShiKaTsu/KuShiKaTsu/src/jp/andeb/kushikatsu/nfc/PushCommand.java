@@ -35,7 +35,10 @@ import com.felicanetworks.mfc.PushStartMailerSegment;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class PushCommand extends CommandPacket {
+/**
+ * Push 送信するコマンドのための抽象クラスです。
+ */
+public abstract class PushCommand extends CommandPacket {
 
     public static final byte PUSH = (byte) 0xb0;
 
@@ -43,6 +46,21 @@ public class PushCommand extends CommandPacket {
         FeliCaLib.commandMap.put(PUSH, "Push");
     }
 
+    /**
+     * 渡された {@link PushSegment} から {@link PushCommand} インスタンスを構築します。
+     *
+     * @param idm
+     * 対象の IDm。{@code null} 禁止。
+     * @param segment
+     * {@link PushSegment} オブジェクト。{@code null} 禁止。
+     * @return
+     * 構築された {@link PushCommand} オブジェクト。 指定された {@link PushSegment} に応じて
+     * 適切なサブクラスのインスタンスが構築されます。
+     * @throws FeliCaException
+     * 指定された情報から {@link PushStartMailerCommand} が構築できない場合。
+     * @throws IllegalArgumentException
+     * {@code null} 禁止の引き数に {@code null} を渡した場合。
+     */
     public static PushCommand create(IDm idm, PushSegment segment) throws FeliCaException {
         if (idm == null) {
             throw new IllegalArgumentException("'idm' must not be null.");
