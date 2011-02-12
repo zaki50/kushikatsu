@@ -109,7 +109,7 @@ public final class PushStartAppCommand extends PushCommand {
             @CheckForNull String icc, @CheckForNull String[] appParam) {
         final byte[] urlBytes = PushCommand.getBytes(url, URL_CHARSET);
         final byte[] iccBytes = PushCommand.getBytes(icc, ICC_CHARSET);
-        final byte[] appParamBytes = getJoinedBytes(appParam, STARTUP_PARAM_CHARSET, (byte) ' ');
+        final byte[] appParamBytes = getJoinedBytes(appParam, " ", STARTUP_PARAM_CHARSET);
 
         final int capacity = urlBytes.length + iccBytes.length + appParamBytes.length//
                 + 7;// type(1byte)

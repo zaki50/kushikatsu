@@ -172,18 +172,20 @@ public abstract class PushCommand extends CommandPacket {
      *
      * @param strs 連結対象文字列の配列。{@code null} は空配列として処理します。
      * また、 {@code null} 要素は、無視されます(セパレータも挿入されません)。
-     * @param charset
-     * バイト配列に変換する際のエンコーディング。{@code null} 禁止。
      * @param separator
      * セパレータ。
+     * @param charset
+     * バイト配列に変換する際のエンコーディング。{@code null} 禁止。
      * @return
      * 変換後のバイト列。
      */
-    protected static byte[] getJoinedBytes(@CheckForNull String[] strs, Charset charset,
-            byte separator) {
+    protected static byte[] getJoinedBytes(@CheckForNull String[] strs, String separator,
+            Charset charset) {
         if (strs == null) {
             return EMPTY_BYTES;
         }
+        final byte[] separatorBytes = (separator == null) ? EMPTY_BYTES : separator
+                .getBytes(charset);
 
         int totalStrByteLength = 0;
         int nullCount = 0;
@@ -198,8 +200,11 @@ public abstract class PushCommand extends CommandPacket {
             strBytes[i] = str.getBytes(charset);
             totalStrByteLength += strBytes[i].length;
         }
-        totalStrByteLength += Math.max(0, strs.length - nullCount - 1); // separator
-                                                                        // の分
+        if (separatorBytes.length != 0) {
+            // separatorの分
+            totalStrByteLength += Math
+                    .max(0, (strs.length - nullCount - 1) * separatorBytes.length);
+        }
 
         final byte[] result = new byte[totalStrByteLength];
         int nextHeadIndex = 0;
@@ -213,8 +218,8 @@ public abstract class PushCommand extends CommandPacket {
             nextHeadIndex += length;
             if (nextHeadIndex != totalStrByteLength) {
                 // 最後の要素ではない場合
-                result[nextHeadIndex] = separator;
-                nextHeadIndex++;
+                System.arraycopy(separatorBytes, 0, result, nextHeadIndex, separatorBytes.length);
+                nextHeadIndex += separatorBytes.length;
             }
         }
         return result;

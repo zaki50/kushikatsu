@@ -89,8 +89,8 @@ public final class PushStartMailerCommand extends PushCommand {
             @CheckForNull String[] ccAddresses, @CheckForNull String subject,
             @CheckForNull String body, @CheckForNull String mailerStartupParam) {
 
-        final byte[] toAddrsBytes = getJoinedBytes(toAddresses, MAIL_ADDRESS_CHARSET, (byte) ',');
-        final byte[] ccAddrsBytes = getJoinedBytes(ccAddresses, MAIL_ADDRESS_CHARSET, (byte) ',');
+        final byte[] toAddrsBytes = getJoinedBytes(toAddresses, ",", MAIL_ADDRESS_CHARSET);
+        final byte[] ccAddrsBytes = getJoinedBytes(ccAddresses, ",", MAIL_ADDRESS_CHARSET);
         final byte[] subjectBytes = (subject == null) ? EMPTY_BYTES : subject
                 .getBytes(MAIL_SUBJECT_CHARSET);
         final byte[] bodyBytes = (body == null) ? EMPTY_BYTES : body.getBytes(MAIL_BODY_CHARSET);
