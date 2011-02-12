@@ -49,17 +49,14 @@ public abstract class PushCommand extends CommandPacket {
     /**
      * 渡された {@link PushSegment} から {@link PushCommand} インスタンスを構築します。
      *
-     * @param idm
-     * 対象の IDm。{@code null} 禁止。
-     * @param segment
-     * {@link PushSegment} オブジェクト。{@code null} 禁止。
-     * @return
-     * 構築された {@link PushCommand} オブジェクト。 指定された {@link PushSegment} に応じて
-     * 適切なサブクラスのインスタンスが構築されます。
-     * @throws FeliCaException
-     * 指定された情報から {@link PushStartMailerCommand} が構築できない場合。
-     * @throws IllegalArgumentException
-     * {@code null} 禁止の引き数に {@code null} を渡した場合。
+     * @param idm 対象の IDm。{@code null} 禁止。
+     * @param segment {@link PushSegment} オブジェクト。{@code null} 禁止。
+     * @return 構築された {@link PushCommand} オブジェクト。 指定された {@link PushSegment} に応じて
+     *         適切なサブクラスのインスタンスが構築されます。
+     * @throws FeliCaException 指定された情報から {@link PushStartMailerCommand}
+     *             が構築できない場合。
+     * @throws IllegalArgumentException {@code null} 禁止の引き数に {@code null}
+     *             を渡した場合。
      */
     public static PushCommand create(IDm idm, PushSegment segment) throws FeliCaException {
         if (idm == null) {
@@ -83,8 +80,24 @@ public abstract class PushCommand extends CommandPacket {
         throw new FeliCaException("unsupported push segment: " + segment.getClass().getSimpleName());
     }
 
+    /**
+     * 指定された情報から {@link PushCommand} を構築します。
+     *
+     * @param idm 対象の IDｍ。{@code null} 禁止。
+     * @param segments 個別部(segment) の配列。
+     * @throws FeliCaException 指定された個別部配列から Push コマンドが構築できなかった場合。
+     * @throws IllegalArgumentException {@code null} 禁止の引き数に {@code null}
+     *             を指定した場合。
+     */
     protected PushCommand(IDm idm, byte[][] segments) throws FeliCaException {
-        super(PUSH, idm, packContent(packSegments(segments)));
+        super(PUSH, notNull(idm, "idm"), packContent(packSegments(segments)));
+    }
+
+    private static <T> T notNull(T target, String argName) {
+        if (target == null) {
+            throw new IllegalArgumentException("'" + argName + "' must not be null.");
+        }
+        return target;
     }
 
     private static byte[] packContent(byte[] segments) {
@@ -94,6 +107,15 @@ public abstract class PushCommand extends CommandPacket {
         return buffer;
     }
 
+    /**
+     * 複数の Push セグメント(個別部)を連結し、メッセージを構築します。
+     * <p>
+     * 具体的には、先頭に個別部数(1 byte)、末尾にチェックサムを付加します。
+     * </p>
+     *
+     * @param segments セグメント(個別部)の配列。 {@code null} や、{@code null}要素禁止。
+     * @return 構築された Push メッセージ。
+     */
     private static byte[] packSegments(byte[]... segments) {
         int bytes = 3; // 個別部数(1byte) + チェックサム(2bytes)
         for (int i = 0; i < segments.length; ++i) {
@@ -124,8 +146,18 @@ public abstract class PushCommand extends CommandPacket {
         return buffer.array();
     }
 
+    /**
+     * 空のバイト配列。
+     */
     protected static final byte[] EMPTY_BYTES = new byte[0];
 
+    /**
+     * 渡された文字列を、指定されたエンコーディングのバイト列に変換します。
+     *
+     * @param str 変換対象文字列。 {@code null} は、空文字列として扱います。
+     * @param charset バイト列化する際のエンコーディング。{@code null} 禁止。
+     * @return 変換後のバイト列。
+     */
     protected static byte[] getBytes(@CheckForNull String str, Charset charset) {
         if (str == null) {
             return EMPTY_BYTES;
@@ -133,8 +165,22 @@ public abstract class PushCommand extends CommandPacket {
         return str.getBytes(charset);
     }
 
-    // TODO いろいろテストすること
-    protected static byte[] getJoinedBytes(@CheckForNull String[] strs, Charset charset, byte separator) {
+    /**
+     * 文字列を指定されたセパレータで連結したものを、バイト列に変換して返します。
+     *
+     * TODO いろいろテストすること
+     *
+     * @param strs 連結対象文字列の配列。{@code null} は空配列として処理します。
+     * また、 {@code null} 要素は、無視されます(セパレータも挿入されません)。
+     * @param charset
+     * バイト配列に変換する際のエンコーディング。{@code null} 禁止。
+     * @param separator
+     * セパレータ。
+     * @return
+     * 変換後のバイト列。
+     */
+    protected static byte[] getJoinedBytes(@CheckForNull String[] strs, Charset charset,
+            byte separator) {
         if (strs == null) {
             return EMPTY_BYTES;
         }
@@ -152,7 +198,8 @@ public abstract class PushCommand extends CommandPacket {
             strBytes[i] = str.getBytes(charset);
             totalStrByteLength += strBytes[i].length;
         }
-        totalStrByteLength += Math.max(0, strs.length - nullCount - 1); // separator の分
+        totalStrByteLength += Math.max(0, strs.length - nullCount - 1); // separator
+                                                                        // の分
 
         final byte[] result = new byte[totalStrByteLength];
         int nextHeadIndex = 0;
@@ -173,13 +220,25 @@ public abstract class PushCommand extends CommandPacket {
         return result;
     }
 
-    protected static void putShortAsLittleEndian(int i, ByteBuffer buffer) {
-        buffer.put((byte) ((i >> 0) & 0xff));
-        buffer.put((byte) ((i >> 8) & 0xff));
+    /**
+     * 指定された {@code int} 値の下位 16bit を、リトルエンディアンでバッファに書き込みます。
+     *
+     * @param value 書きこむ値。下位16bitのみが使用されます。
+     * @param buffer 書込み先のバッファ。書き込みの結果、 {@code position} が {@code 2} 増加します。
+     */
+    protected static void putShortAsLittleEndian(int value, ByteBuffer buffer) {
+        buffer.put((byte) ((value >> 0) & 0xff));
+        buffer.put((byte) ((value >> 8) & 0xff));
     }
 
-    protected static void putShortAsBigEndian(int i, ByteBuffer buffer) {
-        buffer.put((byte) ((i >> 8) & 0xff));
-        buffer.put((byte) ((i >> 0) & 0xff));
+    /**
+     * 指定された {@code int} 値の下位 16bit を、ビッグエンディアンでバッファに書き込みます。
+     *
+     * @param value 書きこむ値。下位16bitのみが使用されます。
+     * @param buffer 書込み先のバッファ。書き込みの結果、 {@code position} が {@code 2} 増加します。
+     */
+    protected static void putShortAsBigEndian(int value, ByteBuffer buffer) {
+        buffer.put((byte) ((value >> 8) & 0xff));
+        buffer.put((byte) ((value >> 0) & 0xff));
     }
 }
