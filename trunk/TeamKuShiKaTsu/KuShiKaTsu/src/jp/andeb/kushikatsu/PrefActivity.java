@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Android DEvelopers' cluB
+ * Copyright 2010-2011 Android DEvelopers' cluB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,9 @@ import static jp.andeb.kushikatsu.util.MediaPlayerUtil.RELEASE_PLAYER_LISTENER;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 import jp.andeb.kushikatsu.helper.KushikatsuHelper;
 import android.app.Activity;
 import android.content.Intent;
@@ -42,6 +45,7 @@ import android.widget.Toast;
 /**
  * 設定画面のための {@link Activity} です。
  */
+@DefaultAnnotation(NonNull.class)
 public class PrefActivity extends PreferenceActivity {
 
     /** サウンドモード */
@@ -219,6 +223,10 @@ public class PrefActivity extends PreferenceActivity {
             toast = Toast.makeText(this, R.string.send_result_device_locked,
                     Toast.LENGTH_SHORT);
             break;
+        case KushikatsuHelper.RESULT_PUSH_REGISTERED:
+        toast = Toast.makeText(this, R.string.send_result_push_registered,
+                Toast.LENGTH_SHORT);
+        break;
         default:
             toast = Toast.makeText(this,
                     getString(R.string.send_result_unknown_error, resultCode),
@@ -227,6 +235,4 @@ public class PrefActivity extends PreferenceActivity {
         }
         toast.show();
     }
-
-
 }

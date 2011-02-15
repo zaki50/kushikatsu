@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Android DEvelopers' cluB
+ * Copyright 2010-2011 Android DEvelopers' cluB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,13 @@
  *
  * $Id$
  */
+
 package jp.andeb.kushikatsu;
 
 import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_DEVICE_IN_USE;
 import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_DEVICE_NOT_FOUND;
 import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_INVALID_EXTRA;
+import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_PUSH_REGISTERED;
 import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_TIMEOUT;
 import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_TOO_BIG;
 import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_UNEXPECTED_ERROR;
@@ -48,6 +50,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources.NotFoundException;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -67,31 +70,30 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * 起動時の {@link Intent} に従い {@code FeliCa Push} 送信を行う {@link Activity} です。
- *
  * <p>
- * このアクティビティは、自身を透明にした上で送信中を示すプログレスダイアログを表示します。
- * そのため、あたかも直前にfront だった {@link Activity} が {@code FeliCa Push} 送信を
- * 行っているように見えます。
+ * このアクティビティは、自身を透明にした上で送信中を示すプログレスダイアログを表示します。 そのため、あたかも直前にfront だった
+ * {@link Activity} が {@code FeliCa Push} 送信を 行っているように見えます。
  * </p>
  * <p>
  * 送信に成功/失敗は、 {@link Activity} のリザルトとして呼び出し元に伝え、自身では
- * エラーメッセージを表示することはありません。呼び出し側で必要に応じてユーザへ伝えてください。
- * このアクティビティは以下の result code を使用します。
+ * エラーメッセージを表示することはありません。呼び出し側で必要に応じてユーザへ伝えてください。 このアクティビティは以下の result code
+ * を使用します。
  * </p>
  * <ul>
- *   <li>{@link Activity#RESULT_OK}({@code =-1})</li>
- *   <li>{@link Activity#RESULT_CANCELED}({@code =0})</li>
- *   <li>{@link KushikatsuHelper#RESULT_UNEXPECTED_ERROR}</li>
- *   <li>{@link KushikatsuHelper#RESULT_INVALID_EXTRA}</li>
- *   <li>{@link KushikatsuHelper#RESULT_DEVICE_NOT_FOUND}</li>
- *   <li>{@link KushikatsuHelper#RESULT_DEVICE_IN_USE}</li>
- *   <li>{@link KushikatsuHelper#RESULT_TOO_BIG}</li>
- *   <li>{@link KushikatsuHelper#RESULT_TIMEOUT}</li>
- *   <li>{@link KushikatsuHelper#RESULT_NOT_INITIALIZED}</li>
- *   <li>{@link KushikatsuHelper#RESULT_DEVICE_LOCKED}</li>
+ * <li>{@link Activity#RESULT_OK}({@code =-1})</li>
+ * <li>{@link Activity#RESULT_CANCELED}({@code =0})</li>
+ * <li>{@link KushikatsuHelper#RESULT_UNEXPECTED_ERROR}</li>
+ * <li>{@link KushikatsuHelper#RESULT_INVALID_EXTRA}</li>
+ * <li>{@link KushikatsuHelper#RESULT_DEVICE_NOT_FOUND}</li>
+ * <li>{@link KushikatsuHelper#RESULT_DEVICE_IN_USE}</li>
+ * <li>{@link KushikatsuHelper#RESULT_TOO_BIG}</li>
+ * <li>{@link KushikatsuHelper#RESULT_TIMEOUT}</li>
+ * <li>{@link KushikatsuHelper#RESULT_NOT_INITIALIZED}</li>
+ * <li>{@link KushikatsuHelper#RESULT_DEVICE_LOCKED}</li>
  * </ul>
  *
- * @author YAMAZAKI Makoto &lt;<a href="mailto:makoto1975@gmail.com" >makoto1975@gmail.com</a>&gt;
+ * @author YAMAZAKI Makoto &lt;<a href="mailto:makoto1975@gmail.com"
+ *         >makoto1975@gmail.com</a>&gt;
  */
 @DefaultAnnotation(NonNull.class)
 public class SendActivity extends Activity implements FelicaEventListener {
@@ -117,7 +119,9 @@ public class SendActivity extends Activity implements FelicaEventListener {
     /**
      * 振動パターン設定
      */
-    private static final long[] VIBRATOR_PATTERN = { 0L, 200L };
+    private static final long[] VIBRATOR_PATTERN = {
+            0L, 200L
+    };
 
     /**
      * サウンドリソースの名前と ID のマップ。
@@ -162,15 +166,13 @@ public class SendActivity extends Activity implements FelicaEventListener {
     private PushSender sender_ = null;
 
     /**
-     * 送信中のプログレスダイアログ。表示中のみ インスタンスを保持し、表示されていない間は
-     * {@code null} です。
+     * 送信中のプログレスダイアログ。表示中のみ インスタンスを保持し、表示されていない間は {@code null} です。
      */
     @CheckForNull
     private ProgressDialog progress_ = null;
 
     /**
-     * 現在処理対象としている {@link PushSegment}。送るメッセージの種類に対応した
-     * サブクラスのインスタンスを保持します。
+     * 現在処理対象としている {@link PushSegment}。送るメッセージの種類に対応した サブクラスのインスタンスを保持します。
      */
     @CheckForNull
     private PushSegment segment_ = null;
@@ -214,6 +216,16 @@ public class SendActivity extends Activity implements FelicaEventListener {
         sender_ = new FeliCaPushSender(this);
     }
 
+    private static boolean isNfcAvailable() {
+        return Build.MODEL.equals("Nexus S");
+    }
+
+    private void registerSegmentForNfc(PushSegment segment) {
+        // アプリケーショングローバルに登録
+        final KushikatsuApplication app = (KushikatsuApplication) getApplication();
+        app.setPushSegment(segment);
+    }
+
     /**
      * {@link Activity} が表示される直前の処理を実装するメソッドです。
      */
@@ -248,8 +260,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
         segment_ = segment;
 
         // 完了音を取得する
-        int soundResId = initiatorIntent.getIntExtra(
-                CommonParam.EXTRA_SOUND_ON_SENT, -1);
+        int soundResId = initiatorIntent.getIntExtra(CommonParam.EXTRA_SOUND_ON_SENT, -1);
         if (0 <= soundResId) {
             // 呼び出し元のサウンドリソースを使用する場合
             @CheckForNull
@@ -264,19 +275,18 @@ public class SendActivity extends Activity implements FelicaEventListener {
             }
         } else {
             // KuShiKaTsu のサウンドリソースを使用する場合
-            String soundName = initiatorIntent
-                    .getStringExtra(CommonParam.EXTRA_SOUND_ON_SENT);
+            String soundName = initiatorIntent.getStringExtra(CommonParam.EXTRA_SOUND_ON_SENT);
             if (soundName == null) {
-                soundName = preferences_.getString(
-                        PrefActivity.KEY_SOUND_PATTERN, SOUND_ON_SENT_DEFAULT);
+                soundName = preferences_.getString(PrefActivity.KEY_SOUND_PATTERN,
+                        SOUND_ON_SENT_DEFAULT);
             }
             soundOnSent_ = getSoundResId(soundName);
             contextOfSoundOnSent_ = this;
         }
 
         // 送信タイムアウトまでの時間を取得
-        int timeoutSec = initiatorIntent.getIntExtra(
-                CommonParam.EXTRA_SEND_TIMEOUT, SEND_TIMEOUT_DEFAULT);
+        int timeoutSec = initiatorIntent.getIntExtra(CommonParam.EXTRA_SEND_TIMEOUT,
+                SEND_TIMEOUT_DEFAULT);
         if (timeoutSec < 0) {
             timeoutSec = SEND_TIMEOUT_DEFAULT;
         }
@@ -291,9 +301,19 @@ public class SendActivity extends Activity implements FelicaEventListener {
         Log.d(TAG, "enter onResume(): " + hashCode());
         super.onResume();
 
+        if (isNfcAvailable()) {
+            // NFC を用いて送るためにプリファレンスに書きこむだけでOKを返す。
+            assert segment_ != null;
+            registerSegmentForNfc(segment_);
+
+            setResultWithLog(RESULT_PUSH_REGISTERED);
+            finish();
+            return;
+        }
+
         /*
-         * Set result to "unexpected error". This result code will be overwritten
-         * by actual result code in most cases.
+         * Set result to "unexpected error". This result code will be
+         * overwritten by actual result code in most cases.
          */
         setResult(RESULT_UNEXPECTED_ERROR);
 
@@ -301,14 +321,14 @@ public class SendActivity extends Activity implements FelicaEventListener {
         setProgressMessage(getString(R.string.progress_msg_preparing));
 
         // 擬似デバイスモードかどうか
-        final boolean mockEnabled = preferences_.getBoolean(
-                PrefActivity.KEY_MOCK_DEVICE_ENABLED, false);
+        final boolean mockEnabled = preferences_.getBoolean(PrefActivity.KEY_MOCK_DEVICE_ENABLED,
+                false);
         if (mockEnabled) {
             Log.i(TAG, "mock device enabled.");
 
             final String mockResultCodeStr;
-            mockResultCodeStr = preferences_.getString(
-                    PrefActivity.KEY_MOCK_DEVICE_RESULT_CODE, "" + RESULT_OK);
+            mockResultCodeStr = preferences_.getString(PrefActivity.KEY_MOCK_DEVICE_RESULT_CODE, ""
+                    + RESULT_OK);
             int mockResultCode;
             try {
                 mockResultCode = Integer.parseInt(mockResultCodeStr);
@@ -337,6 +357,11 @@ public class SendActivity extends Activity implements FelicaEventListener {
         try {
             super.onPause();
 
+            if (isNfcAvailable()) {
+                // nothing to do
+                return;
+            }
+
             sender_.disconnect();
         } finally {
             dismissProgress();
@@ -357,24 +382,21 @@ public class SendActivity extends Activity implements FelicaEventListener {
     private Context getCallerContext() {
         final String initiatorPackage = getCallingPackage();
         try {
-            final Context callerContext = createPackageContext(
-                    initiatorPackage, Context.CONTEXT_RESTRICTED);
+            final Context callerContext = createPackageContext(initiatorPackage,
+                    Context.CONTEXT_RESTRICTED);
             return callerContext;
         } catch (NameNotFoundException e) {
-            Log.e(TAG, "failed to obtain context of caller. package name: "
-                    + initiatorPackage, e);
+            Log.e(TAG, "failed to obtain context of caller. package name: " + initiatorPackage, e);
             return null;
         }
     }
 
-    private boolean isValidAudioResource(@CheckForNull final Context context,
-            final int resId) {
+    private boolean isValidAudioResource(@CheckForNull final Context context, final int resId) {
         if (context == null) {
             return false;
         }
         try {
-            final String resTypeName = context.getResources()
-                    .getResourceTypeName(resId);
+            final String resTypeName = context.getResources().getResourceTypeName(resId);
             return "raw".equals(resTypeName);
         } catch (NotFoundException e) {
             return false;
@@ -393,7 +415,6 @@ public class SendActivity extends Activity implements FelicaEventListener {
 
     /**
      * プログレスダイアログを表示します。
-     *
      * <p>
      * 既に表示されているプログレスダイアログが存在する場合は破棄したうえで新たに作成します。
      * </p>
@@ -424,13 +445,11 @@ public class SendActivity extends Activity implements FelicaEventListener {
 
     /**
      * プログレスダイアログのメッセージをセットします。
-     *
      * <p>
      * プログレスダイアログが表示されていない場合はなにもしません。
      * </p>
      *
-     * @param message
-     * メッセージ用の文字列。{@code null} を指定した場合はメッセージの変更を行いません。
+     * @param message メッセージ用の文字列。{@code null} を指定した場合はメッセージの変更を行いません。
      */
     private void setProgressMessage(@CheckForNull final String message) {
         final ProgressDialog progress = progress_;
@@ -447,7 +466,6 @@ public class SendActivity extends Activity implements FelicaEventListener {
 
     /**
      * プログレスダイアログを破棄します。
-     *
      * <p>
      * プログレスダイアログが表示されていない場合はなにもしません。
      * </p>
@@ -455,8 +473,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
     private void dismissProgress() {
         final ProgressDialog progress = progress_;
         Log.d(TAG, "dismiss progress dialog called"
-                + (progress == null ? "(progress_ == null)" : "") + ": "
-                + hashCode());
+                + (progress == null ? "(progress_ == null)" : "") + ": " + hashCode());
         if (progress == null) {
             return;
         }
@@ -490,40 +507,36 @@ public class SendActivity extends Activity implements FelicaEventListener {
      * {@link Felica#activateFelica(String[], FelicaEventListener)} で、デバイスの
      * 有効化に失敗した場合に呼び出される {@code callback} です。
      *
-     * @param id
-     * エラー種別。
-     * @param msg
-     * エラーメッセージ。
-     * @param otherAppInfo
-     * MFC 利用中のアプリ情報。
+     * @param id エラー種別。
+     * @param msg エラーメッセージ。
+     * @param otherAppInfo MFC 利用中のアプリ情報。
      */
     @Override
-    public void errorOccurred(final int id, final String msg,
-            final AppInfo otherAppInfo) {
+    public void errorOccurred(final int id, final String msg, final AppInfo otherAppInfo) {
         Log.e(TAG, "failed to activate FeliCa. id = " + id);
 
         switch (id) {
-        case FelicaEventListener.TYPE_USED_BY_OTHER_APP:
-            setResultWithLog(RESULT_DEVICE_IN_USE);
-            break;
-        case FelicaEventListener.TYPE_NOT_FOUND_ERROR:
-            setResultWithLog(RESULT_DEVICE_NOT_FOUND);
-            break;
-        case FelicaEventListener.TYPE_HTTP_ERROR:
-            setResultWithLog(RESULT_UNEXPECTED_ERROR);
-            break;
-        case FelicaEventListener.TYPE_MFC_VERSION_ERROR:
-            setResultWithLog(RESULT_UNEXPECTED_ERROR);
-            break;
-        case FelicaEventListener.TYPE_UTILITY_VERSION_ERROR:
-            setResultWithLog(RESULT_UNEXPECTED_ERROR);
-            break;
-        case FelicaEventListener.TYPE_UNKNOWN_ERROR:
-            setResultWithLog(RESULT_UNEXPECTED_ERROR);
-            break;
-        default:
-            setResultWithLog(RESULT_UNEXPECTED_ERROR);
-            break;
+            case FelicaEventListener.TYPE_USED_BY_OTHER_APP:
+                setResultWithLog(RESULT_DEVICE_IN_USE);
+                break;
+            case FelicaEventListener.TYPE_NOT_FOUND_ERROR:
+                setResultWithLog(RESULT_DEVICE_NOT_FOUND);
+                break;
+            case FelicaEventListener.TYPE_HTTP_ERROR:
+                setResultWithLog(RESULT_UNEXPECTED_ERROR);
+                break;
+            case FelicaEventListener.TYPE_MFC_VERSION_ERROR:
+                setResultWithLog(RESULT_UNEXPECTED_ERROR);
+                break;
+            case FelicaEventListener.TYPE_UTILITY_VERSION_ERROR:
+                setResultWithLog(RESULT_UNEXPECTED_ERROR);
+                break;
+            case FelicaEventListener.TYPE_UNKNOWN_ERROR:
+                setResultWithLog(RESULT_UNEXPECTED_ERROR);
+                break;
+            default:
+                setResultWithLog(RESULT_UNEXPECTED_ERROR);
+                break;
         }
         finish();
     }
@@ -531,9 +544,8 @@ public class SendActivity extends Activity implements FelicaEventListener {
     /**
      * 実際の送信処理を行います。
      *
-     * @return
-     * {@link Activity} としてのリザルトコード。呼び出し側で
-     * {@link Activity#setResult(int) setResult()} してください。
+     * @return {@link Activity} としてのリザルトコード。呼び出し側で
+     *         {@link Activity#setResult(int) setResult()} してください。
      */
     private int push() {
         Log.i(TAG, "FeliCa activated");
@@ -548,8 +560,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
             sender_.open();
             Log.d(TAG, "felica opened.");
         } catch (FelicaException e) {
-            final int resultCode = FelicaUtil.logAndGetResultCode(TAG, e,
-                    "open()");
+            final int resultCode = FelicaUtil.logAndGetResultCode(TAG, e, "open()");
             return resultCode;
         }
 
@@ -563,9 +574,8 @@ public class SendActivity extends Activity implements FelicaEventListener {
                 // 送信中メッセージ
                 setProgressMessage(getString(
                         R.string.progress_msg_sending_with_remaining_time,
-                        Long.valueOf(TimeUnit.MILLISECONDS
-                                .toSeconds(timeoutOfSending_
-                                        - (now - startTime)))));
+                        Long.valueOf(TimeUnit.MILLISECONDS.toSeconds(timeoutOfSending_
+                                - (now - startTime)))));
                 // キャンセル確認
                 if (sender_.isCanceled()) {
                     return RESULT_CANCELED;
@@ -587,14 +597,11 @@ public class SendActivity extends Activity implements FelicaEventListener {
             } catch (FelicaException e) {
                 if (FelicaUtil.isTimeoutOccurred(e)) {
                     retryCount++;
-                    Log.d(TAG,
-                            "push opration has been timed out. retryCount is "
-                                    + retryCount);
+                    Log.d(TAG, "push opration has been timed out. retryCount is " + retryCount);
                     continue;
                 }
 
-                final int resultCode = FelicaUtil.logAndGetResultCode(TAG, e,
-                        "push()");
+                final int resultCode = FelicaUtil.logAndGetResultCode(TAG, e, "push()");
                 return resultCode;
             }
         }
@@ -603,20 +610,18 @@ public class SendActivity extends Activity implements FelicaEventListener {
 
     private void notifyBySoundAndVibrator() {
         // sound
-        boolean soundMode = preferences_.getBoolean(
-                PrefActivity.KEY_SOUND_MODE, true);
+        boolean soundMode = preferences_.getBoolean(PrefActivity.KEY_SOUND_MODE, true);
         if (soundMode) {
             if (0 < soundOnSent_) {
                 assert contextOfSoundOnSent_ != null;
-                final MediaPlayer mediaPlayer = MediaPlayer.create(
-                        contextOfSoundOnSent_, soundOnSent_);
+                final MediaPlayer mediaPlayer = MediaPlayer.create(contextOfSoundOnSent_,
+                        soundOnSent_);
                 mediaPlayer.setOnCompletionListener(RELEASE_PLAYER_LISTENER);
                 mediaPlayer.start();
             }
         }
         // 振動
-        boolean vibrateMode = preferences_.getBoolean(
-                PrefActivity.KEY_VIBRATION_MODE, true);
+        boolean vibrateMode = preferences_.getBoolean(PrefActivity.KEY_VIBRATION_MODE, true);
         if (vibrateMode) {
             Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vibrator.vibrate(VIBRATOR_PATTERN, -1);
@@ -625,8 +630,8 @@ public class SendActivity extends Activity implements FelicaEventListener {
 
     /**
      * アクティビティのリザルトコードをセットし、セットした内容をログに出力します。
-     * @param resultCode
-     * リザルトコード。
+     *
+     * @param resultCode リザルトコード。
      */
     public void setResultWithLog(final int resultCode) {
         Log.d(TAG, "set result code: " + resultCode);
@@ -636,8 +641,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
     /**
      * 擬似デバイスとして動作するときのための処理を実装したクラスです。
      */
-    private final class MockDeviceAsyncTask extends
-            AsyncTask<Integer, Void, Void> {
+    private final class MockDeviceAsyncTask extends AsyncTask<Integer, Void, Void> {
 
         @Override
         @CheckForNull
@@ -664,9 +668,8 @@ public class SendActivity extends Activity implements FelicaEventListener {
                 // 送信中メッセージ
                 setProgressMessage(getString(
                         R.string.progress_msg_sending_with_remaining_time,
-                        Long.valueOf(TimeUnit.MILLISECONDS
-                                .toSeconds(timeoutOfSending_
-                                        - (now - startTime)))));
+                        Long.valueOf(TimeUnit.MILLISECONDS.toSeconds(timeoutOfSending_
+                                - (now - startTime)))));
                 SystemClock.sleep(100L);
             }
             return null;

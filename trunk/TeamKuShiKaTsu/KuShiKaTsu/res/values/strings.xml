@@ -39,7 +39,13 @@
   <string name="send_result_timeout">Timeout.</string>
   <string name="send_result_not_initialized">Device not initialized.</string>
   <string name="send_result_device_locked">Device locked.</string>
+  <string name="send_result_push_registered">Push message registered.</string>
   <string name="send_result_unknown_error"></string>
+
+  <!-- FeliCa Push Notification 用 -->
+  <string name="nfc_notification_ticker">Place a FeliCa device on the back</string>
+  <string name="nfc_notification_title">FeliCa Push</string>
+  <string name="nfc_notification_text">Place a FeliCa device on the back</string>
 
   <!--
   <string name=""></string>
