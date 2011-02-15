@@ -106,6 +106,9 @@ public class SenderActivity extends Activity implements OnClickListener {
 		} else if (resultCode == 8) {
 			toast = Toast.makeText(this, "おサイフケータイロック中です。",
 					Toast.LENGTH_SHORT);
+		} else if (resultCode == 9) {
+			toast = Toast.makeText(this, "Push メッセージが送信予約されました。",
+					Toast.LENGTH_SHORT);
 		} else {
 			toast = Toast.makeText(this, "不明なエラーです: " + resultCode,
 					Toast.LENGTH_SHORT);
