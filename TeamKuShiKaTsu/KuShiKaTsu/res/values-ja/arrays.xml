@@ -21,6 +21,7 @@
         <item>送信タイムアウト(6)</item>
         <item>おサイフケータイ未初期化(7)</item>
         <item>ICカードロック中(8)</item>
+        <item>Push送信予約完了(9)</item>
     </string-array>
     <string-array name="message_type_entries">
         <item>インテント送信</item>

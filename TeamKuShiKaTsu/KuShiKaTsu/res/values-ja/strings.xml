@@ -40,7 +40,13 @@
   <string name="send_result_timeout">送信がタイムアウトしました。</string>
   <string name="send_result_not_initialized">おサイフケータイの初期化が未実施です。</string>
   <string name="send_result_device_locked">おサイフケータイロック中です。</string>
+  <string name="send_result_push_registered">Push メッセージが送信予約されました。</string>
   <string name="send_result_unknown_error">不明なエラーです: %1$d</string>
+
+  <!-- FeliCa Push Notification 用 -->
+  <string name="nfc_notification_ticker">FeliCa 端末を接触させてください</string>
+  <string name="nfc_notification_title">FeliCa Push</string>
+  <string name="nfc_notification_text">FeliCa 端末を接触させてください</string>
 
   <!--
   <string name=""></string>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Android DEvelopers' cluB
+ * Copyright 2010-2011 Android DEvelopers' cluB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -240,6 +240,14 @@ public final class KushikatsuHelper {
      * 場合({@code =}{@value #RESULT_DEVICE_LOCKED})。
      */
     public static final int RESULT_DEVICE_LOCKED = RESULT_FIRST_USER + 7;
+    /**
+     * Push メッセージ送信が登録完了した
+     * 場合({@code =}{@value #RESULT_PUSH_REGISTERED})。
+     * Gingerbread で導入された NFC API を使用して Push 送信を行う場合の正常終了用リザルトコード。
+     * 実際の Push 送信は、OS が相手デバイスを検出することによって送られてくる {@link Intent}
+     * を串かつが受け取った際に行われます。
+     */
+    public static final int RESULT_PUSH_REGISTERED = RESULT_FIRST_USER + 8;
 
     /**
      * KuShiKaTsu がもサウンドの名前({@value #SOUND_1})の定数です。

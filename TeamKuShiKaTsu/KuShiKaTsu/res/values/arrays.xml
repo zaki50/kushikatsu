@@ -21,6 +21,7 @@
         <item>TIMEOUT(6)</item>
         <item>NOT_INITIALIZED(7)</item>
         <item>DEVICE_LOCKED(8)</item>
+        <item>PUSH_REGISTERED(9)</item>
     </string-array>
     <string-array name="result_code_entryvalues">
         <item>-1</item>
@@ -33,6 +34,7 @@
         <item>6</item>
         <item>7</item>
         <item>8</item>
+        <item>9</item>
     </string-array>
     <string-array name="message_type_entries">
         <item>Send Intent</item>
