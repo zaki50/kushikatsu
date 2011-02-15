@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">串かつ</string>
+  <string name="sender_name">FeliCa Push 送信</string>
+  <!--
+  <string name="progress_title">FeliCa Push</string>
+  -->
+  <string name="progress_msg_preparing">FeliCa デバイスを準備中</string>
+  <string name="progress_msg_sending_with_remaining_time">タッチ！(残り %1$d秒)</string>
+  <string name="progress_msg_sent">送信完了</string>
+
+  <string name="site_url">http://sites.google.com/site/94katsu/</string>
+
+  <string name="pref_category_sound">サウンド</string>
+  <string name="pref_title_sound">サウンド</string>
+  <string name="pref_title_select_sound">サウンド選択</string>
+  <string name="pref_title_vibration">バイブ</string>
+  <string name="pref_category_development">開発</string>
+  <string name="pref_title_mock_device">擬似デバイスを使用する</string>
+  <string name="pref_title_select_result">リザルトコード選択</string>
+  <string name="pref_title_select_result_code">リザルトコード</string>
+  <string name="pref_category_selftest">セルフテスト</string>
+  <string name="pref_title_send_push_message">メッセージ送信</string>
+  <string name="pref_category_about">About</string>
+  <string name="pref_title_devinfo">開発情報</string>
+  <string name="pref_title_version">バージョン</string>
+
+  <string name="failed_to_send">送信できませんでした。</string>
+
+  <string name="on">on</string>
+  <string name="off">off</string>
+
+  <string name="send_result_ok">FeliCa Push 送信成功。</string>
+  <string name="send_result_canceled">送信をキャンセルしました。</string>
+  <string name="send_result_unexpected_error">FeliCa Push 送信に失敗しました。</string>
+  <string name="send_result_invalid_extra">リクエストのパラメータが不正です。</string>
+  <string name="send_result_device_not_found">FeliCa デバイスがみつかりません。</string>
+  <string name="send_result_device_in_use">FeliCa デバイスは使用中です。</string>
+  <string name="send_result_too_big">データが大きすぎます。</string>
+  <string name="send_result_timeout">送信がタイムアウトしました。</string>
+  <string name="send_result_not_initialized">おサイフケータイの初期化が未実施です。</string>
+  <string name="send_result_device_locked">おサイフケータイロック中です。</string>
+  <string name="send_result_push_registered">Push メッセージが送信予約されました。</string>
+  <string name="send_result_unknown_error">不明なエラーです: %1$d</string>
+
+  <!-- FeliCa Push Notification 用 -->
+  <string name="nfc_notification_ticker">FeliCa 端末を接触させてください</string>
+  <string name="nfc_notification_title">FeliCa Push</string>
+  <string name="nfc_notification_text">FeliCa 端末を接触させてください</string>
+
+  <!--
+  <string name=""></string>
+   -->
+</resources>

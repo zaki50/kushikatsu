@@ -1,0 +1,678 @@
+com.felicanetworks.mfc.AppInfo -> com.felicanetworks.mfc.AppInfo:
+    int pid -> a
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int getPid() -> a
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+    int describeContents() -> describeContents
+com.felicanetworks.mfc.AppInfo$1 -> com.felicanetworks.mfc.am:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.AreaInformation -> com.felicanetworks.mfc.AreaInformation:
+    int areaCode -> a
+    int endServiceCode -> b
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.AreaInformation$1 -> com.felicanetworks.mfc.ae:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.Block -> com.felicanetworks.mfc.Block:
+    int serviceCode -> a
+    int type -> b
+    int blockNo -> c
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.Block$1 -> com.felicanetworks.mfc.bg:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.BlockCountInformation -> com.felicanetworks.mfc.BlockCountInformation:
+    int assignedBlocks -> a
+    int emptyBlocks -> b
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.BlockCountInformation$1 -> com.felicanetworks.mfc.f:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.BlockData -> com.felicanetworks.mfc.BlockData:
+    com.felicanetworks.mfc.Block block -> a
+    com.felicanetworks.mfc.Data data -> b
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.BlockData$1 -> com.felicanetworks.mfc.t:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.BlockDataList -> com.felicanetworks.mfc.BlockDataList:
+    java.util.Vector blockDataList -> a
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.BlockDataList$1 -> com.felicanetworks.mfc.p:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.BlockList -> com.felicanetworks.mfc.BlockList:
+    java.util.Vector blockList -> a
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.BlockList$1 -> com.felicanetworks.mfc.an:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.CyclicData -> com.felicanetworks.mfc.CyclicData:
+    byte[] bytes -> a
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.CyclicData$1 -> com.felicanetworks.mfc.ak:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.Data -> com.felicanetworks.mfc.Data:
+com.felicanetworks.mfc.DataList -> com.felicanetworks.mfc.DataList:
+    java.util.Vector dataList -> a
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.DataList$1 -> com.felicanetworks.mfc.bm:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.Device -> com.felicanetworks.mfc.Device:
+    java.lang.String type -> a
+    java.lang.String name -> b
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    void checkString(java.lang.String) -> a
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+    int describeContents() -> describeContents
+com.felicanetworks.mfc.Device$1 -> com.felicanetworks.mfc.o:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.DeviceList -> com.felicanetworks.mfc.DeviceList:
+    com.felicanetworks.mfc.Device DEVICE_FELICA -> a
+    com.felicanetworks.mfc.Device DEVICE_DISPLAY -> b
+    java.util.Hashtable deviceList -> c
+    int nextID -> d
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    void readFromParcel(android.os.Parcel) -> a
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+    int describeContents() -> describeContents
+com.felicanetworks.mfc.DeviceList$1 -> com.felicanetworks.mfc.ab:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.FSC -> com.felicanetworks.mfc.FSC:
+    com.felicanetworks.mfc.Felica felica -> a
+    com.felicanetworks.mfc.FSCEventListener fscEventListener -> b
+    int bindTimeout -> c
+    com.felicanetworks.mfc.FSC$BindTimerHandler bindTimerHandler -> d
+    com.felicanetworks.mfc.DeviceList deviceList -> e
+    boolean online -> f
+    boolean canceled -> g
+    java.lang.String url -> h
+    com.felicanetworks.mfc.IFSCEventListener ifscEventHooker -> i
+    com.felicanetworks.mfc.IFSC fsc -> j
+    com.felicanetworks.mfc.FSC$MfcConnection connectionHooker -> k
+    android.os.IBinder mBinder -> l
+    void terminate() -> b
+    com.felicanetworks.mfc.FSC$ListenerParameter convExceptionToListenerParameter(java.lang.IllegalArgumentException) -> a
+    com.felicanetworks.mfc.FSC$ListenerParameter convExceptionToListenerParameter(com.felicanetworks.mfc.FelicaException) -> a
+    com.felicanetworks.mfc.FSC$ListenerParameter convExceptionToListenerParameter(java.lang.Exception) -> a
+    void unbindMfc() -> a
+    android.os.IBinder onBind(android.content.Intent) -> onBind
+    void onDestroy() -> onDestroy
+    boolean onUnbind(android.content.Intent) -> onUnbind
+    com.felicanetworks.mfc.FSCEventListener access$0(com.felicanetworks.mfc.FSC) -> a
+    void access$1(com.felicanetworks.mfc.FSC) -> b
+    com.felicanetworks.mfc.IFSC access$2(com.felicanetworks.mfc.FSC) -> c
+    com.felicanetworks.mfc.FSC$BindTimerHandler access$3(com.felicanetworks.mfc.FSC) -> d
+    boolean access$4(com.felicanetworks.mfc.FSC) -> e
+    void access$5(com.felicanetworks.mfc.FSC,boolean) -> a
+    void access$6$570c6b3f(com.felicanetworks.mfc.FSC) -> f
+    void access$7(com.felicanetworks.mfc.FSC,com.felicanetworks.mfc.IFSC) -> a
+    boolean access$8(com.felicanetworks.mfc.FSC) -> g
+    java.lang.String access$9(com.felicanetworks.mfc.FSC) -> h
+    com.felicanetworks.mfc.Felica access$10(com.felicanetworks.mfc.FSC) -> i
+    com.felicanetworks.mfc.DeviceList access$11(com.felicanetworks.mfc.FSC) -> j
+    com.felicanetworks.mfc.IFSCEventListener access$12(com.felicanetworks.mfc.FSC) -> k
+    void access$13$39660b41(com.felicanetworks.mfc.FSC) -> l
+com.felicanetworks.mfc.FSC$1 -> com.felicanetworks.mfc.bk:
+    com.felicanetworks.mfc.FSC this$0 -> a
+    void finished(int) -> a
+    void errorOccurred(int,java.lang.String) -> a
+    void operationRequested(int,java.lang.String,byte[]) -> a
+com.felicanetworks.mfc.FSC$BindTimerHandler -> com.felicanetworks.mfc.bi:
+    com.felicanetworks.mfc.FSC this$0 -> a
+    void stopTimer() -> a
+    void handleMessage(android.os.Message) -> handleMessage
+com.felicanetworks.mfc.FSC$ListenerParameter -> com.felicanetworks.mfc.bd:
+    int type -> a
+    java.lang.String msg -> b
+    com.felicanetworks.mfc.FSC this$0 -> c
+    int getType() -> a
+    java.lang.String getMsg() -> b
+com.felicanetworks.mfc.FSC$LocalBinder -> com.felicanetworks.mfc.h:
+    com.felicanetworks.mfc.FSC this$0 -> a
+com.felicanetworks.mfc.FSC$MfcConnection -> com.felicanetworks.mfc.az:
+    com.felicanetworks.mfc.FSC this$0 -> a
+    void onServiceConnected(android.content.ComponentName,android.os.IBinder) -> onServiceConnected
+    void onServiceDisconnected(android.content.ComponentName) -> onServiceDisconnected
+com.felicanetworks.mfc.FSCEventListener -> com.felicanetworks.mfc.bj:
+    byte[] operationRequested$77ae317e() -> a
+com.felicanetworks.mfc.Felica -> com.felicanetworks.mfc.Felica:
+    int retryCount -> a
+    int timeout -> b
+    com.felicanetworks.mfc.Felica$PushAppNotificationListenerStub pushAppNotificationHooker -> c
+    com.felicanetworks.mfc.FelicaEventListener felicaEventListener -> d
+    int bindTimeout -> e
+    com.felicanetworks.mfc.Felica$BindTimerHandler bindTimerHandler -> f
+    com.felicanetworks.mfc.Felica$MfcConnection connectionHooker -> g
+    java.lang.String[] permitList -> h
+    com.felicanetworks.mfc.IFelicaEventListener iFelicaEventListener -> i
+    com.felicanetworks.mfc.IFelica felica -> j
+    boolean connecting -> k
+    android.os.IBinder mBinder -> l
+    void activateFelica$6438ca74(com.felicanetworks.mfc.FelicaEventListener) -> a
+    void inactivateFelica() -> a
+    void open() -> b
+    void close() -> c
+    void push(com.felicanetworks.mfc.PushSegment) -> a
+    void cleanUp() -> f
+    void checkActivated() -> g
+    void unbindMfc() -> d
+    com.felicanetworks.mfc.IFelica getIFelica() -> e
+    android.os.IBinder onBind(android.content.Intent) -> onBind
+    void onDestroy() -> onDestroy
+    boolean onUnbind(android.content.Intent) -> onUnbind
+    com.felicanetworks.mfc.FelicaEventListener access$0(com.felicanetworks.mfc.Felica) -> a
+    void access$1$6d350a13(com.felicanetworks.mfc.Felica) -> b
+    com.felicanetworks.mfc.Felica$BindTimerHandler access$2(com.felicanetworks.mfc.Felica) -> c
+    boolean access$3(com.felicanetworks.mfc.Felica) -> d
+    com.felicanetworks.mfc.IFelica access$4(com.felicanetworks.mfc.Felica) -> e
+    void access$5(com.felicanetworks.mfc.Felica,com.felicanetworks.mfc.IFelica) -> a
+    void access$6$6e273137(com.felicanetworks.mfc.Felica) -> f
+    void access$7$f59d22c(com.felicanetworks.mfc.Felica) -> g
+    java.lang.String[] access$8(com.felicanetworks.mfc.Felica) -> h
+    com.felicanetworks.mfc.IFelicaEventListener access$9(com.felicanetworks.mfc.Felica) -> i
+com.felicanetworks.mfc.Felica$BindTimerHandler -> com.felicanetworks.mfc.u:
+    com.felicanetworks.mfc.Felica this$0 -> a
+    void stopTimer() -> a
+    void handleMessage(android.os.Message) -> handleMessage
+com.felicanetworks.mfc.Felica$FelicaEventListenerStub -> com.felicanetworks.mfc.bf:
+    com.felicanetworks.mfc.Felica this$0 -> a
+    void errorOccurred(int,java.lang.String,com.felicanetworks.mfc.AppInfo) -> a
+    void finished() -> a
+com.felicanetworks.mfc.Felica$LocalBinder -> com.felicanetworks.mfc.ay:
+    com.felicanetworks.mfc.Felica this$0 -> a
+    com.felicanetworks.mfc.Felica getInstance() -> a
+com.felicanetworks.mfc.Felica$MfcConnection -> com.felicanetworks.mfc.aa:
+    com.felicanetworks.mfc.Felica this$0 -> a
+    void onServiceConnected(android.content.ComponentName,android.os.IBinder) -> onServiceConnected
+    void onServiceDisconnected(android.content.ComponentName) -> onServiceDisconnected
+com.felicanetworks.mfc.Felica$PushAppNotificationListenerStub -> com.felicanetworks.mfc.aj:
+    com.felicanetworks.mfc.PushAppNotificationListener listener -> a
+    void setListener$5f38499b() -> a
+    void pushAppNotified(com.felicanetworks.mfc.PushNotifyAppSegment) -> a
+com.felicanetworks.mfc.FelicaEventListener -> com.felicanetworks.mfc.av:
+    void finished() -> a
+    void errorOccurred$76a24a21(int) -> a
+com.felicanetworks.mfc.FelicaException -> com.felicanetworks.mfc.aq:
+    int id -> a
+    int type -> b
+    int statusFlag1 -> c
+    int statusFlag2 -> d
+    com.felicanetworks.mfc.AppInfo otherAppInfo -> e
+    int getID() -> a
+    int getType() -> b
+    int getStatusFlag1() -> c
+    int getStatusFlag2() -> d
+    com.felicanetworks.mfc.AppInfo getOtherAppInfo() -> e
+com.felicanetworks.mfc.FelicaResultInfo -> com.felicanetworks.mfc.FelicaResultInfo:
+    int id -> a
+    int type -> b
+    int statusFlag1 -> c
+    int statusFlag2 -> d
+    com.felicanetworks.mfc.AppInfo otherAppInfo -> e
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int getId() -> c
+    int getType() -> d
+    int getStatusFlag1() -> e
+    int getStatusFlag2() -> f
+    com.felicanetworks.mfc.AppInfo getOtherAppInfo() -> g
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+    void readFromParcel(android.os.Parcel) -> a
+com.felicanetworks.mfc.FelicaResultInfo$1 -> com.felicanetworks.mfc.af:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.FelicaResultInfoBlockCountInformationArray -> com.felicanetworks.mfc.FelicaResultInfoBlockCountInformationArray:
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    void readFromParcel(android.os.Parcel) -> a
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.FelicaResultInfoBlockCountInformationArray$1 -> com.felicanetworks.mfc.d:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.FelicaResultInfoBoolean -> com.felicanetworks.mfc.FelicaResultInfoBoolean:
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    void readFromParcel(android.os.Parcel) -> a
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.FelicaResultInfoBoolean$1 -> com.felicanetworks.mfc.ad:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.FelicaResultInfoByteArray -> com.felicanetworks.mfc.FelicaResultInfoByteArray:
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    void readFromParcel(android.os.Parcel) -> a
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.FelicaResultInfoByteArray$1 -> com.felicanetworks.mfc.as:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.FelicaResultInfoDataArray -> com.felicanetworks.mfc.FelicaResultInfoDataArray:
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    void readFromParcel(android.os.Parcel) -> a
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.FelicaResultInfoDataArray$1 -> com.felicanetworks.mfc.n:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.FelicaResultInfoInt -> com.felicanetworks.mfc.FelicaResultInfoInt:
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    void readFromParcel(android.os.Parcel) -> a
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.FelicaResultInfoInt$1 -> com.felicanetworks.mfc.v:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.FelicaResultInfoIntArray -> com.felicanetworks.mfc.FelicaResultInfoIntArray:
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    void readFromParcel(android.os.Parcel) -> a
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.FelicaResultInfoIntArray$1 -> com.felicanetworks.mfc.al:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.FelicaResultInfoNodeInformation -> com.felicanetworks.mfc.FelicaResultInfoNodeInformation:
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    void readFromParcel(android.os.Parcel) -> a
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.FelicaResultInfoNodeInformation$1 -> com.felicanetworks.mfc.i:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.FelicaResultInfoType -> com.felicanetworks.mfc.FelicaResultInfoType:
+    java.lang.Object value -> a
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+    void readFromParcel(android.os.Parcel) -> a
+com.felicanetworks.mfc.IFSC -> com.felicanetworks.mfc.aw:
+    com.felicanetworks.mfc.FelicaResultInfo start(java.lang.String,com.felicanetworks.mfc.DeviceList,com.felicanetworks.mfc.IFSCEventListener,com.felicanetworks.mfc.IFelica) -> a
+    void stop() -> a
+    void notifyResult(byte[]) -> a
+    void notifyError(java.lang.String) -> a
+com.felicanetworks.mfc.IFSC$Stub -> com.felicanetworks.mfc.m:
+    boolean onTransact(int,android.os.Parcel,android.os.Parcel,int) -> onTransact
+com.felicanetworks.mfc.IFSC$Stub$Proxy -> com.felicanetworks.mfc.z:
+    android.os.IBinder mRemote -> a
+    android.os.IBinder asBinder() -> asBinder
+    com.felicanetworks.mfc.FelicaResultInfo start(java.lang.String,com.felicanetworks.mfc.DeviceList,com.felicanetworks.mfc.IFSCEventListener,com.felicanetworks.mfc.IFelica) -> a
+    void stop() -> a
+    void notifyResult(byte[]) -> a
+    void notifyError(java.lang.String) -> a
+com.felicanetworks.mfc.IFSCEventListener -> com.felicanetworks.mfc.w:
+    void errorOccurred(int,java.lang.String) -> a
+    void finished(int) -> a
+    void operationRequested(int,java.lang.String,byte[]) -> a
+com.felicanetworks.mfc.IFSCEventListener$Stub -> com.felicanetworks.mfc.ah:
+    android.os.IBinder asBinder() -> asBinder
+    boolean onTransact(int,android.os.Parcel,android.os.Parcel,int) -> onTransact
+com.felicanetworks.mfc.IFSCEventListener$Stub$Proxy -> com.felicanetworks.mfc.x:
+    android.os.IBinder mRemote -> a
+    android.os.IBinder asBinder() -> asBinder
+    void errorOccurred(int,java.lang.String) -> a
+    void finished(int) -> a
+    void operationRequested(int,java.lang.String,byte[]) -> a
+com.felicanetworks.mfc.IFelica -> com.felicanetworks.mfc.ax:
+    com.felicanetworks.mfc.FelicaResultInfo activateFelica(java.lang.String[],com.felicanetworks.mfc.IFelicaEventListener) -> a
+    com.felicanetworks.mfc.FelicaResultInfo close() -> a
+    com.felicanetworks.mfc.FelicaResultInfoBlockCountInformationArray getBlockCountInformation(int[],int,int) -> a
+    com.felicanetworks.mfc.FelicaResultInfoByteArray getContainerId(int,int) -> a
+    com.felicanetworks.mfc.FelicaResultInfoByteArray getContainerIssueInformation(int,int) -> b
+    com.felicanetworks.mfc.FelicaResultInfoByteArray getICCode() -> b
+    com.felicanetworks.mfc.FelicaResultInfoByteArray getIDm() -> c
+    com.felicanetworks.mfc.FelicaResultInfoInt getInterface() -> d
+    com.felicanetworks.mfc.FelicaResultInfoInt getKeyVersion(int,int,int) -> a
+    com.felicanetworks.mfc.FelicaResultInfoNodeInformation getNodeInformation(int,int,int) -> b
+    com.felicanetworks.mfc.FelicaResultInfoNodeInformation getPrivacyNodeInformation(int,int,int) -> c
+    com.felicanetworks.mfc.FelicaResultInfoBoolean getRFSState() -> e
+    com.felicanetworks.mfc.FelicaResultInfoInt getSystemCode() -> f
+    com.felicanetworks.mfc.FelicaResultInfoIntArray getSystemCodeList(int,int) -> c
+    com.felicanetworks.mfc.FelicaResultInfo inactivateFelica() -> g
+    com.felicanetworks.mfc.FelicaResultInfo open() -> h
+    com.felicanetworks.mfc.FelicaResultInfo push(com.felicanetworks.mfc.PushSegmentParcelableWrapper) -> a
+    com.felicanetworks.mfc.FelicaResultInfoDataArray read(com.felicanetworks.mfc.BlockList,int,int) -> a
+    com.felicanetworks.mfc.FelicaResultInfo reset() -> i
+    com.felicanetworks.mfc.FelicaResultInfo select(int) -> a
+    com.felicanetworks.mfc.FelicaResultInfo selectWithTarget(int,int) -> d
+    com.felicanetworks.mfc.FelicaResultInfo setPrivacy(com.felicanetworks.mfc.PrivacySettingData[],int,int) -> a
+    com.felicanetworks.mfc.FelicaResultInfo write(com.felicanetworks.mfc.BlockDataList,int,int) -> a
+    com.felicanetworks.mfc.FelicaResultInfo setPushNotificationListener(com.felicanetworks.mfc.IFelicaPushAppNotificationListener,java.lang.String) -> a
+    com.felicanetworks.mfc.FelicaResultInfo setNodeCodeSize(int,int,int) -> d
+    com.felicanetworks.mfc.FelicaResultInfo checkOnlineAccess() -> j
+com.felicanetworks.mfc.IFelica$Stub -> com.felicanetworks.mfc.ac:
+    com.felicanetworks.mfc.IFelica asInterface(android.os.IBinder) -> a
+    boolean onTransact(int,android.os.Parcel,android.os.Parcel,int) -> onTransact
+com.felicanetworks.mfc.IFelica$Stub$Proxy -> com.felicanetworks.mfc.b:
+    android.os.IBinder mRemote -> a
+    android.os.IBinder asBinder() -> asBinder
+    com.felicanetworks.mfc.FelicaResultInfo activateFelica(java.lang.String[],com.felicanetworks.mfc.IFelicaEventListener) -> a
+    com.felicanetworks.mfc.FelicaResultInfo close() -> a
+    com.felicanetworks.mfc.FelicaResultInfoBlockCountInformationArray getBlockCountInformation(int[],int,int) -> a
+    com.felicanetworks.mfc.FelicaResultInfoByteArray getContainerId(int,int) -> a
+    com.felicanetworks.mfc.FelicaResultInfoByteArray getContainerIssueInformation(int,int) -> b
+    com.felicanetworks.mfc.FelicaResultInfoByteArray getICCode() -> b
+    com.felicanetworks.mfc.FelicaResultInfoByteArray getIDm() -> c
+    com.felicanetworks.mfc.FelicaResultInfoInt getInterface() -> d
+    com.felicanetworks.mfc.FelicaResultInfoInt getKeyVersion(int,int,int) -> a
+    com.felicanetworks.mfc.FelicaResultInfoNodeInformation getNodeInformation(int,int,int) -> b
+    com.felicanetworks.mfc.FelicaResultInfoNodeInformation getPrivacyNodeInformation(int,int,int) -> c
+    com.felicanetworks.mfc.FelicaResultInfoBoolean getRFSState() -> e
+    com.felicanetworks.mfc.FelicaResultInfoInt getSystemCode() -> f
+    com.felicanetworks.mfc.FelicaResultInfoIntArray getSystemCodeList(int,int) -> c
+    com.felicanetworks.mfc.FelicaResultInfo inactivateFelica() -> g
+    com.felicanetworks.mfc.FelicaResultInfo open() -> h
+    com.felicanetworks.mfc.FelicaResultInfo push(com.felicanetworks.mfc.PushSegmentParcelableWrapper) -> a
+    com.felicanetworks.mfc.FelicaResultInfoDataArray read(com.felicanetworks.mfc.BlockList,int,int) -> a
+    com.felicanetworks.mfc.FelicaResultInfo reset() -> i
+    com.felicanetworks.mfc.FelicaResultInfo select(int) -> a
+    com.felicanetworks.mfc.FelicaResultInfo selectWithTarget(int,int) -> d
+    com.felicanetworks.mfc.FelicaResultInfo setPrivacy(com.felicanetworks.mfc.PrivacySettingData[],int,int) -> a
+    com.felicanetworks.mfc.FelicaResultInfo write(com.felicanetworks.mfc.BlockDataList,int,int) -> a
+    com.felicanetworks.mfc.FelicaResultInfo setPushNotificationListener(com.felicanetworks.mfc.IFelicaPushAppNotificationListener,java.lang.String) -> a
+    com.felicanetworks.mfc.FelicaResultInfo setNodeCodeSize(int,int,int) -> d
+    com.felicanetworks.mfc.FelicaResultInfo checkOnlineAccess() -> j
+com.felicanetworks.mfc.IFelicaEventListener -> com.felicanetworks.mfc.bb:
+    void finished() -> a
+    void errorOccurred(int,java.lang.String,com.felicanetworks.mfc.AppInfo) -> a
+com.felicanetworks.mfc.IFelicaEventListener$Stub -> com.felicanetworks.mfc.au:
+    android.os.IBinder asBinder() -> asBinder
+    boolean onTransact(int,android.os.Parcel,android.os.Parcel,int) -> onTransact
+com.felicanetworks.mfc.IFelicaEventListener$Stub$Proxy -> com.felicanetworks.mfc.g:
+    android.os.IBinder mRemote -> a
+    android.os.IBinder asBinder() -> asBinder
+    void finished() -> a
+    void errorOccurred(int,java.lang.String,com.felicanetworks.mfc.AppInfo) -> a
+com.felicanetworks.mfc.IFelicaPushAppNotificationListener -> com.felicanetworks.mfc.bl:
+    void pushAppNotified(com.felicanetworks.mfc.PushNotifyAppSegment) -> a
+com.felicanetworks.mfc.IFelicaPushAppNotificationListener$Stub -> com.felicanetworks.mfc.c:
+    android.os.IBinder asBinder() -> asBinder
+    boolean onTransact(int,android.os.Parcel,android.os.Parcel,int) -> onTransact
+com.felicanetworks.mfc.IFelicaPushAppNotificationListener$Stub$Proxy -> com.felicanetworks.mfc.s:
+    android.os.IBinder mRemote -> a
+    android.os.IBinder asBinder() -> asBinder
+    void pushAppNotified(com.felicanetworks.mfc.PushNotifyAppSegment) -> a
+com.felicanetworks.mfc.MfcUtil -> com.felicanetworks.mfc.ap:
+    void checkMfcResult(com.felicanetworks.mfc.FelicaResultInfo) -> a
+com.felicanetworks.mfc.NodeInformation -> com.felicanetworks.mfc.NodeInformation:
+    com.felicanetworks.mfc.AreaInformation[] areaCodeList -> a
+    int[] serviceCodeList -> b
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    void readFromParcel(android.os.Parcel) -> a
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.NodeInformation$1 -> com.felicanetworks.mfc.be:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.PINChangeData -> com.felicanetworks.mfc.PINChangeData:
+    long pin -> a
+    long newPIN -> b
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.PINChangeData$1 -> com.felicanetworks.mfc.a:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.PINCheckData -> com.felicanetworks.mfc.PINCheckData:
+    long pin -> a
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.PINCheckData$1 -> com.felicanetworks.mfc.bh:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.PINEnableData -> com.felicanetworks.mfc.PINEnableData:
+    long pin -> a
+    boolean enabling -> b
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.PINEnableData$1 -> com.felicanetworks.mfc.ag:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.PrivacySettingData -> com.felicanetworks.mfc.PrivacySettingData:
+    int nodeCode -> a
+    boolean privacySetting -> b
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.PrivacySettingData$1 -> com.felicanetworks.mfc.ba:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.PurseCashBackData -> com.felicanetworks.mfc.PurseCashBackData:
+    long cashBackData -> a
+    int execID -> b
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.PurseCashBackData$1 -> com.felicanetworks.mfc.l:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.PurseData -> com.felicanetworks.mfc.PurseData:
+    long purseData -> a
+    long cashBackData -> b
+    byte[] userData -> c
+    int execID -> d
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.PurseData$1 -> com.felicanetworks.mfc.y:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.PurseDecrementData -> com.felicanetworks.mfc.PurseDecrementData:
+    long decrementData -> a
+    int execID -> b
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.PurseDecrementData$1 -> com.felicanetworks.mfc.ao:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.PushAppNotificationListener -> com.felicanetworks.mfc.ai:
+com.felicanetworks.mfc.PushIntentSegment -> com.felicanetworks.mfc.PushIntentSegment:
+    android.content.Intent intent -> b
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.PushIntentSegment$1 -> com.felicanetworks.mfc.k:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.PushNotifyAppSegment -> com.felicanetworks.mfc.PushNotifyAppSegment:
+    java.lang.String appIdentificationCode -> b
+    java.lang.String[] appNotificationParam -> c
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    java.lang.String getAppIdentificationCode() -> b
+    java.lang.String[] getAppNotificationParam() -> c
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.PushNotifyAppSegment$1 -> com.felicanetworks.mfc.q:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.PushSegment -> com.felicanetworks.mfc.PushSegment:
+    int activateType -> a
+    int getType() -> a
+com.felicanetworks.mfc.PushSegmentParcelableWrapper -> com.felicanetworks.mfc.PushSegmentParcelableWrapper:
+    com.felicanetworks.mfc.PushSegment pushSegment -> a
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.PushSegmentParcelableWrapper$1 -> com.felicanetworks.mfc.r:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.PushStartAppSegment -> com.felicanetworks.mfc.PushStartAppSegment:
+    java.lang.String appURL -> b
+    java.lang.String appIdentificationCode -> c
+    java.lang.String[] appStartupParam -> d
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.PushStartAppSegment$1 -> com.felicanetworks.mfc.bc:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.PushStartBrowserSegment -> com.felicanetworks.mfc.PushStartBrowserSegment:
+    java.lang.String url -> b
+    java.lang.String browserStartupParam -> c
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.PushStartBrowserSegment$1 -> com.felicanetworks.mfc.at:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.PushStartMailerSegment -> com.felicanetworks.mfc.PushStartMailerSegment:
+    java.lang.String[] toAddress -> b
+    java.lang.String[] ccAddress -> c
+    java.lang.String subject -> d
+    java.lang.String body -> e
+    java.lang.String mailerStartupParam -> f
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+    void checkFormat() -> b
+com.felicanetworks.mfc.PushStartMailerSegment$1 -> com.felicanetworks.mfc.e:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.RandomData -> com.felicanetworks.mfc.RandomData:
+    byte[] bytes -> a
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.felicanetworks.mfc.RandomData$1 -> com.felicanetworks.mfc.j:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.felicanetworks.mfc.ResultInfo -> com.felicanetworks.mfc.ResultInfo:
+    int exceptionType -> a
+    java.lang.String message -> b
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int getExceptionType() -> a
+    java.lang.String getMessage() -> b
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+    void readFromParcel(android.os.Parcel) -> a
+    int describeContents() -> describeContents
+com.felicanetworks.mfc.ResultInfo$1 -> com.felicanetworks.mfc.ar:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+jp.andeb.kushikatsu.ActionType -> jp.andeb.kushikatsu.b:
+    jp.andeb.kushikatsu.ActionType FELICA_INTENT -> a
+    jp.andeb.kushikatsu.ActionType FELICA_BROWSER -> b
+    jp.andeb.kushikatsu.ActionType FELICA_MAILER -> c
+    jp.andeb.kushikatsu.ActionType$Extractor segmentExtractor_ -> d
+    jp.andeb.kushikatsu.ActionType[] $VALUES -> e
+    jp.andeb.kushikatsu.ActionType[] values() -> values
+    jp.andeb.kushikatsu.ActionType valueOf(java.lang.String) -> valueOf
+    java.lang.String getActionString() -> a
+    com.felicanetworks.mfc.PushSegment extractSegment(android.content.Intent) -> a
+    jp.andeb.kushikatsu.ActionType of(java.lang.String) -> a
+jp.andeb.kushikatsu.ActionType$1 -> jp.andeb.kushikatsu.d:
+    java.lang.String getActionString() -> a
+    com.felicanetworks.mfc.PushSegment extract(android.content.Intent) -> a
+jp.andeb.kushikatsu.ActionType$2 -> jp.andeb.kushikatsu.e:
+    java.lang.String getActionString() -> a
+    com.felicanetworks.mfc.PushSegment extract(android.content.Intent) -> a
+jp.andeb.kushikatsu.ActionType$3 -> jp.andeb.kushikatsu.f:
+    java.lang.String getActionString() -> a
+    com.felicanetworks.mfc.PushSegment extract(android.content.Intent) -> a
+jp.andeb.kushikatsu.ActionType$Extractor -> jp.andeb.kushikatsu.a:
+    java.lang.String getActionString() -> a
+    com.felicanetworks.mfc.PushSegment extract(android.content.Intent) -> a
+jp.andeb.kushikatsu.PrefActivity -> jp.andeb.kushikatsu.PrefActivity:
+    java.util.Map selfTestMap_ -> a
+    void onCreate(android.os.Bundle) -> onCreate
+    void onActivityResult(int,int,android.content.Intent) -> onActivityResult
+    java.util.Map access$000(jp.andeb.kushikatsu.PrefActivity) -> a
+jp.andeb.kushikatsu.PrefActivity$1 -> jp.andeb.kushikatsu.j:
+    jp.andeb.kushikatsu.PrefActivity this$0 -> a
+    boolean onPreferenceChange(android.preference.Preference,java.lang.Object) -> onPreferenceChange
+jp.andeb.kushikatsu.PrefActivity$2 -> jp.andeb.kushikatsu.k:
+    jp.andeb.kushikatsu.PrefActivity this$0 -> a
+    boolean onPreferenceChange(android.preference.Preference,java.lang.Object) -> onPreferenceChange
+jp.andeb.kushikatsu.PrefActivity$3 -> jp.andeb.kushikatsu.l:
+    jp.andeb.kushikatsu.PrefActivity this$0 -> a
+    boolean onPreferenceChange(android.preference.Preference,java.lang.Object) -> onPreferenceChange
+jp.andeb.kushikatsu.R -> jp.andeb.kushikatsu.c:
+jp.andeb.kushikatsu.R$raw -> jp.andeb.kushikatsu.m:
+jp.andeb.kushikatsu.SendActivity -> jp.andeb.kushikatsu.SendActivity:
+    java.lang.String TAG -> a
+    long[] VIBRATOR_PATTERN -> b
+    java.util.Map SOUND_ID_MAP -> c
+    com.felicanetworks.mfc.Felica felica_ -> d
+    android.app.ProgressDialog progress_ -> e
+    com.felicanetworks.mfc.PushSegment segment_ -> f
+    boolean canceled_ -> g
+    int soundOnSent_ -> h
+    android.content.Context contextOfSoundOnSent_ -> i
+    long timeoutOfSending_ -> j
+    android.content.SharedPreferences preferences_ -> k
+    android.content.ServiceConnection service_ -> l
+    android.os.Handler progressMessageHandler_ -> m
+    boolean $assertionsDisabled -> n
+    void onCreate(android.os.Bundle) -> onCreate
+    void onStart() -> onStart
+    void onResume() -> onResume
+    void onPause() -> onPause
+    void onDestroy() -> onDestroy
+    android.content.Context getCallerContext() -> c
+    boolean isValidAudioResource(android.content.Context,int) -> a
+    void setProgressMessage(java.lang.String) -> a
+    void dismissProgress() -> d
+    void finished() -> a
+    void errorOccurred$76a24a21(int) -> a
+    int push(com.felicanetworks.mfc.Felica) -> a
+    void notifyBySoundAndVibrator() -> e
+    void setResultWithLog(int) -> b
+    com.felicanetworks.mfc.Felica access$102(jp.andeb.kushikatsu.SendActivity,com.felicanetworks.mfc.Felica) -> a
+    void access$200(jp.andeb.kushikatsu.SendActivity,int) -> a
+    java.lang.String access$300() -> b
+    boolean access$402(jp.andeb.kushikatsu.SendActivity,boolean) -> a
+    com.felicanetworks.mfc.Felica access$100(jp.andeb.kushikatsu.SendActivity) -> a
+    void access$500(jp.andeb.kushikatsu.SendActivity) -> b
+    long access$600(jp.andeb.kushikatsu.SendActivity) -> c
+    void access$700(jp.andeb.kushikatsu.SendActivity,java.lang.String) -> a
+    void access$800(jp.andeb.kushikatsu.SendActivity) -> d
+jp.andeb.kushikatsu.SendActivity$1 -> jp.andeb.kushikatsu.g:
+    jp.andeb.kushikatsu.SendActivity this$0 -> a
+    void onServiceConnected(android.content.ComponentName,android.os.IBinder) -> onServiceConnected
+    void onServiceDisconnected(android.content.ComponentName) -> onServiceDisconnected
+jp.andeb.kushikatsu.SendActivity$2 -> jp.andeb.kushikatsu.h:
+    jp.andeb.kushikatsu.SendActivity this$0 -> a
+    void onCancel(android.content.DialogInterface) -> onCancel
+jp.andeb.kushikatsu.SendActivity$3 -> jp.andeb.kushikatsu.i:
+    android.app.ProgressDialog val$progress -> a
+    java.lang.String val$message -> b
+    jp.andeb.kushikatsu.SendActivity this$0 -> c
+    void run() -> run
+jp.andeb.kushikatsu.SendActivity$MockDeviceAsyncTask -> jp.andeb.kushikatsu.n:
+    jp.andeb.kushikatsu.SendActivity this$0 -> a
+    void onCancelled() -> onCancelled
+    void onPostExecute(java.lang.Object) -> onPostExecute
+    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+jp.andeb.kushikatsu.helper.KushikatsuHelper -> jp.andeb.kushikatsu.a.a:
+    android.content.Intent buildIntentForKushikatsuInstall() -> a
+jp.andeb.kushikatsu.util.FelicaUtil -> jp.andeb.kushikatsu.b.c:
+    java.lang.String DEFAULT_TAG -> a
+    boolean $assertionsDisabled -> b
+    int logAndGetResultCode(java.lang.String,com.felicanetworks.mfc.FelicaException,java.lang.String) -> a
+    boolean isMissingMfc(com.felicanetworks.mfc.FelicaException) -> b
+    boolean isNotActivated(com.felicanetworks.mfc.FelicaException) -> c
+    boolean isTimeoutOccurred(com.felicanetworks.mfc.FelicaException) -> a
+    void closeQuietly(com.felicanetworks.mfc.Felica,java.lang.String) -> a
+    void inactivateQuietly(com.felicanetworks.mfc.Felica,java.lang.String) -> b
+jp.andeb.kushikatsu.util.MediaPlayerUtil -> jp.andeb.kushikatsu.b.b:
+    android.media.MediaPlayer$OnCompletionListener RELEASE_PLAYER_LISTENER -> a
+jp.andeb.kushikatsu.util.MediaPlayerUtil$1 -> jp.andeb.kushikatsu.b.a:
+    void onCompletion(android.media.MediaPlayer) -> onCompletion
