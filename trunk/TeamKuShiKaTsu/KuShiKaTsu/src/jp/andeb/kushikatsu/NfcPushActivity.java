@@ -17,6 +17,7 @@
  */
 package jp.andeb.kushikatsu;
 
+import jp.andeb.kushikatsu.helper.KushikatsuHelper;
 import jp.andeb.kushikatsu.nfc.INfcAdapter;
 import jp.andeb.kushikatsu.nfc.IRawTagConnection;
 import jp.andeb.kushikatsu.nfc.PushCommand;
@@ -86,6 +87,13 @@ public class NfcPushActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        final NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter();
+        if (nfcAdapter == null) {
+            setResult(KushikatsuHelper.RESULT_DEVICE_NOT_FOUND);
+            finish();
+            return;
+        }
+
         final ProgressDialog progress = new ProgressDialog(this);
         progress.setTitle(R.string.progress_title);
         progress.setCancelable(false);
@@ -95,7 +103,6 @@ public class NfcPushActivity extends Activity {
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
-                    NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter();
                     INfcAdapter iNfcAdapter = DelegateFactory.create(INfcAdapter.class,
                             nfcAdapter);
 
@@ -142,6 +149,4 @@ public class NfcPushActivity extends Activity {
     protected void onPause() {
         super.onPause();
     }
-
-
 }
