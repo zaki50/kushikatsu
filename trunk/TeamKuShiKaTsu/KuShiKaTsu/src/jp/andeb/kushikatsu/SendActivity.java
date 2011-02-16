@@ -90,6 +90,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  * <li>{@link KushikatsuHelper#RESULT_TIMEOUT}</li>
  * <li>{@link KushikatsuHelper#RESULT_NOT_INITIALIZED}</li>
  * <li>{@link KushikatsuHelper#RESULT_DEVICE_LOCKED}</li>
+ * <li>{@link KushikatsuHelper#RESULT_PUSH_REGISTERED}</li>
  * </ul>
  *
  * @author YAMAZAKI Makoto &lt;<a href="mailto:makoto1975@gmail.com"
