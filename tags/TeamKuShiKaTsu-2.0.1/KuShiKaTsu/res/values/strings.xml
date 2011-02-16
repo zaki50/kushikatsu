@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">KuShiKaTsu</string>
+  <string name="sender_name">FeliCa Push Sender</string>
+  <string name="progress_title">FeliCa Push</string>
+
+  <string name="progress_msg_preparing">preparing FeliCa device.</string>
+  <string name="progress_msg_sending_with_remaining_time">Touch!(remaining %1$d sec).</string>
+  <string name="progress_msg_sent">message has been sent.</string>
+
+  <string name="site_url">http://sites.google.com/site/94katsu/</string>
+
+  <string name="pref_category_sound">Sound</string>
+  <string name="pref_title_sound">Sound</string>
+  <string name="pref_title_select_sound">Select sound</string>
+  <string name="pref_title_vibration">Vibration</string>
+  <string name="pref_category_development">Development</string>
+  <string name="pref_title_mock_device">Use mock device</string>
+  <string name="pref_title_select_result">Select result code</string>
+  <string name="pref_title_select_result_code">Result code</string>
+  <string name="pref_category_selftest">Self test</string>
+  <string name="pref_title_send_push_message">Send message</string>
+  <string name="pref_category_about">About</string>
+  <string name="pref_title_devinfo">DevInfo</string>
+  <string name="pref_title_version">Version</string>
+
+  <string name="failed_to_send">failed to send.</string>
+
+  <string name="on">on</string>
+  <string name="off">off</string>
+
+  <string name="send_result_ok">Succeeded.</string>
+  <string name="send_result_canceled">Canceled</string>
+  <string name="send_result_unexpected_error">Failed.</string>
+  <string name="send_result_invalid_extra">Invalid extra.</string>
+  <string name="send_result_device_not_found">Device not found.</string>
+  <string name="send_result_device_in_use">Device in use.</string>
+  <string name="send_result_too_big">Content too big.</string>
+  <string name="send_result_timeout">Timeout.</string>
+  <string name="send_result_not_initialized">Device not initialized.</string>
+  <string name="send_result_device_locked">Device locked.</string>
+  <string name="send_result_push_registered">Push message registered.</string>
+  <string name="send_result_unknown_error"></string>
+
+  <!-- FeliCa Push Notification 用 -->
+  <string name="nfc_notification_ticker">Place a FeliCa device on the back</string>
+  <string name="nfc_notification_title">FeliCa Push</string>
+  <string name="nfc_notification_text">Place a FeliCa device on the back</string>
+
+  <!--
+  <string name=""></string>
+   -->
+</resources>

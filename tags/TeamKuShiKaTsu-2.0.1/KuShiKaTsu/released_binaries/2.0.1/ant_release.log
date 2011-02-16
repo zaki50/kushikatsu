@@ -1,0 +1,72 @@
+Buildfile: /Users/zaki/fromsvn/kushikatsu_trunk/TeamKuShiKaTsu/KuShiKaTsu/build.xml
+    [setup] Android SDK Tools Revision 9
+    [setup] Project Target: Android 2.3.1
+    [setup] API level: 9
+    [setup] 
+    [setup] ------------------
+    [setup] Resolving library dependencies:
+    [setup] /Users/zaki/fromsvn/kushikatsu_trunk/TeamKuShiKaTsu/KuShiKaTsu: ../nfc-felica-lib => /Users/zaki/fromsvn/kushikatsu_trunk/TeamKuShiKaTsu/nfc-felica-lib
+    [setup] ------------------
+    [setup] Ordered libraries:
+    [setup] /Users/zaki/fromsvn/kushikatsu_trunk/TeamKuShiKaTsu/nfc-felica-lib
+    [setup] ------------------
+    [setup] 
+    [setup] WARNING: Attribute minSdkVersion in AndroidManifest.xml (4) is lower than the project target API level (9)
+    [setup] 
+    [setup] Importing rules file: tools/ant/main_rules.xml
+
+-set-release-mode:
+
+-release-obfuscation-check:
+
+-dirs:
+     [echo] Creating output directories if needed...
+    [mkdir] Created dir: /Users/zaki/fromsvn/kushikatsu_trunk/TeamKuShiKaTsu/KuShiKaTsu/bin
+    [mkdir] Created dir: /Users/zaki/fromsvn/kushikatsu_trunk/TeamKuShiKaTsu/KuShiKaTsu/gen
+    [mkdir] Created dir: /Users/zaki/fromsvn/kushikatsu_trunk/TeamKuShiKaTsu/KuShiKaTsu/bin/classes
+
+-pre-build:
+
+-resource-src:
+     [echo] Generating R.java / Manifest.java from the resources...
+
+-aidl:
+     [echo] Compiling aidl files into Java classes...
+
+-pre-compile:
+
+compile:
+    [javac] /Applications/android-sdk-mac_x86/tools/ant/main_rules.xml:361: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
+    [javac] Compiling 32 source files to /Users/zaki/fromsvn/kushikatsu_trunk/TeamKuShiKaTsu/KuShiKaTsu/bin/classes
+    [javac] Creating empty /Users/zaki/fromsvn/kushikatsu_trunk/TeamKuShiKaTsu/KuShiKaTsu/bin/classes/jp/andeb/kushikatsu/package-info.class
+    [javac] Creating empty /Users/zaki/fromsvn/kushikatsu_trunk/TeamKuShiKaTsu/KuShiKaTsu/bin/classes/jp/andeb/kushikatsu/util/package-info.class
+    [javac] Creating empty /Users/zaki/fromsvn/kushikatsu_trunk/TeamKuShiKaTsu/KuShiKaTsu/bin/classes/jp/andeb/kushikatsu/helper/package-info.class
+
+-post-compile:
+
+-obfuscate:
+
+-dex:
+     [echo] Converting compiled files and external libraries into /Users/zaki/fromsvn/kushikatsu_trunk/TeamKuShiKaTsu/KuShiKaTsu/bin/classes.dex...
+
+-package-resources:
+     [echo] Packaging resources
+     [aapt] Creating full resource package...
+
+-package-release:
+[apkbuilder] Creating PrefActivity-unsigned.apk for release...
+
+-release-prompt-for-password:
+    [input] Please enter keystore password (store:/Users/zaki/.android/release.keystore):
+    [input] Please enter password for alias 'android_app_release':
+
+-release-nosign:
+
+release:
+     [echo] Signing final apk...
+  [signjar] Signing JAR: /Users/zaki/fromsvn/kushikatsu_trunk/TeamKuShiKaTsu/KuShiKaTsu/bin/PrefActivity-unsigned.apk to /Users/zaki/fromsvn/kushikatsu_trunk/TeamKuShiKaTsu/KuShiKaTsu/bin/PrefActivity-unaligned.apk as android_app_release
+     [echo] Running zip align on final apk...
+     [echo] Release Package: /Users/zaki/fromsvn/kushikatsu_trunk/TeamKuShiKaTsu/KuShiKaTsu/bin/PrefActivity-release.apk
+
+BUILD SUCCESSFUL
+Total time: 17 seconds
