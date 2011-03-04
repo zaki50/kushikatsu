@@ -31,6 +31,7 @@ import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.felicanetworks.mfc.PushSegment;
 
@@ -45,6 +46,8 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  */
 @DefaultAnnotation(NonNull.class)
 public class NfcPushActivity extends Activity {
+
+    private static final String TAG = NfcPushActivity.class.getSimpleName();
 
     private byte[] idm_ = null;
     private Parcelable tag_ = null;
@@ -87,8 +90,8 @@ public class NfcPushActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        final NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter();
-        if (nfcAdapter == null) {
+        final IRawTagConnection rawTagConnection = getRawTagConnection(tag_);
+        if (rawTagConnection == null) {
             setResult(KushikatsuHelper.RESULT_DEVICE_NOT_FOUND);
             finish();
             return;
@@ -102,22 +105,16 @@ public class NfcPushActivity extends Activity {
         new AsyncTask<Void, Void, Boolean>() {
             @Override
             protected Boolean doInBackground(Void... params) {
+
                 try {
-                    INfcAdapter iNfcAdapter = DelegateFactory.create(INfcAdapter.class,
-                            nfcAdapter);
-
-                    Object rawTagConnection = iNfcAdapter.createRawTagConnection(tag_);
-                    IRawTagConnection iRawTagConnection = DelegateFactory.create(
-                            IRawTagConnection.class, rawTagConnection);
-
                     final PushCommand pushCommand = PushCommand.create(new IDm(idm_), segment_);
                     final byte[] pushData = pushCommand.getBytes();
                     try {
-                        iRawTagConnection.transceive(pushData);
+                        rawTagConnection.transceive(pushData);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Log.e(TAG, "exception", e);
                     } finally {
-                        iRawTagConnection.close();
+                        rawTagConnection.close();
                     }
                     return null;
                 } catch (FeliCaException e) {
@@ -148,5 +145,16 @@ public class NfcPushActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    private static IRawTagConnection getRawTagConnection(Parcelable tag) {
+        final NfcAdapter rawNfcAdapter = NfcAdapter.getDefaultAdapter();
+        if (rawNfcAdapter == null) {
+            return null;
+        }
+        final INfcAdapter nfcAdapter = DelegateFactory.create(INfcAdapter.class, rawNfcAdapter);
+
+        final Object rawRawTagConnection = nfcAdapter.createRawTagConnection(tag);
+        return DelegateFactory.create(IRawTagConnection.class, rawRawTagConnection);
     }
 }
