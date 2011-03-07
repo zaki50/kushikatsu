@@ -261,9 +261,11 @@ public class SendActivity extends Activity implements FelicaEventListener {
         segment_ = segment;
 
         // 完了音を取得する
-        int soundResId = initiatorIntent.getIntExtra(CommonParam.EXTRA_SOUND_ON_SENT, -1);
-        if (0 <= soundResId) {
+        final Object soundExtra = initiatorIntent.getExtras().get(CommonParam.EXTRA_SOUND_ON_SENT);
+        if (soundExtra instanceof Integer) {
             // 呼び出し元のサウンドリソースを使用する場合
+            final int soundResId = ((Integer) soundExtra).intValue();
+
             @CheckForNull
             final Context callerContext = getCallerContext();
             if (isValidAudioResource(callerContext, soundResId)) {
@@ -275,12 +277,14 @@ public class SendActivity extends Activity implements FelicaEventListener {
                 contextOfSoundOnSent_ = null;
             }
         } else {
-            // KuShiKaTsu のサウンドリソースを使用する場合
-            String soundName = initiatorIntent.getStringExtra(CommonParam.EXTRA_SOUND_ON_SENT);
-            if (soundName == null) {
+            final String soundName;
+            if (soundExtra instanceof String) {
+                soundName = (String) soundExtra;
+            } else {
                 soundName = preferences_.getString(PrefActivity.KEY_SOUND_PATTERN,
                         SOUND_ON_SENT_DEFAULT);
             }
+            // KuShiKaTsu のサウンドリソースを使用する場合
             soundOnSent_ = getSoundResId(soundName);
             contextOfSoundOnSent_ = this;
         }
