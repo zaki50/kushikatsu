@@ -51,6 +51,11 @@ fi
 mkdir -p "${dest}"
 echo "destinationdirectory created: ${dest}" >&2
 
+# build.xml の更新
+echo "updating build.xml" >&2
+rm -f build.xml
+android update project -p .
+
 # ant clean の実行
 rm -f ./ant_clean.log ./ant_release.log
 echo "invoking 'ant clean'. output is written to ant_clean.log" >&2
@@ -63,9 +68,6 @@ if ! ant clean > ant_clean.log; then
 fi
 
 # ant release の実行
-echo "updating build.xml" >&2
-rm -f build.xml
-android update project -p .
 echo "invoking 'ant release'. output is written to ant_release.log" >&2
 if ! ant release | tee ./ant_release.log | grep "Please enter"; then
   cat ./ant_release.log
