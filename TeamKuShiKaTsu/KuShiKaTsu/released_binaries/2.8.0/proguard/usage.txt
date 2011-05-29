@@ -1,0 +1,788 @@
+com.felicanetworks.mfc.AppInfo:
+    28:30:AppInfo(int)
+com.felicanetworks.mfc.AreaInformation:
+    39:56:public AreaInformation(int,int)
+    65:68:public int getAreaCode()
+    77:90:public void setAreaCode(int)
+    99:102:public int getEndServiceCode()
+    111:124:public void setEndServiceCode(int)
+com.felicanetworks.mfc.Block:
+    public static final int TYPE_RANDOM
+    public static final int TYPE_RANDOM_READ_ONLY
+    public static final int TYPE_CYCLIC
+    public static final int TYPE_CYCLIC_READ_ONLY
+    public static final int TYPE_PURSE
+    public static final int TYPE_PURSE_CASH_BACK
+    public static final int TYPE_PURSE_DECREMENT
+    public static final int TYPE_PURSE_READ_ONLY
+    public static final int TYPE_PIN_FOR_AREA_APPENDABLE
+    public static final int TYPE_PIN_FOR_AREA
+    public static final int TYPE_PIN_FOR_RANDOM_ENCRYPTED
+    public static final int TYPE_PIN_FOR_RANDOM
+    public static final int TYPE_PIN_FOR_RANDOM_READ_ONLY_ENCRYPTED
+    public static final int TYPE_PIN_FOR_RANDOM_READ_ONLY
+    public static final int TYPE_PIN_FOR_CYCLIC_ENCRYPTED
+    public static final int TYPE_PIN_FOR_CYCLIC
+    public static final int TYPE_PIN_FOR_CYCLIC_READ_ONLY_ENCRYPTED
+    public static final int TYPE_PIN_FOR_CYCLIC_READ_ONLY
+    public static final int TYPE_PIN_FOR_PURSE_ENCRYPTED
+    public static final int TYPE_PIN_FOR_PURSE
+    public static final int TYPE_PIN_FOR_PURSE_CASH_BACK_ENCRYPTED
+    public static final int TYPE_PIN_FOR_PURSE_CASH_BACK
+    public static final int TYPE_PIN_FOR_PURSE_DECREMENT_ENCRYPTED
+    public static final int TYPE_PIN_FOR_PURSE_DECREMENT
+    public static final int TYPE_PIN_FOR_PURSE_READ_ONLY_ENCRYPTED
+    public static final int TYPE_PIN_FOR_PURSE_READ_ONLY
+    174:179:public Block(int,int)
+    188:193:public Block(int)
+    203:203:public int getServiceCode()
+    215:218:public void setServiceCode(int)
+    227:227:public int getType()
+    238:238:public int getBlockNo()
+    251:254:public void setBlockNo(int)
+    342:356:public void checkFormat()
+com.felicanetworks.mfc.BlockCountInformation:
+    41:52:public BlockCountInformation(int,int)
+    62:62:public int getAssignedBlocks()
+    73:79:public void setAssignedBlocks(int)
+    89:89:public int getFreeBlocks()
+    100:106:public void setFreeBlocks(int)
+com.felicanetworks.mfc.BlockData:
+    40:44:public BlockData(com.felicanetworks.mfc.Block,com.felicanetworks.mfc.Data)
+    54:54:public com.felicanetworks.mfc.Block getBlock()
+    67:70:public void setBlock(com.felicanetworks.mfc.Block)
+    80:80:public com.felicanetworks.mfc.Data getData()
+    93:96:public void setData(com.felicanetworks.mfc.Data)
+    109:113:public void set(com.felicanetworks.mfc.Block,com.felicanetworks.mfc.Data)
+    124:127:void setWithoutValidation(com.felicanetworks.mfc.Block,com.felicanetworks.mfc.Data)
+    212:225:public void checkFormat()
+com.felicanetworks.mfc.BlockDataList:
+    private static final java.lang.String EXC_MAX_SIZE
+    private static final java.lang.String EXC_INVALID_BLOCKDATA
+    public static final int MAX_SIZE
+    65:73:public int add(com.felicanetworks.mfc.BlockData)
+    91:102:public void add(int,com.felicanetworks.mfc.BlockData)
+    117:119:public com.felicanetworks.mfc.BlockData get(int)
+    135:138:public com.felicanetworks.mfc.BlockData remove(int)
+    147:149:public void clear()
+    159:159:public int size()
+    175:182:void set(int,com.felicanetworks.mfc.BlockData)
+    268:288:public void checkFormat()
+com.felicanetworks.mfc.BlockList:
+    private static final java.lang.String EXC_MAX_SIZE
+    public static final int MAX_SIZE
+    63:65:public int add(com.felicanetworks.mfc.Block)
+    83:88:int add(com.felicanetworks.mfc.Block,boolean)
+    107:109:public void add(int,com.felicanetworks.mfc.Block)
+    129:137:void add(int,com.felicanetworks.mfc.Block,boolean)
+    152:154:public com.felicanetworks.mfc.Block get(int)
+    170:173:public com.felicanetworks.mfc.Block remove(int)
+    182:184:public void clear()
+    194:196:public int size()
+    283:306:public void checkFormat()
+com.felicanetworks.mfc.CyclicData:
+    public static final int TYPE
+    40:44:public CyclicData(byte[])
+    54:54:public int getType()
+    65:65:public byte[] getBytes()
+    177:181:public void checkFormat()
+com.felicanetworks.mfc.Data:
+    private static final int BYTES_LENGTH
+    private static final java.lang.String EXC_NULL
+    private static final java.lang.String EXC_LENGTH
+    public abstract int getType()
+    public abstract void checkFormat()
+com.felicanetworks.mfc.DataList:
+    private static final java.lang.String EXC_MAX_SIZE
+    private static final java.lang.String EXC_INVALID_DATA
+    public static final int MAX_SIZE
+    65:73:public int add(com.felicanetworks.mfc.Data)
+    91:102:public void add(int,com.felicanetworks.mfc.Data)
+    117:119:public com.felicanetworks.mfc.Data get(int)
+    135:138:public com.felicanetworks.mfc.Data remove(int)
+    147:149:public void clear()
+    159:159:public int size()
+    174:181:void set(int,com.felicanetworks.mfc.Data)
+com.felicanetworks.mfc.Device:
+    private static final java.lang.String EXC_INVALID_PARAMETER
+    private static final java.lang.String ENCODING
+    private static final int MAX_LENGTH
+    private static final int MIN_LENGTH
+    private static final int MAX_CHAR
+    private static final int MIN_CHAR
+    89:89:public java.lang.String getType()
+    118:118:public java.lang.String getName()
+    242:248:public void checkFormat()
+com.felicanetworks.mfc.DeviceList:
+    private static final java.lang.String EXC_MAX_SIZE
+    private static final java.lang.String EXC_ID_GEN_FAILED
+    public static final int ID_FELICA
+    public static final int ID_DISPLAY
+    public static final int MAX_SIZE
+    private static final int ID_OFFSET
+    private static final int MAX_ID
+    private static final int MIN_ID
+    123:137:public synchronized int add(java.lang.String,java.lang.String)
+    152:152:public com.felicanetworks.mfc.Device get(int)
+    169:177:public synchronized com.felicanetworks.mfc.Device remove(int)
+    189:190:public synchronized void clear()
+    200:200:public int size()
+    211:216:synchronized java.util.Hashtable getDevices()
+    246:257:private java.lang.Integer getID(java.lang.String,java.lang.String)
+    359:417:public void checkFormat()
+com.felicanetworks.mfc.FSC:
+    private static final java.lang.String EXC_INVALID_URL
+    private static final java.lang.String EXC_RUNTIME
+    private static final java.lang.String EXC_CURRENTLY_ONLINE
+    private static final java.lang.String EXC_FELICA_NOT_SET
+    private static final java.lang.String EXC_DEVICE_LIST_NOT_SET
+    private static final java.lang.String EXC_LISTENER_NOT_SET
+    private static final java.lang.String EXC_FELICA_NOT_OPEND
+    private static final java.lang.String EXC_INTERRUPTED_BY_USER
+    private static final java.lang.String EXC_ERR_UNKNOWN
+    static final int DEFAULT_BIND_TIMEOUT
+    private static final java.lang.String MFC_PACKAGE_NAME
+    private static final java.lang.String MFC_ADAPTER_CLASS_NAME
+    318:322:public synchronized void setFelica(com.felicanetworks.mfc.Felica)
+    346:350:public synchronized void setFSCEventListener(com.felicanetworks.mfc.FSCEventListener)
+    373:377:public synchronized void setDeviceList(com.felicanetworks.mfc.DeviceList)
+    434:507:public synchronized void start(java.lang.String)
+    530:558:public synchronized void stop()
+    593:600:private void checkNotOnline()
+    719:740:protected void bindMfc()
+com.felicanetworks.mfc.FSC$BindTimerHandler:
+    static final int MSG_BIND_TIMER
+    780:787:void startTimer(int)
+com.felicanetworks.mfc.FSC$LocalBinder:
+    982:984:public com.felicanetworks.mfc.FSC getInstance()
+com.felicanetworks.mfc.FSCEventListener:
+    public static final int TYPE_UNKNOWN_ERROR
+    public static final int TYPE_INTERRUPTED_ERROR
+    public static final int TYPE_HTTP_ERROR
+    public static final int TYPE_PROTOCOL_ERROR
+    public static final int TYPE_TCAP_IMMEDIATE_STOP
+com.felicanetworks.mfc.Felica:
+    private static final java.lang.String EXC_INVALID_TARGET
+    private static final java.lang.String EXC_INVALID_SYSTEM_CODE
+    private static final java.lang.String EXC_INVALID_NODECODESIZE
+    private static final java.lang.String EXC_INVALID_BLOCK_LIST
+    private static final java.lang.String EXC_INVALID_BLOCK_DATA_LIST
+    private static final java.lang.String EXC_INVALID_PRIVACY_SETTING_DATA_LIST
+    private static final java.lang.String EXC_INVALID_PUSH_SEGMENT_DATA_LIST
+    private static final java.lang.String EXC_INVALID_SET_PUSH_LISTENER_PRM
+    private static final java.lang.String EXC_INVALID_NODE_CODE_LIST
+    private static final java.lang.String EXC_MAX_SIZE_PERMIT_LIST
+    private static final java.lang.String EXC_INVALID_LISTENER
+    public static final int DEFAULT_TIMEOUT
+    public static final int MAX_TIMEOUT
+    public static final int MIN_TIMEOUT
+    public static final int DEFAULT_RETRY_COUNT
+    public static final int MAX_RETRY_COUNT
+    public static final int MIN_RETRY_COUNT
+    public static final int INTERFACE_WIRED
+    public static final int INTERFACE_WIRELESS
+    public static final int NODECODESIZE_2
+    public static final int NODECODESIZE_4
+    public static final int MAX_PERMIT_LIST_SIZE
+    private static final int MAX_SYSTEM_CODE
+    private static final int GET_SYSTEM_CODE_WILD1
+    private static final int GET_SYSTEM_CODE_WILD2
+    private static final int GET_SYSTEM_CODE_WILD3
+    private static final int MIN_SYSTEM_CODE
+    private static final int NONEXISTENT_SERVICE
+    private static final int APP_CODE_LENGTH
+    static final int DEFAULT_BIND_TIMEOUT
+    private static final java.lang.String MFC_PACKAGE_NAME
+    private static final java.lang.String MFC_ADAPTER_CLASS_NAME
+    251:253:public int getTimeout()
+    268:282:public synchronized void setTimeout(int)
+    292:294:public int getRetryCount()
+    309:323:public synchronized void setRetryCount(int)
+    615:651:public synchronized void select(int)
+    734:772:public synchronized void select(int,int)
+    810:827:public synchronized int getSystemCode()
+    883:900:public synchronized int getInterface()
+    940:956:public synchronized byte[] getIDm()
+    996:1013:public synchronized byte[] getICCode()
+    1080:1104:public synchronized int getKeyVersion(int)
+    1157:1173:public synchronized byte[] getContainerIssueInformation()
+    1247:1272:public synchronized void setNodeCodeSize(int)
+    1353:1382:public synchronized com.felicanetworks.mfc.Data[] read(com.felicanetworks.mfc.BlockList)
+    1488:1512:public synchronized void write(com.felicanetworks.mfc.BlockDataList)
+    1566:1580:public synchronized void reset()
+    1637:1652:public synchronized int[] getSystemCodeList()
+    1723:1747:public synchronized com.felicanetworks.mfc.NodeInformation getNodeInformation(int)
+    1823:1847:public synchronized com.felicanetworks.mfc.NodeInformation getPrivacyNodeInformation(int)
+    1924:1954:public synchronized com.felicanetworks.mfc.BlockCountInformation[] getBlockCountInformation(int[])
+    1991:2007:public synchronized boolean getRFSState()
+    2130:2156:public synchronized void setPrivacy(com.felicanetworks.mfc.PrivacySettingData[])
+    2208:2224:public synchronized byte[] getContainerId()
+    2347:2417:public synchronized void setPushNotificationListener(com.felicanetworks.mfc.PushAppNotificationListener,java.lang.String)
+    2452:2474:synchronized void checkOnlineAccess()
+com.felicanetworks.mfc.Felica$BindTimerHandler:
+    static final int MSG_BIND_TIMER
+com.felicanetworks.mfc.Felica$PushAppNotificationListenerStub:
+    final com.felicanetworks.mfc.Felica this$0
+    2499:2498:Felica$PushAppNotificationListenerStub(com.felicanetworks.mfc.Felica,com.felicanetworks.mfc.PushAppNotificationListener)
+com.felicanetworks.mfc.FelicaEventListener:
+    public static final int TYPE_UNKNOWN_ERROR
+    public static final int TYPE_INTERRUPTED_ERROR
+    public static final int TYPE_HTTP_ERROR
+    public static final int TYPE_NOT_FOUND_ERROR
+    public static final int TYPE_REVOKED_ERROR
+    public static final int TYPE_INVALID_APP_ERROR
+    public static final int TYPE_USED_BY_OTHER_APP
+    public static final int TYPE_MFC_VERSION_ERROR
+    public static final int TYPE_UTILITY_VERSION_ERROR
+com.felicanetworks.mfc.FelicaException:
+    public static final int ID_UNKNOWN_ERROR
+    public static final int ID_ILLEGAL_STATE_ERROR
+    public static final int ID_IO_ERROR
+    public static final int ID_GET_KEY_VERSION_ERROR
+    public static final int ID_READ_ERROR
+    public static final int ID_WRITE_ERROR
+    public static final int ID_SET_NODECODESIZE_ERROR
+    public static final int ID_OPEN_ERROR
+    public static final int ID_GET_NODE_INFORMATION_ERROR
+    public static final int ID_GET_PRIVACY_NODE_INFORMATION_ERROR
+    public static final int ID_SET_PRIVACY_ERROR
+    public static final int ID_PERMISSION_ERROR
+    public static final int ID_GET_BLOCK_COUNT_INFORMATION_ERROR
+    public static final int ID_GET_RFS_STATE_ERROR
+    public static final int ID_GET_CONTAINER_ID_ERROR
+    public static final int ID_PUSH_ERROR
+    public static final int ID_SET_PUSH_NOTIFICATION_LISTENER_ERROR
+    public static final int ID_START_ADHOC_ERROR
+    public static final int ID_GET_PUSH_NOTIFICATION_LISTENER_ERROR
+    public static final int ID_GET_APP_IDENTIFICATION_CODE_ERROR
+    public static final int ID_GET_SYSTEM_CODE_LIST_ERROR
+    public static final int TYPE_NOT_OPENED
+    public static final int TYPE_CURRENTLY_ONLINE
+    public static final int TYPE_NOT_SELECTED
+    public static final int TYPE_NOT_ACTIVATED
+    public static final int TYPE_INVALID_RESPONSE
+    public static final int TYPE_TIMEOUT_OCCURRED
+    public static final int TYPE_OPEN_FAILED
+    public static final int TYPE_SELECT_FAILED
+    public static final int TYPE_GET_KEY_VERSION_FAILED
+    public static final int TYPE_SERVICE_NOT_FOUND
+    public static final int TYPE_BLOCK_NOT_FOUND
+    public static final int TYPE_PIN_NOT_CHECKED
+    public static final int TYPE_READ_FAILED
+    public static final int TYPE_PURSE_FAILED
+    public static final int TYPE_CASH_BACK_FAILED
+    public static final int TYPE_INVALID_PIN
+    public static final int TYPE_CHECK_PIN_LIMIT
+    public static final int TYPE_CHECK_PIN_OVERRUN
+    public static final int TYPE_WRITE_FAILED
+    public static final int TYPE_ENABLE_PIN_FAILED
+    public static final int TYPE_FELICA_NOT_SET
+    public static final int TYPE_DEVICELIST_NOT_SET
+    public static final int TYPE_LISTENER_NOT_SET
+    public static final int TYPE_COMMUNICATION_START_FAILED
+    public static final int TYPE_SET_NODECODESIZE_FAILED
+    public static final int TYPE_GET_CONTAINER_ISSUE_INFORMATION_FAILED
+    public static final int TYPE_AUTHENTICATE_FAILED
+    public static final int TYPE_NOT_IC_CHIP_FORMATTING
+    public static final int TYPE_ILLEGAL_NODECODE
+    public static final int TYPE_ILLEGAL_PACKET_INDEX
+    public static final int TYPE_GET_NODE_INFORMATION_FAILED
+    public static final int TYPE_GET_PRIVACY_NODE_INFORMATION_FAILED
+    public static final int TYPE_SET_PRIVACY_FAILED
+    public static final int TYPE_NOT_CLOSED
+    public static final int TYPE_ILLEGAL_METHOD_CALL
+    public static final int TYPE_USED_BY_OTHER_APP
+    public static final int TYPE_PUSH_FAILED
+    public static final int TYPE_ALREADY_ACTIVATED
+    public static final int TYPE_GET_BLOCK_COUNT_INFORMATION_FAILED
+    public static final int TYPE_RESET_FAILED
+    public static final int TYPE_GET_SYSTEM_CODE_LIST_FAILED
+    public static final int TYPE_GET_CONTAINER_ID_FAILED
+    public static final int TYPE_REMOTE_ACCESS_FAILED
+    public static final int TYPE_ACTIVATING_BY_OTHER_APP
+    public static final int TYPE_CURRENTLY_ACTIVATING
+    public static final int TYPE_ILLEGAL_SYSTEMCODE
+    public static final int TYPE_GET_RFS_STATE_FAILED
+    public static final int TYPE_START_ADHOC_FAILED
+    public static final int TYPE_INVALID_SELECTED_INTERFACE
+    public static final int TYPE_FELICA_NOT_AVAILABLE
+    public static final int TYPE_ACTIVATE_FAILED
+    463:473:FelicaException(int,int,int,int)
+    483:492:FelicaException(int,int,com.felicanetworks.mfc.AppInfo)
+com.felicanetworks.mfc.FelicaResultInfo:
+    58:61:public FelicaResultInfo(int,java.lang.String)
+    73:78:public FelicaResultInfo(int,java.lang.String,int,int)
+    92:97:public FelicaResultInfo(int,java.lang.String,int,int,int,int)
+    110:114:public FelicaResultInfo(int,java.lang.String,int,int,com.felicanetworks.mfc.AppInfo)
+com.felicanetworks.mfc.FelicaResultInfoBlockCountInformationArray:
+    20:23:public FelicaResultInfoBlockCountInformationArray(com.felicanetworks.mfc.BlockCountInformation[])
+    33:36:public FelicaResultInfoBlockCountInformationArray(int,java.lang.String)
+    49:52:public FelicaResultInfoBlockCountInformationArray(int,java.lang.String,int,int)
+    67:71:public FelicaResultInfoBlockCountInformationArray(int,java.lang.String,int,int,int,int)
+com.felicanetworks.mfc.FelicaResultInfoBoolean:
+    20:23:public FelicaResultInfoBoolean(java.lang.Boolean)
+    33:37:public FelicaResultInfoBoolean(int,java.lang.String)
+    50:54:public FelicaResultInfoBoolean(int,java.lang.String,int,int)
+    69:73:public FelicaResultInfoBoolean(int,java.lang.String,int,int,int,int)
+com.felicanetworks.mfc.FelicaResultInfoByteArray:
+    private static final int EMPTY_BYTE_ARRAY
+    25:28:public FelicaResultInfoByteArray(byte[])
+    38:41:public FelicaResultInfoByteArray(int,java.lang.String)
+    54:57:public FelicaResultInfoByteArray(int,java.lang.String,int,int)
+    72:76:public FelicaResultInfoByteArray(int,java.lang.String,int,int,int,int)
+com.felicanetworks.mfc.FelicaResultInfoDataArray:
+    20:23:public FelicaResultInfoDataArray(com.felicanetworks.mfc.Data[])
+    33:37:public FelicaResultInfoDataArray(int,java.lang.String)
+    50:54:public FelicaResultInfoDataArray(int,java.lang.String,int,int)
+    69:73:public FelicaResultInfoDataArray(int,java.lang.String,int,int,int,int)
+com.felicanetworks.mfc.FelicaResultInfoInt:
+    private static final int VALUE_IS_NOTEMPTY
+    private static final int VALUE_IS_EMPTY
+    30:33:public FelicaResultInfoInt(java.lang.Integer)
+    43:46:public FelicaResultInfoInt(int,java.lang.String)
+    59:62:public FelicaResultInfoInt(int,java.lang.String,int,int)
+    77:81:public FelicaResultInfoInt(int,java.lang.String,int,int,int,int)
+com.felicanetworks.mfc.FelicaResultInfoIntArray:
+    20:23:public FelicaResultInfoIntArray(int[])
+    33:37:public FelicaResultInfoIntArray(int,java.lang.String)
+    50:54:public FelicaResultInfoIntArray(int,java.lang.String,int,int)
+    69:73:public FelicaResultInfoIntArray(int,java.lang.String,int,int,int,int)
+com.felicanetworks.mfc.FelicaResultInfoNodeInformation:
+    20:23:public FelicaResultInfoNodeInformation(com.felicanetworks.mfc.NodeInformation)
+    33:37:public FelicaResultInfoNodeInformation(int,java.lang.String)
+    50:54:public FelicaResultInfoNodeInformation(int,java.lang.String,int,int)
+    69:73:public FelicaResultInfoNodeInformation(int,java.lang.String,int,int,int,int)
+com.felicanetworks.mfc.FelicaResultInfoType:
+    38:42:public FelicaResultInfoType(int,java.lang.String)
+    55:59:public FelicaResultInfoType(int,java.lang.String,int,int)
+    74:78:public FelicaResultInfoType(int,java.lang.String,int,int,int,int)
+    87:89:public java.lang.Object getValue()
+com.felicanetworks.mfc.IFSC$Stub:
+    private static final java.lang.String DESCRIPTOR
+    static final int TRANSACTION_start
+    static final int TRANSACTION_stop
+    static final int TRANSACTION_notifyResult
+    static final int TRANSACTION_notifyError
+    38:38:public android.os.IBinder asBinder()
+com.felicanetworks.mfc.IFSC$Stub$Proxy:
+    117:117:public java.lang.String getInterfaceDescriptor()
+com.felicanetworks.mfc.IFSCEventListener$Stub:
+    private static final java.lang.String DESCRIPTOR
+    static final int TRANSACTION_errorOccurred
+    static final int TRANSACTION_finished
+    static final int TRANSACTION_operationRequested
+com.felicanetworks.mfc.IFSCEventListener$Stub$Proxy:
+    95:95:public java.lang.String getInterfaceDescriptor()
+com.felicanetworks.mfc.IFelica$Stub:
+    private static final java.lang.String DESCRIPTOR
+    static final int TRANSACTION_activateFelica
+    static final int TRANSACTION_close
+    static final int TRANSACTION_getBlockCountInformation
+    static final int TRANSACTION_getContainerId
+    static final int TRANSACTION_getContainerIssueInformation
+    static final int TRANSACTION_getICCode
+    static final int TRANSACTION_getIDm
+    static final int TRANSACTION_getInterface
+    static final int TRANSACTION_getKeyVersion
+    static final int TRANSACTION_getNodeInformation
+    static final int TRANSACTION_getPrivacyNodeInformation
+    static final int TRANSACTION_getRFSState
+    static final int TRANSACTION_getSystemCode
+    static final int TRANSACTION_getSystemCodeList
+    static final int TRANSACTION_inactivateFelica
+    static final int TRANSACTION_open
+    static final int TRANSACTION_push
+    static final int TRANSACTION_read
+    static final int TRANSACTION_reset
+    static final int TRANSACTION_select
+    static final int TRANSACTION_selectWithTarget
+    static final int TRANSACTION_setPrivacy
+    static final int TRANSACTION_write
+    static final int TRANSACTION_setPushNotificationListener
+    static final int TRANSACTION_setNodeCodeSize
+    static final int TRANSACTION_checkOnlineAccess
+    38:38:public android.os.IBinder asBinder()
+com.felicanetworks.mfc.IFelica$Stub$Proxy:
+    520:520:public java.lang.String getInterfaceDescriptor()
+com.felicanetworks.mfc.IFelicaEventListener$Stub:
+    private static final java.lang.String DESCRIPTOR
+    static final int TRANSACTION_finished
+    static final int TRANSACTION_errorOccurred
+com.felicanetworks.mfc.IFelicaEventListener$Stub$Proxy:
+    88:88:public java.lang.String getInterfaceDescriptor()
+com.felicanetworks.mfc.IFelicaPushAppNotificationListener$Stub:
+    private static final java.lang.String DESCRIPTOR
+    static final int TRANSACTION_pushAppNotified
+com.felicanetworks.mfc.IFelicaPushAppNotificationListener$Stub$Proxy:
+    78:78:public java.lang.String getInterfaceDescriptor()
+com.felicanetworks.mfc.NodeInformation:
+    42:77:public NodeInformation(com.felicanetworks.mfc.AreaInformation[],int[])
+    88:91:public com.felicanetworks.mfc.AreaInformation[] getAreaInformationList()
+    100:117:public void setAreaInformationList(com.felicanetworks.mfc.AreaInformation[])
+    128:131:public int[] getServiceCodeList()
+    140:163:public void setServiceCodeList(int[])
+com.felicanetworks.mfc.PINChangeData:
+    public static final int TYPE
+    private static final long MAX_PIN
+    private static final long MIN_PIN
+    private static final java.lang.String EXC_PIN
+    60:65:public PINChangeData(long,long)
+    74:76:public int getType()
+    86:88:public long getPIN()
+    103:110:public void setPIN(long)
+    119:121:public long getNewPIN()
+    136:143:public void setNewPIN(long)
+    225:238:public void checkFormat()
+com.felicanetworks.mfc.PINCheckData:
+    public static final int TYPE
+    private static final long MAX_PIN
+    private static final long MIN_PIN
+    private static final java.lang.String EXC_PIN
+    55:60:public PINCheckData(long)
+    69:71:public int getType()
+    81:83:public long getPIN()
+    98:105:public void setPIN(long)
+    182:188:public void checkFormat()
+com.felicanetworks.mfc.PINEnableData:
+    public static final int TYPE
+    private static final long MAX_PIN
+    private static final long MIN_PIN
+    private static final java.lang.String EXC_PIN
+    61:66:public PINEnableData(long,boolean)
+    75:77:public int getType()
+    87:89:public long getPIN()
+    104:111:public void setPIN(long)
+    120:122:public boolean isEnabling()
+    132:135:public void setEnabling(boolean)
+    223:229:public void checkFormat()
+com.felicanetworks.mfc.PrivacySettingData:
+    40:55:public PrivacySettingData(int,boolean)
+    64:67:public int getNodeCode()
+    75:88:public void setNodeCode(int)
+    98:101:public boolean getPrivacySetting()
+    110:116:public void setPraivacySetting(boolean)
+    203:206:public void checkFormat()
+com.felicanetworks.mfc.PurseCashBackData:
+    public static final int TYPE
+    private static final long MAX_DATA
+    private static final long MIN_DATA
+    private static final int MAX_EXEC_ID
+    private static final int MIN_EXEC_ID
+    private static final java.lang.String EXC_DATA
+    private static final java.lang.String EXC_EXEC_ID
+    73:78:public PurseCashBackData(long,int)
+    88:88:public int getType()
+    99:99:public long getCashBackData()
+    115:120:public void setCashBackData(long)
+    130:130:public int getExecID()
+    145:150:public void setExecID(int)
+    237:248:public void checkFormat()
+com.felicanetworks.mfc.PurseData:
+    public static final int TYPE
+    private static final int USERDATA_LENGTH
+    private static final long MAX_DATA
+    private static final long MIN_DATA
+    private static final int MAX_EXEC_ID
+    private static final int MIN_EXEC_ID
+    private static final java.lang.String EXC_DATA
+    private static final java.lang.String EXC_NULL
+    private static final java.lang.String EXC_LENGTH
+    private static final java.lang.String EXC_EXEC_ID
+    100:108:public PurseData(long,long,byte[],int)
+    118:118:public int getType()
+    129:129:public long getPurseData()
+    145:150:public void setPurseData(long)
+    160:160:public long getCashBackData()
+    176:181:public void setCashBackData(long)
+    191:191:public byte[] getUserData()
+    206:213:public void setUserData(byte[])
+    223:223:public int getExecID()
+    238:243:public void setExecID(int)
+    339:363:public void checkFormat()
+com.felicanetworks.mfc.PurseDecrementData:
+    public static final int TYPE
+    private static final long MAX_DATA
+    private static final long MIN_DATA
+    private static final int MAX_EXEC_ID
+    private static final int MIN_EXEC_ID
+    private static final java.lang.String EXC_DATA
+    private static final java.lang.String EXC_EXEC_ID
+    73:78:public PurseDecrementData(long,int)
+    88:88:public int getType()
+    99:99:public long getDecrementData()
+    115:120:public void setDecrementData(long)
+    130:130:public int getExecID()
+    145:150:public void setExecID(int)
+    237:248:public void checkFormat()
+com.felicanetworks.mfc.PushIntentSegment:
+    89:100:public void setIntentData(android.content.Intent)
+com.felicanetworks.mfc.PushNotifyAppSegment:
+    38:53:public PushNotifyAppSegment(java.lang.String,java.lang.String[])
+    92:96:public void setAppIdentificationCode(java.lang.String)
+    108:112:public void setAppNotificationParam(java.lang.String[])
+com.felicanetworks.mfc.PushSegment:
+    protected byte[] pushData
+    public static android.os.Parcelable$Creator CREATOR
+    public abstract void checkFormat()
+com.felicanetworks.mfc.PushSegmentParcelableWrapper:
+    55:60:public void setPushSegment(com.felicanetworks.mfc.PushSegment)
+    67:70:public com.felicanetworks.mfc.PushSegment getPushSegment()
+com.felicanetworks.mfc.PushStartAppSegment:
+    51:72:public PushStartAppSegment(java.lang.String,java.lang.String,java.lang.String[])
+    119:123:public void setAppURL(java.lang.String)
+    135:144:public void setAppIdentificationCode(java.lang.String)
+    156:161:public void setAppStartupParam(java.lang.String[])
+com.felicanetworks.mfc.PushStartBrowserSegment:
+    94:104:public void setURL(java.lang.String)
+    114:117:public void setBrowserStartupParam(java.lang.String)
+com.felicanetworks.mfc.PushStartMailerSegment:
+    148:152:public void setToAddress(java.lang.String[])
+    164:168:public void setCcAddress(java.lang.String[])
+    178:182:public void setSubject(java.lang.String)
+    192:196:public void setBody(java.lang.String)
+    206:210:public void setMailerStartupParam(java.lang.String)
+com.felicanetworks.mfc.R
+com.felicanetworks.mfc.R$attr
+com.felicanetworks.mfc.R$drawable
+com.felicanetworks.mfc.R$layout
+com.felicanetworks.mfc.R$string
+com.felicanetworks.mfc.RandomData:
+    public static final int TYPE
+    40:44:public RandomData(byte[])
+    54:54:public int getType()
+    65:65:public byte[] getBytes()
+    80:83:public void setBytes(byte[])
+    171:174:public void checkFormat()
+com.felicanetworks.mfc.ResultInfo:
+    public static final int EXCEPTION_TYPE_NONE
+    public static final int EXCEPTION_TYPE_FELICA
+    public static final int EXCEPTION_TYPE_ILLEGAL_ARGUMENT
+    public static final int EXCEPTION_TYPE_SECURITY
+    public static final int EXCEPTION_TYPE_NUMBER_FORMAT
+    68:73:ResultInfo(int,java.lang.String)
+com.felicanetworks.mfc.ServiceUtil
+com.felicanetworks.mfc.util.LogMgr:
+    public static final int ERR
+    public static final int WAR
+    public static final int API
+    public static final int PKG
+    public static final int CLS
+    public static final int DBG
+    public static final int TRC
+    private static final java.lang.String S_ERR
+    private static final java.lang.String S_WAR
+    private static final java.lang.String S_API
+    private static final java.lang.String S_PKG
+    private static final java.lang.String S_CLS
+    private static final java.lang.String S_DBG
+    private static final java.lang.String S_TRC
+    private static final java.lang.String S_UNK
+    private static final boolean enable
+    private static final boolean enableClass
+    80:97:protected static java.lang.String getLevel(int)
+    103:106:public static boolean setUseHomeBrewingFromat(boolean)
+    110:110:public static boolean getUseHomeBrewingFromat()
+    114:122:public static boolean checkEnableClass(java.lang.StackTraceElement,int)
+    201:285:protected static void output(int,java.lang.StackTraceElement,java.lang.String,java.lang.Object[])
+    289:451:static java.lang.String format(java.lang.String,java.lang.Object[])
+    457:542:static java.lang.String ByteArray2String(byte[])
+    549:614:static java.lang.String IntegerArray2String(int[])
+    625:642:static java.lang.String toHexString(int,int)
+    654:667:public static void logArray(int,byte[])
+    680:693:public static void logArray(int,byte[],int,int)
+    705:758:private static void logArray(int,byte[],int,int,java.lang.StackTraceElement)
+jp.andeb.kushikatsu.KushikatsuApplication:
+    public static final int DEFAULT_PUSH_SEGMENT_VALID_PERIOD_SEC
+    private static final int PUSH_NOTIFICATION_ID
+jp.andeb.kushikatsu.PrefActivity:
+    public static final java.lang.String KEY_SOUND_MODE
+    public static final java.lang.String KEY_SAME_RINGER_MODE
+    public static final java.lang.String KEY_VIBRATION_MODE
+    public static final java.lang.String KEY_VERSION_NUMBER
+    public static final java.lang.String KEY_SOUND_PATTERN
+    public static final java.lang.String KEY_MOCK_DEVICE_ENABLED
+    public static final java.lang.String KEY_MOCK_DEVICE_RESULT_CODE
+    public static final java.lang.String KEY_SELFTEST_MESSAGE_TYPE
+    private static final int SEND_REQUEST_CODE
+jp.andeb.kushikatsu.R$array
+jp.andeb.kushikatsu.R$attr
+jp.andeb.kushikatsu.R$drawable
+jp.andeb.kushikatsu.R$layout
+jp.andeb.kushikatsu.R$raw:
+    public static final int se1
+    public static final int se2
+    public static final int se3
+jp.andeb.kushikatsu.R$string
+jp.andeb.kushikatsu.R$xml
+jp.andeb.kushikatsu.SendActivity:
+    private static final int SEND_TIMEOUT_DEFAULT
+    private static final java.lang.String SOUND_ON_SENT_DEFAULT
+    private static final int RETRY_LIMIT
+jp.andeb.kushikatsu.helper.KushikatsuHelper:
+    public static final java.lang.String PACKAGE_NAME
+    public static final int RESULT_OK
+    public static final int RESULT_CANCELED
+    public static final int RESULT_UNEXPECTED_ERROR
+    public static final int RESULT_INVALID_EXTRA
+    public static final int RESULT_DEVICE_NOT_FOUND
+    public static final int RESULT_DEVICE_IN_USE
+    public static final int RESULT_TOO_BIG
+    public static final int RESULT_TIMEOUT
+    public static final int RESULT_NOT_INITIALIZED
+    public static final int RESULT_DEVICE_LOCKED
+    public static final int RESULT_PUSH_REGISTERED
+    public static final java.lang.String SOUND_1
+    public static final java.lang.String SOUND_2
+    public static final java.lang.String SOUND_3
+    418:425:public static void setSendTimeout(android.content.Intent,int)
+    442:449:public static void setSoundOnSent(android.content.Intent,java.lang.String)
+    465:469:public static void setSoundOnSent(android.content.Intent,int)
+jp.andeb.kushikatsu.helper.KushikatsuHelper$CommonParam
+jp.andeb.kushikatsu.helper.KushikatsuHelper$SendIntent
+jp.andeb.kushikatsu.helper.KushikatsuHelper$StartBrowser
+jp.andeb.kushikatsu.helper.KushikatsuHelper$StartMailer
+jp.andeb.kushikatsu.helper.package-info
+jp.andeb.kushikatsu.nfc.PushCommand:
+    public static final byte PUSH
+jp.andeb.kushikatsu.nfc.PushStartAppCommand:
+    private static final byte TYPE
+jp.andeb.kushikatsu.nfc.PushStartBrowserCommand:
+    private static final byte TYPE
+jp.andeb.kushikatsu.nfc.PushStartMailerCommand:
+    private static final byte TYPE
+jp.andeb.kushikatsu.nfc.PushVibrationCommand
+jp.andeb.kushikatsu.nfc.PushVibrationCommand$IPattern
+jp.andeb.kushikatsu.nfc.PushVibrationCommand$Pattern
+jp.andeb.kushikatsu.package-info
+jp.andeb.kushikatsu.util.package-info
+net.kazzz.felica.FeliCaException:
+    private static final long serialVersionUID
+    37:38:public FeliCaException(java.lang.Exception)
+net.kazzz.felica.FeliCaLiteTag:
+    74:76:public FeliCaLiteTag(android.os.Parcelable)
+    84:88:public FeliCaLiteTag(android.nfc.Tag,net.kazzz.felica.lib.FeliCaLib$IDm,net.kazzz.felica.lib.FeliCaLib$PMm)
+    117:130:public byte[] polling()
+    140:141:public net.kazzz.felica.lib.FeliCaLib$IDm pollingAndGetIDm()
+    149:149:public net.kazzz.felica.lib.FeliCaLib$IDm getIDm()
+    157:157:public net.kazzz.felica.lib.FeliCaLib$PMm getPMm()
+    166:167:public net.kazzz.felica.lib.FeliCaLib$MemoryConfigurationBlock getMemoryConfigBlock()
+    179:191:public net.kazzz.felica.command.ReadResponse readWithoutEncryption(byte)
+    202:219:public net.kazzz.felica.command.WriteResponse writeWithoutEncryption(byte,byte[])
+net.kazzz.felica.FeliCaTag:
+    78:80:public FeliCaTag(android.os.Parcelable)
+    88:92:public FeliCaTag(android.nfc.Tag,net.kazzz.felica.lib.FeliCaLib$IDm,net.kazzz.felica.lib.FeliCaLib$PMm)
+    122:136:public byte[] polling(int)
+    146:147:public net.kazzz.felica.lib.FeliCaLib$IDm pollingAndGetIDm(int)
+    155:155:public net.kazzz.felica.lib.FeliCaLib$IDm getIDm()
+    163:163:public net.kazzz.felica.lib.FeliCaLib$PMm getPMm()
+    173:182:public final net.kazzz.felica.lib.FeliCaLib$SystemCode[] getSystemCodeList()
+    191:202:public net.kazzz.felica.lib.FeliCaLib$ServiceCode[] getServiceCodeList()
+    212:220:protected byte[] doSearchServiceCode(int)
+    232:245:public net.kazzz.felica.command.ReadResponse readWithoutEncryption(net.kazzz.felica.lib.FeliCaLib$ServiceCode,byte)
+    258:274:public net.kazzz.felica.command.WriteResponse writeWithoutEncryption(net.kazzz.felica.lib.FeliCaLib$ServiceCode,byte,byte[])
+net.kazzz.felica.IFeliCaByteData
+net.kazzz.felica.command.IFeliCaCommand
+net.kazzz.felica.command.PollingResponse
+net.kazzz.felica.command.ReadResponse
+net.kazzz.felica.command.WriteResponse
+net.kazzz.felica.lib.FeliCaLib:
+    static final java.lang.String TAG
+    public static final byte COMMAND_POLLING
+    public static final byte RESPONSE_POLLING
+    public static final byte COMMAND_REQUEST_SERVICE
+    public static final byte RESPONSE_REQUEST_SERVICE
+    public static final byte COMMAND_REQUEST_RESPONSE
+    public static final byte RESPONSE_REQUEST_RESPONSE
+    public static final byte COMMAND_READ_WO_ENCRYPTION
+    public static final byte RESPONSE_READ_WO_ENCRYPTION
+    public static final byte COMMAND_WRITE_WO_ENCRYPTION
+    public static final byte RESPONSE_WRITE_WO_ENCRYPTION
+    public static final byte COMMAND_SEARCH_SERVICECODE
+    public static final byte RESPONSE_SEARCH_SERVICECODE
+    public static final byte COMMAND_REQUEST_SYSTEMCODE
+    public static final byte RESPONSE_REQUEST_SYSTEMCODE
+    public static final byte COMMAND_AUTHENTICATION1
+    public static final byte RESPONSE_AUTHENTICATION1
+    public static final byte COMMAND_AUTHENTICATION2
+    public static final byte RESPONSE_AUTHENTICATION2
+    public static final byte COMMAND_READ
+    public static final byte RESPONSE_READ
+    public static final byte COMMAND_WRITE
+    public static final byte RESPONSE_WRITE
+    public static final int SYSTEMCODE_ANY
+    public static final int SYSTEMCODE_FELICA_LITE
+    public static final int SYSTEMCODE_COMMON
+    public static final int SYSTEMCODE_CYBERNE
+    public static final int SYSTEMCODE_EDY
+    public static final int SYSTEMCODE_SUICA
+    public static final int SYSTEMCODE_PASMO
+    public static final int SERVICE_SUICA_INOUT
+    public static final int SERVICE_SUICA_HISTORY
+    public static final int SERVICE_FELICA_LITE_READONLY
+    public static final int SERVICE_FELICA_LITE_READWRITE
+    public static final int RANDOM_RW_AUTH
+    public static final int RANDOM_RW_WOAUTH
+    public static final int RANDOM_RO_AUTH
+    public static final int RANDOM_RO_WOAUTH
+    public static final int CYCLIC_RW_AUTH
+    public static final int CYCLIC_RW_WOAUTH
+    public static final int CYCLIC_RO_AUTH
+    public static final int CYCLIC_RO_WOAUTH
+    public static final int PARSE_DR_AUTH
+    public static final int PARSE_DR_WOAUTH
+    public static final int PARSE_CB_DEC_AUTH
+    public static final int PARSE_CB_DEC_WOAUTH
+    public static final int PARSE_DEC_AUTH
+    public static final int PARSE_DEC_WOAUTH
+    public static final int PARSE_RO_AUTH
+    public static final int PARSE_RO_WOAUTH
+    public static final int STATUSFLAG1_NORMAL
+    public static final int STATUSFLAG1_ERROR
+    public static final int STATUSFLAG2_NORMAL
+    public static final int STATUSFLAG2_ERROR_LENGTH
+    public static final int STATUSFLAG2_ERROR_FLOWN
+    public static final int STATUSFLAG2_ERROR_MEMORY
+    public static final int STATUSFLAG2_ERROR_WRITELIMIT
+    929:930:public static final net.kazzz.felica.lib.FeliCaLib$CommandResponse execute(android.nfc.Tag,net.kazzz.felica.lib.FeliCaLib$CommandPacket)
+    942:944:public static final byte[] executeRaw(android.nfc.Tag,byte[])
+    957:969:public static final byte[] transceive(android.nfc.Tag,byte[])
+net.kazzz.felica.lib.FeliCaLib$Block
+net.kazzz.felica.lib.FeliCaLib$BlockListElement
+net.kazzz.felica.lib.FeliCaLib$CommandPacket:
+    186:187:public FeliCaLib$CommandPacket(net.kazzz.felica.lib.FeliCaLib$CommandPacket)
+    195:196:public FeliCaLib$CommandPacket(byte[])
+    204:219:public FeliCaLib$CommandPacket(byte,byte[])
+    246:255:public FeliCaLib$CommandPacket(byte,byte[],byte[])
+    262:262:public net.kazzz.felica.lib.FeliCaLib$IDm getIDm()
+net.kazzz.felica.lib.FeliCaLib$CommandResponse
+net.kazzz.felica.lib.FeliCaLib$MemoryConfigurationBlock
+net.kazzz.felica.lib.FeliCaLib$PMm:
+    490:494:public FeliCaLib$PMm(byte[])
+    520:523:public byte[] getBytes()
+net.kazzz.felica.lib.FeliCaLib$Service
+net.kazzz.felica.lib.FeliCaLib$ServiceCode
+net.kazzz.felica.lib.FeliCaLib$SystemCode
+net.kazzz.felica.lib.R
+net.kazzz.felica.lib.R$array
+net.kazzz.felica.lib.R$attr
+net.kazzz.felica.lib.R$drawable
+net.kazzz.felica.lib.R$layout
+net.kazzz.felica.lib.R$raw
+net.kazzz.felica.lib.R$string
+net.kazzz.felica.lib.R$xml
+net.kazzz.felica.lib.Util:
+    35:40:public static byte[] toBytes(int)
+    50:72:public static int toInt(byte[])
+    111:111:public static java.lang.String getBinString(byte)
+net.kazzz.nfc.NfcException
+net.kazzz.nfc.NfcTag:
+    public static final java.lang.String ANDROID_NFC_EXTRA_TAG
+    67:70:public NfcTag(android.os.Parcelable,byte[])
+    76:76:public android.os.Parcelable getNfcTag()
+    108:109:public void putTagService(android.content.Intent)
+    115:115:public byte[] getId()
+net.kazzz.util.ArrayUtil
+net.kazzz.util.ArrayUtil$1
+net.kazzz.util.ArrayUtil$2
+net.kazzz.util.FinderUtil
+net.kazzz.util.IPredicate
