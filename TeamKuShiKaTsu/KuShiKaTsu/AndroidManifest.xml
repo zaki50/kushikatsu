@@ -37,9 +37,11 @@
     <activity android:name="NfcPushActivity" android:label="@string/sender_name"
       android:configChanges="orientation|keyboard|keyboardHidden">
       <intent-filter>
-        <action android:name="android.nfc.action.TAG_DISCOVERED" />
+        <action android:name="android.nfc.action.TECH_DISCOVERED" />
         <category android:name="android.intent.category.DEFAULT" />
       </intent-filter>
+      <meta-data android:name="android.nfc.action.TECH_DISCOVERED"
+                 android:resource="@xml/nfc_tech_filter" />
     </activity>
 
     <service android:name="com.felicanetworks.mfc.Felica"
