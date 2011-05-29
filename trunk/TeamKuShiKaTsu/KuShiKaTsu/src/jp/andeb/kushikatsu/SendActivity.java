@@ -27,6 +27,36 @@ import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_TOO_BIG;
 import static jp.andeb.kushikatsu.helper.KushikatsuHelper.RESULT_UNEXPECTED_ERROR;
 import static jp.andeb.kushikatsu.util.MediaPlayerUtil.RELEASE_PLAYER_LISTENER;
 
+import com.felicanetworks.mfc.AppInfo;
+import com.felicanetworks.mfc.Felica;
+import com.felicanetworks.mfc.FelicaEventListener;
+import com.felicanetworks.mfc.FelicaException;
+import com.felicanetworks.mfc.PushSegment;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
+import edu.umd.cs.findbugs.annotations.NonNull;
+
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Resources.NotFoundException;
+import android.media.MediaPlayer;
+import android.nfc.NfcAdapter;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
+import android.os.Vibrator;
+import android.preference.PreferenceManager;
+import android.util.Log;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
@@ -39,34 +69,6 @@ import jp.andeb.kushikatsu.helper.KushikatsuHelper.CommonParam;
 import jp.andeb.kushikatsu.sender.FeliCaPushSender;
 import jp.andeb.kushikatsu.sender.PushSender;
 import jp.andeb.kushikatsu.util.FelicaUtil;
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Resources.NotFoundException;
-import android.media.MediaPlayer;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
-import android.os.Vibrator;
-import android.preference.PreferenceManager;
-import android.util.Log;
-
-import com.felicanetworks.mfc.AppInfo;
-import com.felicanetworks.mfc.Felica;
-import com.felicanetworks.mfc.FelicaEventListener;
-import com.felicanetworks.mfc.FelicaException;
-import com.felicanetworks.mfc.PushSegment;
-
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * 起動時の {@link Intent} に従い {@code FeliCa Push} 送信を行う {@link Activity} です。
@@ -217,8 +219,20 @@ public class SendActivity extends Activity implements FelicaEventListener {
         sender_ = new FeliCaPushSender(this);
     }
 
-    private static boolean isNfcAvailable() {
-        return Build.MODEL.equals("Nexus S");
+    /**
+     * API Level が 10以上の環境かつNFC 搭載の端末かどうかを返します。
+     *
+     * @return API Level 10かつNFC 搭載であれあば {@code true}、そうでなければ {@code false}。
+     * 搭載しているかどうかであって有効であるとは限りません。
+     */
+    private boolean isNfcAvailable() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD_MR1) {
+            // API 9 でも NFC 載ってる端末はあるが、nfc-felica-lib がサポートしないので切り捨て
+            return false;
+        }
+        final NfcAdapter adapter = NfcAdapter.getDefaultAdapter(this);
+        final boolean available = (adapter != null);
+        return available;
     }
 
     private void registerSegmentForNfc(PushSegment segment) {
