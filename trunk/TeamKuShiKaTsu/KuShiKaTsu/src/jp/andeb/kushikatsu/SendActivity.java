@@ -321,7 +321,7 @@ public class SendActivity extends Activity implements FelicaEventListener {
         super.onResume();
 
         if (isNfcAvailable()) {
-            // NFC を用いて送るためにプリファレンスに書きこむだけでOKを返す。
+            // NFC を用いて送るためにアプリケーションオブジェクトに書きこむだけでOKを返す。
             assert segment_ != null;
             registerSegmentForNfc(segment_);
 
