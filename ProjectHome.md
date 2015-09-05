@@ -1,0 +1,1 @@
+KuShiKaTsu is an application which convert an intent to FeliCa Push message.
